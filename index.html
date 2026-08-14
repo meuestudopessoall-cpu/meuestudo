@@ -56,6 +56,11 @@
         .historico-box { background: #fff8e1; border-left: 4px solid #f9a825; padding: 12px 18px; border-radius: 8px; margin-top: 10px; font-size: 14px; }
         .historico-box strong { color: #0b2b4a; }
         .footer { margin-top: 30px; font-size: 14px; color: #7a8a9e; border-top: 1px solid #e2e8f0; padding-top: 20px; text-align: center; }
+        @media (max-width: 600px) {
+            .container { padding: 15px; }
+            .menu a { padding: 8px 16px; font-size: 13px; }
+            .ciclo-item { font-size: 13px; }
+        }
     </style>
 </head>
 <body>
@@ -80,7 +85,7 @@
         <div class="progresso-container">
             <div class="progresso-texto">
                 📊 Progresso: <span id="progressoPorcentagem">0%</span> 
-                (<span id="concluidasCount">0</span> de <span id="totalMaterias">12</span> matérias)
+                (<span id="concluidasCount">0</span> de <span id="totalMaterias">13</span> matérias)
             </div>
             <div class="progresso-bar">
                 <div class="progresso-bar-inner" id="progressoBar" style="width:0%;"></div>
@@ -127,7 +132,7 @@
 
     <script>
     // ============================================================
-    // CICLO DE ESTUDOS
+    // CICLO DE ESTUDOS (13 MATÉRIAS, INCLUINDO ECA)
     // ============================================================
     const CICLO_MATERIAS = [
         "Língua Portuguesa",
@@ -141,7 +146,8 @@
         "Informática",
         "Lei Orgânica do DF (LODF)",
         "RIDE",
-        "LC 840/2011"
+        "LC 840/2011",
+        "ECA"
     ];
 
     const MATERIA_SIGLAS = {
@@ -156,7 +162,8 @@
         "Informática": "informatica",
         "Lei Orgânica do DF (LODF)": "lodf",
         "RIDE": "ride",
-        "LC 840/2011": "lc-840"
+        "LC 840/2011": "lc-840",
+        "ECA": "eca"
     };
 
     // ============================================================
