@@ -1,134 +1,297 @@
 // ============================================================
-// DADOS.JS — FUTURO APROVADO
-// BANCO DE CONTEÚDO
+// DADOS.JS — FUTURO APROVADO V4
+// BANCO DE CONTEÚDO + SISTEMA DE ACESSO
+// ============================================================
+//
+// IMPORTANTE:
+// O conteúdo de DADOS permanece o seu conteúdo original.
+// Não altere:
+// - matérias
+// - módulos
+// - aulas
+// - resumos
+// - questões
+// - respostas
+// - comentários
+//
+// Abaixo foi otimizado apenas o sistema de acesso aos dados.
 // ============================================================
 
+
 const DADOS = {
+
   materias: {
 
     // ========================================================
-    // SEU CONTEÚDO ORIGINAL FICA AQUI
+    // COLE AQUI EXATAMENTE O SEU CONTEÚDO ORIGINAL
     // ========================================================
-    // NÃO ALTERAR:
     //
-    // matérias
-    // módulos
-    // aulas
-    // resumos
-    // questões
-    // respostas
-    // comentários
+    // Exemplo da estrutura:
     //
-    // ========================================================
-
+    // "lingua-portuguesa": {
+    //   nome: "Língua Portuguesa",
+    //   modulos: {
+    //     ...
+    //   }
+    // }
+    //
+    // NÃO MODIFIQUE O CONTEÚDO.
+    //
   }
+
 };
 
 
 // ============================================================
-// SISTEMA DE ACESSO AOS DADOS
+// BANCO DE ESTUDOS
 // ============================================================
 
 const BancoEstudos = {
 
-  /**
-   * Retorna todas as matérias.
-   */
+  // ----------------------------------------------------------
+  // CACHE
+  // ----------------------------------------------------------
+
+  _cache: {
+    todasQuestoes: null,
+    estatisticas: null
+  },
+
+
+  // ----------------------------------------------------------
+  // LIMPA CACHE
+  // ----------------------------------------------------------
+
+  limparCache() {
+
+    this._cache.todasQuestoes = null;
+    this._cache.estatisticas = null;
+
+  },
+
+
+  // ----------------------------------------------------------
+  // MATÉRIAS
+  // ----------------------------------------------------------
+
   materias() {
-    return Object.entries(DADOS.materias || {});
+
+    return Object.entries(
+      DADOS?.materias || {}
+    );
+
   },
 
-  /**
-   * Retorna uma matéria pelo ID.
-   */
+
+  // ----------------------------------------------------------
+  // MATÉRIA
+  // ----------------------------------------------------------
+
   materia(id) {
-    return DADOS.materias?.[id] || null;
+
+    if (!id) return null;
+
+    return DADOS
+      ?.materias
+      ?.[
+        id
+      ] || null;
+
   },
 
-  /**
-   * Retorna todos os módulos de uma matéria.
-   */
+
+  // ----------------------------------------------------------
+  // MÓDULOS
+  // ----------------------------------------------------------
+
   modulos(materiaId) {
-    const materia = this.materia(materiaId);
+
+    const materia =
+      this.materia(materiaId);
 
     if (!materia) return [];
 
-    return Object.entries(materia.modulos || {});
+    return Object.entries(
+      materia.modulos || {}
+    );
+
   },
 
-  /**
-   * Retorna um módulo específico.
-   */
-  modulo(materiaId, moduloId) {
+
+  // ----------------------------------------------------------
+  // MÓDULO
+  // ----------------------------------------------------------
+
+  modulo(
+    materiaId,
+    moduloId
+  ) {
+
     return DADOS
-      .materias?.[materiaId]
-      ?.modulos?.[moduloId] || null;
+      ?.materias
+      ?.[
+        materiaId
+      ]
+      ?.modulos
+      ?.[
+        moduloId
+      ] || null;
+
   },
 
-  /**
-   * Retorna todas as aulas de um módulo.
-   */
-  aulas(materiaId, moduloId) {
-    const modulo = this.modulo(materiaId, moduloId);
+
+  // ----------------------------------------------------------
+  // AULAS
+  // ----------------------------------------------------------
+
+  aulas(
+    materiaId,
+    moduloId
+  ) {
+
+    const modulo =
+      this.modulo(
+        materiaId,
+        moduloId
+      );
 
     if (!modulo) return [];
 
-    return Object.entries(modulo.aulas || {});
-  },
-
-  /**
-   * Retorna uma aula específica.
-   */
-  aula(materiaId, moduloId, aulaId) {
-    return DADOS
-      .materias?.[materiaId]
-      ?.modulos?.[moduloId]
-      ?.aulas?.[aulaId] || null;
-  },
-
-  /**
-   * Retorna as questões de uma aula.
-   */
-  questoesDaAula(materiaId, moduloId, aulaId) {
-    const aula = this.aula(
-      materiaId,
-      moduloId,
-      aulaId
+    return Object.entries(
+      modulo.aulas || {}
     );
 
-    return aula?.questoes || [];
   },
 
-  /**
-   * Retorna todas as questões do banco.
-   */
+
+  // ----------------------------------------------------------
+  // AULA
+  // ----------------------------------------------------------
+
+  aula(
+    materiaId,
+    moduloId,
+    aulaId
+  ) {
+
+    return DADOS
+      ?.materias
+      ?.[
+        materiaId
+      ]
+      ?.modulos
+      ?.[
+        moduloId
+      ]
+      ?.aulas
+      ?.[
+        aulaId
+      ] || null;
+
+  },
+
+
+  // ----------------------------------------------------------
+  // QUESTÕES DE UMA AULA
+  // ----------------------------------------------------------
+
+  questoesDaAula(
+    materiaId,
+    moduloId,
+    aulaId
+  ) {
+
+    const aula =
+      this.aula(
+        materiaId,
+        moduloId,
+        aulaId
+      );
+
+    if (!aula) return [];
+
+    return Array.isArray(
+      aula.questoes
+    )
+      ? aula.questoes
+      : [];
+
+  },
+
+
+  // ----------------------------------------------------------
+  // TODAS AS QUESTÕES
+  // ----------------------------------------------------------
+
   todasQuestoes() {
+
+    if (
+      Array.isArray(
+        this._cache.todasQuestoes
+      )
+    ) {
+
+      return this._cache.todasQuestoes;
+
+    }
+
 
     const resultado = [];
 
-    for (const [materiaId, materia] of this.materias()) {
 
-      for (const [moduloId, modulo] of Object.entries(
-        materia.modulos || {}
-      )) {
+    for (
+      const [materiaId, materia]
+      of this.materias()
+    ) {
 
-        for (const [aulaId, aula] of Object.entries(
-          modulo.aulas || {}
-        )) {
+      const modulos =
+        materia?.modulos || {};
 
-          for (const questao of aula.questoes || []) {
+
+      for (
+        const [moduloId, modulo]
+        of Object.entries(modulos)
+      ) {
+
+        const aulas =
+          modulo?.aulas || {};
+
+
+        for (
+          const [aulaId, aula]
+          of Object.entries(aulas)
+        ) {
+
+          const questoes =
+            Array.isArray(aula?.questoes)
+              ? aula.questoes
+              : [];
+
+
+          for (
+            const questao
+            of questoes
+          ) {
 
             resultado.push({
+
               ...questao,
 
               materiaId,
-              materiaNome: materia.nome,
+
+              materiaNome:
+                materia?.nome || "Sem nome",
 
               moduloId,
-              moduloNome: modulo.nome,
+
+              moduloNome:
+                modulo?.nome || "Sem nome",
 
               aulaId,
-              aulaNome: aula.nome
+
+              aulaNome:
+                aula?.nome || "Sem nome"
+
             });
 
           }
@@ -139,121 +302,821 @@ const BancoEstudos = {
 
     }
 
+
+    this._cache.todasQuestoes =
+      resultado;
+
+
     return resultado;
+
   },
 
-  /**
-   * Retorna uma questão aleatória.
-   */
+
+  // ----------------------------------------------------------
+  // QUESTÃO ALEATÓRIA
+  // ----------------------------------------------------------
+
   questaoAleatoria() {
 
-    const questoes = this.todasQuestoes();
+    const questoes =
+      this.todasQuestoes();
+
 
     if (!questoes.length) {
+
       return null;
+
     }
 
-    const indice = Math.floor(
-      Math.random() * questoes.length
-    );
+
+    const indice =
+      Math.floor(
+        Math.random() *
+        questoes.length
+      );
+
 
     return questoes[indice];
+
   },
 
-  /**
-   * Conta matérias.
-   */
+
+  // ----------------------------------------------------------
+  // QUESTÕES ALEATÓRIAS
+  // ----------------------------------------------------------
+
+  questoesAleatorias(
+    quantidade = 10
+  ) {
+
+    const questoes =
+      [...this.todasQuestoes()];
+
+
+    if (!questoes.length) {
+
+      return [];
+
+    }
+
+
+    const total =
+      Math.max(
+        1,
+        Math.min(
+          Number(quantidade) || 10,
+          questoes.length
+        )
+      );
+
+
+    // Fisher-Yates
+    for (
+      let i = questoes.length - 1;
+      i > 0;
+      i--
+    ) {
+
+      const j =
+        Math.floor(
+          Math.random() *
+          (i + 1)
+        );
+
+
+      [
+        questoes[i],
+        questoes[j]
+      ] = [
+        questoes[j],
+        questoes[i]
+      ];
+
+    }
+
+
+    return questoes.slice(
+      0,
+      total
+    );
+
+  },
+
+
+  // ----------------------------------------------------------
+  // TOTAL DE MATÉRIAS
+  // ----------------------------------------------------------
+
   totalMaterias() {
+
     return this.materias().length;
+
   },
 
-  /**
-   * Conta módulos.
-   */
+
+  // ----------------------------------------------------------
+  // TOTAL DE MÓDULOS
+  // ----------------------------------------------------------
+
   totalModulos() {
 
     let total = 0;
 
-    for (const [, materia] of this.materias()) {
+
+    for (
+      const [, materia]
+      of this.materias()
+    ) {
+
       total += Object.keys(
-        materia.modulos || {}
+        materia?.modulos || {}
       ).length;
+
     }
 
+
     return total;
+
   },
 
-  /**
-   * Conta aulas.
-   */
+
+  // ----------------------------------------------------------
+  // TOTAL DE AULAS
+  // ----------------------------------------------------------
+
   totalAulas() {
 
     let total = 0;
 
-    for (const [, materia] of this.materias()) {
 
-      for (const [, modulo] of Object.entries(
-        materia.modulos || {}
-      )) {
+    for (
+      const [, materia]
+      of this.materias()
+    ) {
+
+      for (
+        const [, modulo]
+        of Object.entries(
+          materia?.modulos || {}
+        )
+      ) {
 
         total += Object.keys(
-          modulo.aulas || {}
+          modulo?.aulas || {}
         ).length;
+
       }
 
     }
 
+
     return total;
+
   },
 
-  /**
-   * Conta questões.
-   */
+
+  // ----------------------------------------------------------
+  // TOTAL DE QUESTÕES
+  // ----------------------------------------------------------
+
   totalQuestoes() {
-    return this.todasQuestoes().length;
+
+    return this
+      .todasQuestoes()
+      .length;
+
   },
 
-  /**
-   * Retorna estatísticas completas do banco.
-   */
+
+  // ----------------------------------------------------------
+  // ESTATÍSTICAS
+  // ----------------------------------------------------------
+
   estatisticas() {
 
+    if (
+      this._cache.estatisticas
+    ) {
+
+      return {
+        ...this._cache.estatisticas
+      };
+
+    }
+
+
+    const estatisticas = {
+
+      materias:
+        this.totalMaterias(),
+
+      modulos:
+        this.totalModulos(),
+
+      aulas:
+        this.totalAulas(),
+
+      questoes:
+        this.totalQuestoes()
+
+    };
+
+
+    this._cache.estatisticas =
+      estatisticas;
+
+
     return {
-      materias: this.totalMaterias(),
-      modulos: this.totalModulos(),
-      aulas: this.totalAulas(),
-      questoes: this.totalQuestoes()
+      ...estatisticas
     };
 
   },
 
-  /**
-   * Procura questões por texto.
-   */
+
+  // ----------------------------------------------------------
+  // BUSCA
+  // ----------------------------------------------------------
+
   buscar(texto) {
 
-    const termo = String(texto || "")
+    const termo =
+      String(
+        texto ?? ""
+      )
       .trim()
-      .toLowerCase();
-
-    if (!termo) return [];
-
-    return this.todasQuestoes().filter(questao => {
-
-      const enunciado =
-        String(questao.enunciado || "")
-          .toLowerCase();
-
-      const comentario =
-        String(questao.comentario || "")
-          .toLowerCase();
-
-      return (
-        enunciado.includes(termo) ||
-        comentario.includes(termo)
+      .toLocaleLowerCase(
+        "pt-BR"
       );
 
-    });
+
+    if (!termo) {
+
+      return [];
+
+    }
+
+
+    return this
+      .todasQuestoes()
+      .filter(
+        questao => {
+
+          const enunciado =
+            String(
+              questao?.enunciado || ""
+            )
+            .toLocaleLowerCase(
+              "pt-BR"
+            );
+
+
+          const comentario =
+            String(
+              questao?.comentario || ""
+            )
+            .toLocaleLowerCase(
+              "pt-BR"
+            );
+
+
+          return (
+            enunciado.includes(termo) ||
+            comentario.includes(termo)
+          );
+
+        }
+      );
+
+  },
+
+
+  // ----------------------------------------------------------
+  // BUSCA GERAL
+  // ----------------------------------------------------------
+
+  buscarEmConteudo(texto) {
+
+    const termo =
+      String(
+        texto ?? ""
+      )
+      .trim()
+      .toLocaleLowerCase(
+        "pt-BR"
+      );
+
+
+    if (!termo) {
+
+      return [];
+
+    }
+
+
+    const resultados = [];
+
+
+    for (
+      const [materiaId, materia]
+      of this.materias()
+    ) {
+
+      const materiaNome =
+        String(
+          materia?.nome || ""
+        );
+
+
+      if (
+        materiaNome
+          .toLocaleLowerCase("pt-BR")
+          .includes(termo)
+      ) {
+
+        resultados.push({
+
+          tipo: "materia",
+
+          materiaId,
+
+          materiaNome
+
+        });
+
+      }
+
+
+      for (
+        const [moduloId, modulo]
+        of Object.entries(
+          materia?.modulos || {}
+        )
+      ) {
+
+        const moduloNome =
+          String(
+            modulo?.nome || ""
+          );
+
+
+        if (
+          moduloNome
+            .toLocaleLowerCase("pt-BR")
+            .includes(termo)
+        ) {
+
+          resultados.push({
+
+            tipo: "modulo",
+
+            materiaId,
+
+            materiaNome,
+
+            moduloId,
+
+            moduloNome
+
+          });
+
+        }
+
+
+        for (
+          const [aulaId, aula]
+          of Object.entries(
+            modulo?.aulas || {}
+          )
+        ) {
+
+          const aulaNome =
+            String(
+              aula?.nome || ""
+            );
+
+
+          const resumo =
+            String(
+              aula?.resumo || ""
+            );
+
+
+          const textoAula =
+            (
+              aulaNome +
+              " " +
+              resumo
+            )
+            .toLocaleLowerCase(
+              "pt-BR"
+            );
+
+
+          if (
+            textoAula.includes(
+              termo
+            )
+          ) {
+
+            resultados.push({
+
+              tipo: "aula",
+
+              materiaId,
+
+              materiaNome,
+
+              moduloId,
+
+              moduloNome,
+
+              aulaId,
+
+              aulaNome,
+
+              resumo
+
+            });
+
+          }
+
+        }
+
+      }
+
+    }
+
+
+    return resultados;
+
+  },
+
+
+  // ----------------------------------------------------------
+  // PROCURAR POR ID
+  // ----------------------------------------------------------
+
+  encontrarQuestao(
+    id
+  ) {
+
+    if (
+      id === undefined ||
+      id === null
+    ) {
+
+      return null;
+
+    }
+
+
+    return (
+      this
+        .todasQuestoes()
+        .find(
+          questao =>
+            String(
+              questao.id
+            ) === String(id)
+        )
+    ) || null;
+
+  },
+
+
+  // ----------------------------------------------------------
+  // QUESTÕES DE UMA MATÉRIA
+  // ----------------------------------------------------------
+
+  questoesDaMateria(
+    materiaId
+  ) {
+
+    const materia =
+      this.materia(
+        materiaId
+      );
+
+
+    if (!materia) {
+
+      return [];
+
+    }
+
+
+    const resultado = [];
+
+
+    for (
+      const [
+        moduloId,
+        modulo
+      ]
+      of Object.entries(
+        materia.modulos || {}
+      )
+    ) {
+
+      for (
+        const [
+          aulaId,
+          aula
+        ]
+        of Object.entries(
+          modulo.aulas || {}
+        )
+      ) {
+
+        for (
+          const questao
+          of aula.questoes || []
+        ) {
+
+          resultado.push({
+
+            ...questao,
+
+            materiaId,
+
+            materiaNome:
+              materia.nome,
+
+            moduloId,
+
+            moduloNome:
+              modulo.nome,
+
+            aulaId,
+
+            aulaNome:
+              aula.nome
+
+          });
+
+        }
+
+      }
+
+    }
+
+
+    return resultado;
+
+  },
+
+
+  // ----------------------------------------------------------
+  // QUESTÕES DE UM MÓDULO
+  // ----------------------------------------------------------
+
+  questoesDoModulo(
+    materiaId,
+    moduloId
+  ) {
+
+    const modulo =
+      this.modulo(
+        materiaId,
+        moduloId
+      );
+
+
+    if (!modulo) {
+
+      return [];
+
+    }
+
+
+    const materia =
+      this.materia(
+        materiaId
+      );
+
+
+    const resultado = [];
+
+
+    for (
+      const [
+        aulaId,
+        aula
+      ]
+      of Object.entries(
+        modulo.aulas || {}
+      )
+    ) {
+
+      for (
+        const questao
+        of aula.questoes || []
+      ) {
+
+        resultado.push({
+
+          ...questao,
+
+          materiaId,
+
+          materiaNome:
+            materia?.nome || "",
+
+          moduloId,
+
+          moduloNome:
+            modulo?.nome || "",
+
+          aulaId,
+
+          aulaNome:
+            aula?.nome || ""
+
+        });
+
+      }
+
+    }
+
+
+    return resultado;
+
+  },
+
+
+  // ----------------------------------------------------------
+  // RESUMO DE UMA AULA
+  // ----------------------------------------------------------
+
+  resumoDaAula(
+    materiaId,
+    moduloId,
+    aulaId
+  ) {
+
+    const aula =
+      this.aula(
+        materiaId,
+        moduloId,
+        aulaId
+      );
+
+
+    return aula?.resumo || "";
+
+  },
+
+
+  // ----------------------------------------------------------
+  // LISTA COMPLETA DE CONTEÚDO
+  // ----------------------------------------------------------
+
+  estruturaCompleta() {
+
+    const resultado = [];
+
+
+    for (
+      const [materiaId, materia]
+      of this.materias()
+    ) {
+
+      resultado.push({
+
+        tipo: "materia",
+
+        materiaId,
+
+        nome:
+          materia?.nome || ""
+
+      });
+
+
+      for (
+        const [
+          moduloId,
+          modulo
+        ]
+        of Object.entries(
+          materia?.modulos || {}
+        )
+      ) {
+
+        resultado.push({
+
+          tipo: "modulo",
+
+          materiaId,
+
+          moduloId,
+
+          nome:
+            modulo?.nome || ""
+
+        });
+
+
+        for (
+          const [
+            aulaId,
+            aula
+          ]
+          of Object.entries(
+            modulo?.aulas || {}
+          )
+        ) {
+
+          resultado.push({
+
+            tipo: "aula",
+
+            materiaId,
+
+            moduloId,
+
+            aulaId,
+
+            nome:
+              aula?.nome || "",
+
+            resumo:
+              aula?.resumo || "",
+
+            questoes:
+              Array.isArray(
+                aula?.questoes
+              )
+                ? aula.questoes.length
+                : 0
+
+          });
+
+        }
+
+      }
+
+    }
+
+
+    return resultado;
+
+  },
+
+
+  // ----------------------------------------------------------
+  // VERIFICA SE EXISTE UMA MATÉRIA
+  // ----------------------------------------------------------
+
+  existeMateria(
+    materiaId
+  ) {
+
+    return Boolean(
+      this.materia(
+        materiaId
+      )
+    );
+
+  },
+
+
+  // ----------------------------------------------------------
+  // VERIFICA SE EXISTE UM MÓDULO
+  // ----------------------------------------------------------
+
+  existeModulo(
+    materiaId,
+    moduloId
+  ) {
+
+    return Boolean(
+      this.modulo(
+        materiaId,
+        moduloId
+      )
+    );
+
+  },
+
+
+  // ----------------------------------------------------------
+  // VERIFICA SE EXISTE UMA AULA
+  // ----------------------------------------------------------
+
+  existeAula(
+    materiaId,
+    moduloId,
+    aulaId
+  ) {
+
+    return Boolean(
+      this.aula(
+        materiaId,
+        moduloId,
+        aulaId
+      )
+    );
 
   }
 
@@ -268,55 +1131,252 @@ function validarBancoEstudos() {
 
   const erros = [];
 
-  if (!DADOS || typeof DADOS !== "object") {
-    erros.push("DADOS não foi definido.");
-  }
-
-  if (!DADOS.materias || typeof DADOS.materias !== "object") {
-    erros.push("DADOS.materias não foi definido.");
-  }
-
-  if (erros.length) {
-
-    console.error(
-      "❌ Erro no banco de estudos:",
-      erros
-    );
-
-    return false;
-  }
+  let materiasInvalidas = 0;
+  let modulosInvalidos = 0;
+  let aulasInvalidas = 0;
 
   let questoesSemResposta = 0;
   let questoesSemEnunciado = 0;
 
-  for (const [materiaId, materia] of BancoEstudos.materias()) {
+
+  // ----------------------------------------------------------
+  // VALIDAÇÃO PRINCIPAL
+  // ----------------------------------------------------------
+
+  if (
+    typeof DADOS !== "object" ||
+    DADOS === null
+  ) {
+
+    erros.push(
+      "DADOS não foi definido corretamente."
+    );
+
+  }
+
+
+  if (
+    !DADOS?.materias ||
+    typeof DADOS.materias !== "object"
+  ) {
+
+    erros.push(
+      "DADOS.materias não foi definido corretamente."
+    );
+
+  }
+
+
+  if (erros.length) {
+
+    console.error(
+      "❌ FUTURO APROVADO — ERRO NO BANCO",
+      erros
+    );
+
+    return false;
+
+  }
+
+
+  // ----------------------------------------------------------
+  // PERCORRE BANCO
+  // ----------------------------------------------------------
+
+  for (
+    const [
+      materiaId,
+      materia
+    ]
+    of BancoEstudos.materias()
+  ) {
+
+
+    if (
+      !materia ||
+      typeof materia !== "object"
+    ) {
+
+      materiasInvalidas++;
+
+      console.warn(
+        `⚠️ Matéria inválida: ${materiaId}`
+      );
+
+      continue;
+
+    }
+
 
     if (!materia.nome) {
+
       console.warn(
         `⚠️ Matéria sem nome: ${materiaId}`
       );
+
     }
 
-    for (const [moduloId, modulo] of Object.entries(
-      materia.modulos || {}
-    )) {
 
-      for (const [aulaId, aula] of Object.entries(
-        modulo.aulas || {}
-      )) {
+    if (
+      !materia.modulos ||
+      typeof materia.modulos !== "object"
+    ) {
 
-        for (const questao of aula.questoes || []) {
+      modulosInvalidos++;
 
-          if (!questao.enunciado) {
+      console.warn(
+        `⚠️ Matéria sem módulos: ${materiaId}`
+      );
+
+      continue;
+
+    }
+
+
+    for (
+      const [
+        moduloId,
+        modulo
+      ]
+      of Object.entries(
+        materia.modulos
+      )
+    ) {
+
+
+      if (
+        !modulo ||
+        typeof modulo !== "object"
+      ) {
+
+        modulosInvalidos++;
+
+        console.warn(
+          `⚠️ Módulo inválido: ${materiaId}/${moduloId}`
+        );
+
+        continue;
+
+      }
+
+
+      if (!modulo.nome) {
+
+        console.warn(
+          `⚠️ Módulo sem nome: ${materiaId}/${moduloId}`
+        );
+
+      }
+
+
+      if (
+        !modulo.aulas ||
+        typeof modulo.aulas !== "object"
+      ) {
+
+        aulasInvalidas++;
+
+        console.warn(
+          `⚠️ Módulo sem aulas: ${materiaId}/${moduloId}`
+        );
+
+        continue;
+
+      }
+
+
+      for (
+        const [
+          aulaId,
+          aula
+        ]
+        of Object.entries(
+          modulo.aulas
+        )
+      ) {
+
+
+        if (
+          !aula ||
+          typeof aula !== "object"
+        ) {
+
+          aulasInvalidas++;
+
+          console.warn(
+            `⚠️ Aula inválida: ${materiaId}/${moduloId}/${aulaId}`
+          );
+
+          continue;
+
+        }
+
+
+        if (!aula.nome) {
+
+          console.warn(
+            `⚠️ Aula sem nome: ${materiaId}/${moduloId}/${aulaId}`
+          );
+
+        }
+
+
+        if (
+          !Array.isArray(
+            aula.questoes
+          )
+        ) {
+
+          console.warn(
+            `⚠️ Aula sem questões: ${materiaId}/${moduloId}/${aulaId}`
+          );
+
+          continue;
+
+        }
+
+
+        // ----------------------------------------------------
+        // QUESTÕES
+        // ----------------------------------------------------
+
+        for (
+          const questao
+          of aula.questoes
+        ) {
+
+
+          if (
+            !questao ||
+            typeof questao !== "object"
+          ) {
+
             questoesSemEnunciado++;
+
+            continue;
+
+          }
+
+
+          if (
+            !questao.enunciado ||
+            !String(
+              questao.enunciado
+            ).trim()
+          ) {
+
+            questoesSemEnunciado++;
+
             console.warn(
-              `⚠️ Questão sem enunciado:`,
+              "⚠️ Questão sem enunciado:",
               materiaId,
               moduloId,
               aulaId,
               questao.id
             );
+
           }
+
 
           if (
             questao.resposta !== "C" &&
@@ -326,11 +1386,12 @@ function validarBancoEstudos() {
             questoesSemResposta++;
 
             console.warn(
-              `⚠️ Questão com resposta inválida:`,
+              "⚠️ Questão com resposta inválida:",
               materiaId,
               moduloId,
               aulaId,
-              questao.id
+              questao.id,
+              questao.resposta
             );
 
           }
@@ -343,15 +1404,29 @@ function validarBancoEstudos() {
 
   }
 
+
+  // ----------------------------------------------------------
+  // ESTATÍSTICAS
+  // ----------------------------------------------------------
+
   const estatisticas =
     BancoEstudos.estatisticas();
 
+
+  // ----------------------------------------------------------
+  // CONSOLE
+  // ----------------------------------------------------------
+
   console.log(
-    "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
   );
 
   console.log(
     "📚 FUTURO APROVADO — BANCO CARREGADO"
+  );
+
+  console.log(
+    "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
   );
 
   console.log(
@@ -371,6 +1446,18 @@ function validarBancoEstudos() {
   );
 
   console.log(
+    `⚠️ Matérias inválidas: ${materiasInvalidas}`
+  );
+
+  console.log(
+    `⚠️ Módulos inválidos: ${modulosInvalidos}`
+  );
+
+  console.log(
+    `⚠️ Aulas inválidas: ${aulasInvalidas}`
+  );
+
+  console.log(
     `⚠️ Questões sem enunciado: ${questoesSemEnunciado}`
   );
 
@@ -379,15 +1466,85 @@ function validarBancoEstudos() {
   );
 
   console.log(
-    "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
   );
 
-  return true;
+
+  // ----------------------------------------------------------
+  // STATUS
+  // ----------------------------------------------------------
+
+  const bancoOK =
+    (
+      materiasInvalidas === 0 &&
+      modulosInvalidos === 0 &&
+      aulasInvalidas === 0 &&
+      questoesSemEnunciado === 0 &&
+      questoesSemResposta === 0
+    );
+
+
+  if (bancoOK) {
+
+    console.log(
+      "✅ Banco validado com sucesso."
+    );
+
+  } else {
+
+    console.warn(
+      "⚠️ Banco carregado com avisos. Verifique os itens acima."
+    );
+
+  }
+
+
+  return bancoOK;
+
 }
 
 
 // ============================================================
-// INICIALIZAÇÃO
+// INICIALIZAÇÃO SEGURA
 // ============================================================
 
-validarBancoEstudos();
+(function inicializarBanco() {
+
+  try {
+
+    validarBancoEstudos();
+
+  } catch (erro) {
+
+    console.error(
+      "❌ FUTURO APROVADO — ERRO AO INICIALIZAR BANCO:",
+      erro
+    );
+
+  }
+
+})();
+
+
+// ============================================================
+// COMPATIBILIDADE
+// ============================================================
+//
+// Mantém DADOS e BancoEstudos disponíveis para o index.html.
+//
+// ============================================================
+
+if (
+  typeof window !== "undefined"
+) {
+
+  window.DADOS =
+    DADOS;
+
+  window.BancoEstudos =
+    BancoEstudos;
+
+  window.validarBancoEstudos =
+    validarBancoEstudos;
+
+}
