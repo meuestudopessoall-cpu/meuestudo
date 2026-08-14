@@ -290,4 +290,3 @@ const DADOS = {
                 { id: 4, enunciado: "O DF pode legislar sobre todos os assuntos como um estado.", resposta: "E", comentario: "ERRADO. Tem competências residuais.", pegadinha: "Achar que é pleno." },
                 { id: 5, enunciado: "A LODF é promulgada pela Câmara Legislativa.", resposta: "C", comentario: "CERTO.", pegadinha: "Confundir com CF." }
               ]
-              
