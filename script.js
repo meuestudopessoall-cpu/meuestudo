@@ -1,113 +1,50 @@
+// script.js — Controle de progresso
 
-/* style.css — Trilha Policial 2026 */
+document.addEventListener('DOMContentLoaded', function() {
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+    // Carrega os dados salvos no navegador
+    let dados = JSON.parse(localStorage.getItem('trilhaPolicial')) || {
+        acertos: 0,
+        erros: 0,
+        materiasConcluidas: 0,
+        questoesRespondidas: []
+    };
 
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f4f7fc;
-    color: #1e2a3a;
-    padding: 20px;
-}
+    // Atualiza a interface com os dados carregados
+    function atualizarDashboard() {
+        const total = dados.acertos + dados.erros;
+        const aproveitamento = total > 0 ? Math.round((dados.acertos / total) * 100) : 0;
 
-.container {
-    max-width: 1000px;
-    margin: 0 auto;
-    background: #ffffff;
-    border-radius: 16px;
-    padding: 30px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
-}
+        document.getElementById('acertos').textContent = dados.acertos;
+        document.getElementById('erros').textContent = dados.erros;
+        document.getElementById('aproveitamento').textContent = aproveitamento + '%';
+        document.getElementById('materias').textContent = dados.materiasConcluidas;
+    }
 
-h1 {
-    font-size: 28px;
-    color: #0b2b4a;
-    border-bottom: 4px solid #1a73e8;
-    padding-bottom: 12px;
-    margin-bottom: 20px;
-}
+    // Salva os dados no navegador
+    function salvarDados() {
+        localStorage.setItem('trilhaPolicial', JSON.stringify(dados));
+        atualizarDashboard();
+    }
 
-.status {
-    background: #e8f0fe;
-    border-left: 6px solid #1a73e8;
-    padding: 16px 20px;
-    border-radius: 8px;
-    margin-bottom: 30px;
-}
+    // Função para registrar acerto/erro (será usada nas próximas páginas)
+    window.registrarQuestao = function(acertou) {
+        if (acertou) {
+            dados.acertos++;
+        } else {
+            dados.erros++;
+        }
+        salvarDados();
+    };
 
-.status p {
-    margin: 4px 0;
-}
+    // Função para concluir uma matéria
+    window.concluirMateria = function() {
+        dados.materiasConcluidas++;
+        salvarDados();
+    };
 
-.menu {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-    margin: 25px 0 30px 0;
-}
+    // Inicializa o dashboard
+    atualizarDashboard();
 
-.menu a {
-    background: #1a73e8;
-    color: white;
-    padding: 12px 24px;
-    border-radius: 30px;
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 15px;
-    transition: 0.2s;
-    display: inline-block;
-}
-
-.menu a:hover {
-    background: #0d47a1;
-    transform: scale(1.02);
-}
-
-.menu a.secundario {
-    background: #e8f0fe;
-    color: #1a73e8;
-}
-
-.menu a.secundario:hover {
-    background: #d2e3fc;
-}
-
-.cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 16px;
-    margin: 20px 0;
-}
-
-.card {
-    background: #f8faff;
-    border-radius: 12px;
-    padding: 18px;
-    border: 1px solid #e2e8f0;
-    text-align: center;
-}
-
-.card .numero {
-    font-size: 32px;
-    font-weight: 700;
-    color: #1a73e8;
-}
-
-.card .rotulo {
-    font-size: 14px;
-    color: #4a5a6e;
-    margin-top: 4px;
-}
-
-.footer {
-    margin-top: 30px;
-    font-size: 14px;
-    color: #7a8a9e;
-    border-top: 1px solid #e2e8f0;
-    padding-top: 20px;
-    text-align: center;
-}
+    console.log('✅ Trilha Policial 2026 — Sistema de progresso ativado!');
+});
