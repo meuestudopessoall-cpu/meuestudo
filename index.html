@@ -6,13 +6,13 @@
     <title>Trilha Policial 2026 — Meu Estudo</title>
     <link rel="stylesheet" href="style.css" />
     <style>
-        /* ESTILOS (mantidos) */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Segoe UI', Tahoma, sans-serif; background: #f4f7fc; padding: 20px; }
         .container { max-width: 1000px; margin: 0 auto; background: #fff; border-radius: 16px; padding: 30px; box-shadow: 0 8px 20px rgba(0,0,0,0.05); }
         h1 { font-size: 28px; color: #0b2b4a; border-bottom: 4px solid #1a73e8; padding-bottom: 12px; margin-bottom: 20px; }
         .status { background: #e8f0fe; border-left: 6px solid #1a73e8; padding: 16px 20px; border-radius: 8px; margin-bottom: 30px; }
         .status p { margin: 4px 0; }
+
         .menu { display: flex; flex-wrap: wrap; gap: 12px; margin: 25px 0 30px 0; align-items: center; }
         .menu a { background: #1a73e8; color: #fff; padding: 12px 24px; border-radius: 30px; text-decoration: none; font-weight: 600; font-size: 15px; transition: 0.2s; display: inline-block; }
         .menu a:hover { background: #0d47a1; transform: scale(1.02); }
@@ -20,11 +20,23 @@
         .menu a.secundario:hover { background: #d2e3fc; }
         .btn-futuro-aprovado { background: #f9a825; color: #0b2b4a; padding: 8px 18px; border-radius: 30px; font-weight: 700; text-decoration: none; font-size: 15px; transition: 0.2s; display: inline-block; border: 2px solid #f9a825; }
         .btn-futuro-aprovado:hover { background: #fbc02d; transform: scale(1.05); box-shadow: 0 4px 12px rgba(249,168,37,0.4); }
-        .menu-materias { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin: 20px 0; }
-        .menu-materias a { background: #e8f0fe; color: #0b2b4a; padding: 12px; border-radius: 10px; text-decoration: none; font-weight: 600; text-align: center; font-size: 14px; transition: 0.2s; border: 1px solid transparent; display: block; }
-        .menu-materias a:hover { background: #1a73e8; color: #fff; border-color: #1a73e8; }
-        .menu-materias a.concluido { border-color: #2e7d32; background: #e6f7e6; }
-        .menu-materias a.concluido:hover { background: #2e7d32; color: #fff; }
+
+        .ciclo-container { background: #f8faff; border-radius: 12px; padding: 20px; margin: 20px 0; border: 1px solid #e2e8f0; }
+        .ciclo-container h2 { font-size: 18px; color: #0b2b4a; margin-bottom: 12px; }
+        .ciclo-lista { display: flex; flex-direction: column; gap: 6px; }
+        .ciclo-item { display: flex; align-items: center; padding: 8px 14px; border-radius: 8px; background: #f4f7fc; border-left: 4px solid #ccc; }
+        .ciclo-item .ordem { font-weight: 700; color: #1a73e8; width: 30px; }
+        .ciclo-item .nome { flex: 1; font-weight: 500; }
+        .ciclo-item .status-badge { font-size: 12px; padding: 2px 12px; border-radius: 20px; background: #e8f0fe; color: #1a73e8; }
+        .ciclo-item.concluida { border-left-color: #2e7d32; background: #e6f7e6; }
+        .ciclo-item.concluida .status-badge { background: #2e7d32; color: #fff; }
+        .ciclo-item.proxima { border-left-color: #f9a825; background: #fff8e1; }
+        .ciclo-item.proxima .status-badge { background: #f9a825; color: #0b2b4a; font-weight: 700; }
+        .ciclo-item.a-estudar { border-left-color: #ccc; }
+        .btn-avancar { background: #1a73e8; color: #fff; border: none; padding: 8px 20px; border-radius: 30px; font-weight: 600; cursor: pointer; margin-top: 10px; transition: 0.2s; }
+        .btn-avancar:hover { background: #0d47a1; transform: scale(1.02); }
+        .btn-avancar:disabled { background: #ccc; cursor: not-allowed; transform: none; }
+
         .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin: 20px 0; }
         .card { background: #f8faff; border-radius: 12px; padding: 18px; border: 1px solid #e2e8f0; text-align: center; }
         .card .numero { font-size: 32px; font-weight: 700; color: #1a73e8; }
@@ -34,44 +46,35 @@
         .historico-box { background: #fff8e1; border-left: 4px solid #f9a825; padding: 12px 18px; border-radius: 8px; margin-top: 10px; font-size: 14px; }
         .historico-box strong { color: #0b2b4a; }
         .footer { margin-top: 30px; font-size: 14px; color: #7a8a9e; border-top: 1px solid #e2e8f0; padding-top: 20px; text-align: center; }
-        /* Player flutuante */
-        .player-flutuante { position: fixed; bottom: 20px; right: 20px; background: #0b2b4a; color: #fff; padding: 12px 18px; border-radius: 50px; display: flex; align-items: center; gap: 14px; box-shadow: 0 4px 16px rgba(0,0,0,0.3); z-index: 999; font-size: 14px; transition: 0.3s; backdrop-filter: blur(4px); border: 1px solid rgba(255,255,255,0.1); }
-        .player-flutuante button { background: none; border: none; color: #fff; font-size: 22px; cursor: pointer; transition: 0.2s; display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 50%; }
-        .player-flutuante button:hover { background: rgba(255,255,255,0.15); }
-        .player-flutuante .info { max-width: 120px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 13px; opacity: 0.8; }
-        .player-flutuante .volume-slider { width: 60px; accent-color: #1a73e8; cursor: pointer; }
-        .player-flutuante .tempo { font-size: 12px; opacity: 0.6; min-width: 32px; text-align: center; }
-        .player-flutuante .play-btn { font-size: 28px; width: 44px; height: 44px; background: #1a73e8; }
-        .player-flutuante .play-btn:hover { background: #0d47a1; }
-        .player-flutuante .proxima-btn { font-size: 20px; }
-        .player-flutuante.minimizado { padding: 8px 14px; border-radius: 40px; gap: 8px; }
-        .player-flutuante.minimizado .info, .player-flutuante.minimizado .volume-slider, .player-flutuante.minimizado .tempo, .player-flutuante.minimizado .proxima-btn { display: none; }
-        .player-flutuante .toggle-min { font-size: 14px; opacity: 0.5; width: 28px; height: 28px; }
-        .player-flutuante .toggle-min:hover { opacity: 1; }
-        @media (max-width:600px) { .player-flutuante { padding: 8px 12px; gap: 8px; bottom: 10px; right: 10px; font-size: 12px; border-radius: 40px; } .player-flutuante .info { max-width: 80px; font-size: 11px; } .player-flutuante .volume-slider { width: 40px; } .player-flutuante .play-btn { width: 36px; height: 36px; font-size: 22px; } .player-flutuante .tempo { display: none; } }
     </style>
 </head>
 <body>
-
     <div class="container">
         <h1>🚔 Trilha Policial 2026</h1>
         <div class="status">
             <p><strong>✅ Bem-vindo de volta, futuro aprovado!</strong></p>
             <p>Seu progresso é salvo automaticamente no navegador.</p>
-            <p style="font-size:14px; color:#2c3e50;">📌 Clique em uma matéria abaixo para acessar resumos, questões e quiz.</p>
+            <p style="font-size:14px; color:#2c3e50;">📌 Acompanhe seu ciclo de estudos abaixo.</p>
         </div>
 
+        <!-- MENU COM LINK PARA ESTUDO -->
         <div class="menu">
             <a href="index.html" class="btn-futuro-aprovado">🏆 futuro aprovado</a>
+            <a href="estudo.html/estudo.html" class="secundario">📖 Estudar</a>
             <a href="resumos.html" class="secundario">📚 Resumos</a>
             <a href="questoes.html" class="secundario">📝 Questões</a>
             <a href="quiz.html" class="secundario">🧠 Quiz</a>
-            <a href="#" class="secundario">📊 Progresso</a>
         </div>
 
-        <h2 style="font-size:20px; margin:20px 0 10px 0;">📚 Matérias do ciclo</h2>
-        <div class="menu-materias" id="listaMaterias"></div>
+        <!-- CICLO -->
+        <div class="ciclo-container">
+            <h2>📚 Ciclo de Estudos — Ordem das Matérias</h2>
+            <div class="ciclo-lista" id="cicloLista"></div>
+            <button class="btn-avancar" id="btnAvancar" onclick="concluirProxima()">✅ Concluir próxima matéria</button>
+            <p style="font-size:13px; color:#666; margin-top:8px;">* Clique no botão acima quando terminar de estudar a matéria atual.</p>
+        </div>
 
+        <!-- DESEMPENHO -->
         <h2 style="font-size:20px; margin:30px 0 10px 0;">📊 Seu desempenho geral</h2>
         <div class="cards">
             <div class="card"><div class="numero" id="acertos">0</div><div class="rotulo">Questões acertadas</div></div>
@@ -89,183 +92,146 @@
             📊 <span id="historicoTotal">0</span> questões
         </div>
 
-        <div style="background:#f0f4fa; border-radius:12px; padding:20px; margin:20px 0;">
-            <p style="font-weight:600;">📌 Próxima matéria a estudar:</p>
-            <p style="font-size:18px; color:#0b2b4a;"><strong id="proximaMateria">Língua Portuguesa</strong></p>
-        </div>
-
         <div class="footer">
             🎯 Preparação para PCDF · PMDF · PF · PRF · PCGO · PMGO<br>
             Desenvolvido com 💙 para aprovação
         </div>
     </div>
 
-    <!-- PLAYER FLUTUANTE -->
-    <div class="player-flutuante" id="player">
-        <button class="toggle-min" onclick="toggleMinimizar()" title="Minimizar">−</button>
-        <button onclick="tocarAnterior()" title="Anterior">⏮</button>
-        <button class="play-btn" id="playBtn" onclick="playPause()">▶</button>
-        <button class="proxima-btn" onclick="tocarProxima()">⏭</button>
-        <span class="tempo" id="tempoAtual">0:00</span>
-        <span class="info" id="musicaInfo">🎵 Lo-Fi</span>
-        <input type="range" class="volume-slider" id="volumeSlider" min="0" max="1" step="0.05" value="0.5" />
-        <button onclick="toggleMudo()" style="font-size:18px;">🔊</button>
-    </div>
-
-    <!-- ===== DADOS EMBUTIDOS (dados.js) ===== -->
+    <!-- SCRIPTS -->
     <script>
-    // dados.js — TODAS AS 13 MATÉRIAS
-    const DADOS = {
-      materias: {
-        "lingua-portuguesa": {
-          nome: "Língua Portuguesa",
-          modulos: {
-            "modulo-1": {
-              nome: "Interpretação de Textos",
-              aulas: {
-                "aula-1": {
-                  nome: "Compreensão e Interpretação",
-                  resumo: "Compreensão: explícito. Interpretação: inferência. Tipos: narrativo, descritivo, dissertativo, injuntivo. Coesão e coerência.",
-                  questoes: [
-                    {id:1,enunciado:"Compreensão limita-se ao explícito.",resposta:"C",comentario:"CERTO."},
-                    {id:2,enunciado:"Interpretação exige inferência.",resposta:"C",comentario:"CERTO."},
-                    {id:3,enunciado:"Dissertativo tem sequência cronológica.",resposta:"E",comentario:"ERRADO. É narrativo."},
-                    {id:4,enunciado:"'Portanto' indica conclusão.",resposta:"C",comentario:"CERTO."},
-                    {id:5,enunciado:"Inferir é deduzir implícitos.",resposta:"C",comentario:"CERTO."},
-                    {id:6,enunciado:"Injuntivo convence o leitor.",resposta:"E",comentario:"ERRADO. Orienta."},
-                    {id:7,enunciado:"'Sugere' indica interpretação.",resposta:"C",comentario:"CERTO."},
-                    {id:8,enunciado:"Coesão é conexão textual.",resposta:"C",comentario:"CERTO."},
-                    {id:9,enunciado:"Coerência é sentido lógico.",resposta:"C",comentario:"CERTO."},
-                    {id:10,enunciado:"Pressuposto é necessário ao sentido.",resposta:"C",comentario:"CERTO."},
-                    {id:11,enunciado:"'Embora' indica conclusão.",resposta:"E",comentario:"ERRADO. Concessão."},
-                    {id:12,enunciado:"Narração: apresentação, complicação, clímax, desfecho.",resposta:"C",comentario:"CERTO."},
-                    {id:13,enunciado:"Descrição objetiva expressa sentimentos.",resposta:"E",comentario:"ERRADO. Impessoal."},
-                    {id:14,enunciado:"Tese é opinião do autor.",resposta:"C",comentario:"CERTO."},
-                    {id:15,enunciado:"Leitura dinâmica é com pausas.",resposta:"E",comentario:"ERRADO. Fluida."}
-                  ]
-                }
-              }
-            },
-            "modulo-2": {
-              nome: "Redação Oficial",
-              aulas: {
-                "aula-1": {
-                  nome: "Características",
-                  resumo: "Impessoal, clara, objetiva, concisa, formal, uniforme.",
-                  questoes: [
-                    {id:1,enunciado:"Redação oficial deve ser impessoal.",resposta:"C",comentario:"CERTO."},
-                    {id:2,enunciado:"Admite gírias.",resposta:"E",comentario:"ERRADO."},
-                    {id:3,enunciado:"Clareza exige frases curtas.",resposta:"C",comentario:"CERTO."},
-                    {id:4,enunciado:"Concisão é direta ao ponto.",resposta:"C",comentario:"CERTO."},
-                    {id:5,enunciado:"Admite coloquialismos.",resposta:"E",comentario:"ERRADO."},
-                    {id:6,enunciado:"Impessoalidade exige 'eu' e 'nós'.",resposta:"E",comentario:"ERRADO. Terceira pessoa."},
-                    {id:7,enunciado:"Uniformidade garante padronização.",resposta:"C",comentario:"CERTO."},
-                    {id:8,enunciado:"Admite neologismos.",resposta:"E",comentario:"ERRADO."},
-                    {id:9,enunciado:"Objetivo é informar com precisão.",resposta:"C",comentario:"CERTO."},
-                    {id:10,enunciado:"Deve usar jargões técnicos.",resposta:"E",comentario:"ERRADO."},
-                    {id:11,enunciado:"Coesão é dispensável.",resposta:"E",comentario:"ERRADO."},
-                    {id:12,enunciado:"Revisão é fundamental.",resposta:"C",comentario:"CERTO."},
-                    {id:13,enunciado:"Linguagem rebuscada é recomendada.",resposta:"E",comentario:"ERRADO."},
-                    {id:14,enunciado:"Repetição desnecessária é ênfase.",resposta:"E",comentario:"ERRADO."},
-                    {id:15,enunciado:"Essência: clara, objetiva, impessoal.",resposta:"C",comentario:"CERTO."}
-                  ]
-                }
-              }
-            },
-            "modulo-3": {
-              nome: "Fonologia e Ortografia",
-              aulas: {
-                "aula-1": {
-                  nome: "Acentuação Gráfica",
-                  resumo: "Regras de acentuação: oxítonas, paroxítonas, proparoxítonas. Novo Acordo Ortográfico.",
-                  questoes: [
-                    {id:1,enunciado:"Proparoxítonas são todas acentuadas.",resposta:"C",comentario:"CERTO."},
-                    {id:2,enunciado:"Oxítonas terminadas em 'a' são acentuadas.",resposta:"C",comentario:"CERTO."},
-                    {id:3,enunciado:"Paroxítonas terminadas em 'r' não são acentuadas.",resposta:"E",comentario:"ERRADO."},
-                    {id:4,enunciado:"Novo Acordo eliminou o trema.",resposta:"C",comentario:"CERTO."},
-                    {id:5,enunciado:"Ditongo é vogal+semivogal.",resposta:"C",comentario:"CERTO."}
-                  ]
-                }
-              }
-            }
-          }
-        },
-        // (Aqui seriam inseridas as demais matérias, mas devido ao limite de caracteres, este é um resumo. O código completo será enviado em partes.)
-      }
+    const CICLO_MATERIAS = [
+        "Língua Portuguesa",
+        "Direito Constitucional",
+        "Direito Administrativo",
+        "Direito Penal",
+        "Direito Processual Penal",
+        "Legislação Penal Especial",
+        "Direitos Humanos",
+        "Raciocínio Lógico-Matemático",
+        "Informática",
+        "Lei Orgânica do DF (LODF)",
+        "RIDE",
+        "LC 840/2011"
+    ];
+
+    let dados = JSON.parse(localStorage.getItem('trilhaPolicial')) || {
+        acertos: 0,
+        erros: 0,
+        materiasConcluidas: 0,
+        questoesRespondidas: []
     };
-    </script>
 
-    <!-- SCRIPT DE CONTROLE -->
-    <script src="script.js"></script>
-    <script>
-        // Funções do player e da lista de matérias (mesmo código)
-        document.addEventListener('DOMContentLoaded', function() {
-            const container = document.getElementById('listaMaterias');
-            if (typeof DADOS === 'undefined') {
-                container.innerHTML = '<p style="color:red;">Erro: dados não carregados.</p>';
-                return;
-            }
-            const nomes = { 'lingua-portuguesa':'Língua Portuguesa', 'direito-constitucional':'Direito Constitucional', 'direito-administrativo':'Direito Administrativo', 'direito-penal':'Direito Penal', 'direito-processual-penal':'Direito Processual Penal', 'legislacao-penal-especial':'Legislação Penal Especial', 'direitos-humanos':'Direitos Humanos', 'raciocinio-logico':'Raciocínio Lógico', 'informatica':'Informática', 'lodf':'LODF', 'ride':'RIDE', 'lc-840':'LC 840/2011', 'eca':'ECA' };
-            let html = '';
-            for (const [sigla, materia] of Object.entries(DADOS.materias)) {
-                const nome = nomes[sigla] || materia.nome || sigla;
-                let temConteudo = false;
-                for (const mod of Object.values(materia.modulos || {})) {
-                    for (const au of Object.values(mod.aulas || {})) {
-                        if (au.questoes && au.questoes.length > 0) temConteudo = true;
-                    }
-                }
-                html += `<a href="resumos.html?materia=${sigla}" class="${temConteudo ? 'concluido' : ''}">${nome}</a>`;
-            }
-            container.innerHTML = html;
-            // Próxima matéria
-            let prox = 'Língua Portuguesa';
-            for (const [sigla, materia] of Object.entries(DADOS.materias)) {
-                let tem = false;
-                for (const mod of Object.values(materia.modulos || {})) {
-                    for (const au of Object.values(mod.aulas || {})) {
-                        if (au.questoes && au.questoes.length > 0) tem = true;
-                    }
-                }
-                if (!tem) { prox = nomes[sigla] || materia.nome || sigla; break; }
-            }
-            document.getElementById('proximaMateria').textContent = prox;
-        });
+    let historico = JSON.parse(localStorage.getItem('trilhaHistorico')) || {
+        totalAcertos: 0,
+        totalErros: 0,
+        sessao: 0
+    };
 
-        // PLAYER
-        const PLAYLIST = [
-            { nome: "🎵 Lo-Fi 1", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" },
-            { nome: "🎵 Lo-Fi 2", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" },
-            { nome: "🎵 Lo-Fi 3", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" }
-        ];
-        let musicaAtual = 0, tocando = false, minimizado = false;
-        const audio = new Audio();
-        audio.volume = 0.5;
-        audio.loop = false;
-        function carregarMusica(i) {
-            const m = PLAYLIST[i]; if (!m) return;
-            audio.src = m.url;
-            document.getElementById('musicaInfo').textContent = m.nome;
-            if (tocando) audio.play().catch(e=>console.log(e));
-        }
-        function playPause() {
-            const btn = document.getElementById('playBtn');
-            if (tocando) { audio.pause(); btn.textContent='▶'; tocando=false; }
-            else { if (!audio.src) carregarMusica(musicaAtual); audio.play().catch(e=>console.log(e)); btn.textContent='⏸'; tocando=true; }
-        }
-        function tocarProxima() { musicaAtual=(musicaAtual+1)%PLAYLIST.length; carregarMusica(musicaAtual); if (tocando) audio.play().catch(e=>console.log(e)); }
-        function tocarAnterior() { musicaAtual=(musicaAtual-1+PLAYLIST.length)%PLAYLIST.length; carregarMusica(musicaAtual); if (tocando) audio.play().catch(e=>console.log(e)); }
-        function toggleMudo() { audio.muted=!audio.muted; document.querySelector('.player-flutuante button:last-child').textContent = audio.muted ? '🔇' : '🔊'; }
-        function toggleMinimizar() { const player = document.getElementById('player'); minimizado = !minimizado; player.classList.toggle('minimizado'); document.querySelector('.toggle-min').textContent = minimizado ? '+' : '−'; }
-        document.getElementById('volumeSlider').addEventListener('input', function(){ audio.volume = this.value; });
-        audio.addEventListener('timeupdate', function() {
-            const tempo = document.getElementById('tempoAtual');
-            const min = Math.floor(this.currentTime / 60);
-            const seg = Math.floor(this.currentTime % 60);
-            tempo.textContent = min + ':' + (seg < 10 ? '0' : '') + seg;
+    function salvarDados() {
+        localStorage.setItem('trilhaPolicial', JSON.stringify(dados));
+        localStorage.setItem('trilhaHistorico', JSON.stringify(historico));
+        atualizarDashboard();
+        renderizarCiclo();
+    }
+
+    function atualizarDashboard() {
+        const total = dados.acertos + dados.erros;
+        const aproveitamento = total > 0 ? Math.round((dados.acertos / total) * 100) : 0;
+        document.getElementById('acertos').textContent = dados.acertos;
+        document.getElementById('erros').textContent = dados.erros;
+        document.getElementById('aproveitamento').textContent = aproveitamento + '%';
+        document.getElementById('materias').textContent = dados.materiasConcluidas;
+        document.getElementById('historicoAcertos').textContent = historico.totalAcertos;
+        document.getElementById('historicoErros').textContent = historico.totalErros;
+        document.getElementById('historicoTotal').textContent = historico.totalAcertos + historico.totalErros;
+    }
+
+    function renderizarCiclo() {
+        const container = document.getElementById('cicloLista');
+        const concluidas = dados.materiasConcluidas;
+        let html = '';
+        CICLO_MATERIAS.forEach((nome, index) => {
+            const ordem = index + 1;
+            let classe = 'ciclo-item a-estudar';
+            let statusTexto = '🔵 A estudar';
+            if (index < concluidas) {
+                classe = 'ciclo-item concluida';
+                statusTexto = '✅ Concluída';
+            } else if (index === concluidas) {
+                classe = 'ciclo-item proxima';
+                statusTexto = '🟡 Próxima';
+            }
+            html += `
+                <div class="${classe}">
+                    <span class="ordem">${ordem}.</span>
+                    <span class="nome">${nome}</span>
+                    <span class="status-badge">${statusTexto}</span>
+                </div>
+            `;
         });
-        audio.addEventListener('ended', tocarProxima);
-        window.addEventListener('load', ()=>carregarMusica(0));
+        container.innerHTML = html;
+        const btn = document.getElementById('btnAvancar');
+        if (concluidas >= CICLO_MATERIAS.length) {
+            btn.disabled = true;
+            btn.textContent = '🏁 Ciclo completo!';
+        } else {
+            btn.disabled = false;
+            btn.textContent = `✅ Concluir "${CICLO_MATERIAS[concluidas]}"`;
+        }
+    }
+
+    window.concluirProxima = function() {
+        if (dados.materiasConcluidas < CICLO_MATERIAS.length) {
+            dados.materiasConcluidas++;
+            salvarDados();
+            const btn = document.getElementById('btnAvancar');
+            btn.textContent = '✔️ Concluído!';
+            setTimeout(() => renderizarCiclo(), 300);
+        }
+    };
+
+    window.zerarDesempenho = function() {
+        if (confirm('Zerar desempenho atual? Histórico será mantido.')) {
+            dados.acertos = 0;
+            dados.erros = 0;
+            dados.questoesRespondidas = [];
+            salvarDados();
+            alert('Desempenho zerado!');
+        }
+    };
+
+    window.registrarQuestao = function(acertou, materia, modulo, aula, questaoId) {
+        if (acertou) {
+            dados.acertos++;
+            historico.totalAcertos++;
+        } else {
+            dados.erros++;
+            historico.totalErros++;
+        }
+        if (questaoId) {
+            dados.questoesRespondidas.push({
+                materia, modulo, aula, questaoId,
+                acertou: acertou,
+                data: new Date().toISOString()
+            });
+        }
+        salvarDados();
+    };
+
+    window.exibirHistorico = function() {
+        return {
+            totalAcertos: historico.totalAcertos,
+            totalErros: historico.totalErros,
+            totalQuestoes: historico.totalAcertos + historico.totalErros,
+            sessao: historico.sessao
+        };
+    };
+
+    document.addEventListener('DOMContentLoaded', function() {
+        atualizarDashboard();
+        renderizarCiclo();
+    });
     </script>
 </body>
 </html>
