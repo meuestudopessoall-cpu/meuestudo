@@ -21,6 +21,11 @@
         .btn-futuro-aprovado { background: #f9a825; color: #0b2b4a; padding: 8px 18px; border-radius: 30px; font-weight: 700; text-decoration: none; font-size: 15px; transition: 0.2s; display: inline-block; border: 2px solid #f9a825; }
         .btn-futuro-aprovado:hover { background: #fbc02d; transform: scale(1.05); box-shadow: 0 4px 12px rgba(249,168,37,0.4); }
 
+        .progresso-container { background: #e8f0fe; border-radius: 12px; padding: 16px 20px; margin: 20px 0; border: 1px solid #d2e3fc; }
+        .progresso-bar { width: 100%; height: 20px; background: #fff; border-radius: 30px; overflow: hidden; border: 1px solid #ccc; margin: 8px 0; }
+        .progresso-bar-inner { height: 100%; background: #1a73e8; width: 0%; transition: width 0.6s ease; border-radius: 30px; }
+        .progresso-texto { font-size: 14px; font-weight: 600; color: #0b2b4a; }
+
         .ciclo-container { background: #f8faff; border-radius: 12px; padding: 20px; margin: 20px 0; border: 1px solid #e2e8f0; }
         .ciclo-container h2 { font-size: 18px; color: #0b2b4a; margin-bottom: 12px; }
         .ciclo-lista { display: flex; flex-direction: column; gap: 6px; }
@@ -28,14 +33,19 @@
         .ciclo-item .ordem { font-weight: 700; color: #1a73e8; width: 30px; }
         .ciclo-item .nome { flex: 1; font-weight: 500; }
         .ciclo-item .status-badge { font-size: 12px; padding: 2px 12px; border-radius: 20px; background: #e8f0fe; color: #1a73e8; }
+        .ciclo-item .link-questoes { font-size: 13px; background: #1a73e8; color: #fff; padding: 2px 12px; border-radius: 20px; text-decoration: none; margin-left: 10px; transition: 0.2s; }
+        .ciclo-item .link-questoes:hover { background: #0d47a1; }
         .ciclo-item.concluida { border-left-color: #2e7d32; background: #e6f7e6; }
         .ciclo-item.concluida .status-badge { background: #2e7d32; color: #fff; }
+        .ciclo-item.concluida .link-questoes { background: #2e7d32; }
         .ciclo-item.proxima { border-left-color: #f9a825; background: #fff8e1; }
         .ciclo-item.proxima .status-badge { background: #f9a825; color: #0b2b4a; font-weight: 700; }
         .ciclo-item.a-estudar { border-left-color: #ccc; }
         .btn-avancar { background: #1a73e8; color: #fff; border: none; padding: 8px 20px; border-radius: 30px; font-weight: 600; cursor: pointer; margin-top: 10px; transition: 0.2s; }
         .btn-avancar:hover { background: #0d47a1; transform: scale(1.02); }
         .btn-avancar:disabled { background: #ccc; cursor: not-allowed; transform: none; }
+        .btn-resetar { background: #e53935; color: #fff; border: none; padding: 8px 20px; border-radius: 30px; font-weight: 600; cursor: pointer; margin-top: 10px; transition: 0.2s; }
+        .btn-resetar:hover { background: #c62828; transform: scale(1.02); }
 
         .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin: 20px 0; }
         .card { background: #f8faff; border-radius: 12px; padding: 18px; border: 1px solid #e2e8f0; text-align: center; }
@@ -54,24 +64,41 @@
         <div class="status">
             <p><strong>✅ Bem-vindo de volta, futuro aprovado!</strong></p>
             <p>Seu progresso é salvo automaticamente no navegador.</p>
-            <p style="font-size:14px; color:#2c3e50;">📌 Acompanhe seu ciclo de estudos abaixo.</p>
+            <p style="font-size:14px; color:#2c3e50;">📌 Acompanhe seu ciclo de estudos abaixo e marque cada matéria como concluída após estudar.</p>
         </div>
 
-        <!-- MENU COM LINK PARA ESTUDO -->
+        <!-- MENU COM LINK CORRIGIDO PARA ESTUDAR -->
         <div class="menu">
             <a href="index.html" class="btn-futuro-aprovado">🏆 futuro aprovado</a>
-            <a href="estudo.html/estudo.html" class="secundario">📖 Estudar</a>
+            <a href="estudo.html" class="secundario">📖 Estudar</a>
             <a href="resumos.html" class="secundario">📚 Resumos</a>
             <a href="questoes.html" class="secundario">📝 Questões</a>
             <a href="quiz.html" class="secundario">🧠 Quiz</a>
+        </div>
+
+        <!-- PROGRESSO -->
+        <div class="progresso-container">
+            <div class="progresso-texto">
+                📊 Progresso: <span id="progressoPorcentagem">0%</span> 
+                (<span id="concluidasCount">0</span> de <span id="totalMaterias">12</span> matérias)
+            </div>
+            <div class="progresso-bar">
+                <div class="progresso-bar-inner" id="progressoBar" style="width:0%;"></div>
+            </div>
         </div>
 
         <!-- CICLO -->
         <div class="ciclo-container">
             <h2>📚 Ciclo de Estudos — Ordem das Matérias</h2>
             <div class="ciclo-lista" id="cicloLista"></div>
-            <button class="btn-avancar" id="btnAvancar" onclick="concluirProxima()">✅ Concluir próxima matéria</button>
-            <p style="font-size:13px; color:#666; margin-top:8px;">* Clique no botão acima quando terminar de estudar a matéria atual.</p>
+            <div style="display:flex; gap:12px; margin-top:12px; flex-wrap:wrap;">
+                <button class="btn-avancar" id="btnAvancar" onclick="concluirProxima()">✅ Concluir próxima matéria</button>
+                <button class="btn-resetar" onclick="resetarCiclo()">🔄 Resetar ciclo</button>
+            </div>
+            <p style="font-size:13px; color:#666; margin-top:8px;">
+                * Clique em "Concluir próxima matéria" após estudar a matéria atual.<br>
+                * Use o link "📝 Praticar" para acessar as questões da matéria.
+            </p>
         </div>
 
         <!-- DESEMPENHO -->
@@ -98,8 +125,10 @@
         </div>
     </div>
 
-    <!-- SCRIPTS -->
     <script>
+    // ============================================================
+    // CICLO DE ESTUDOS
+    // ============================================================
     const CICLO_MATERIAS = [
         "Língua Portuguesa",
         "Direito Constitucional",
@@ -115,6 +144,24 @@
         "LC 840/2011"
     ];
 
+    const MATERIA_SIGLAS = {
+        "Língua Portuguesa": "lingua-portuguesa",
+        "Direito Constitucional": "direito-constitucional",
+        "Direito Administrativo": "direito-administrativo",
+        "Direito Penal": "direito-penal",
+        "Direito Processual Penal": "direito-processual-penal",
+        "Legislação Penal Especial": "legislacao-penal-especial",
+        "Direitos Humanos": "direitos-humanos",
+        "Raciocínio Lógico-Matemático": "raciocinio-logico",
+        "Informática": "informatica",
+        "Lei Orgânica do DF (LODF)": "lodf",
+        "RIDE": "ride",
+        "LC 840/2011": "lc-840"
+    };
+
+    // ============================================================
+    // DADOS DO LOCALSTORAGE
+    // ============================================================
     let dados = JSON.parse(localStorage.getItem('trilhaPolicial')) || {
         acertos: 0,
         erros: 0,
@@ -128,11 +175,15 @@
         sessao: 0
     };
 
+    // ============================================================
+    // FUNÇÕES
+    // ============================================================
     function salvarDados() {
         localStorage.setItem('trilhaPolicial', JSON.stringify(dados));
         localStorage.setItem('trilhaHistorico', JSON.stringify(historico));
         atualizarDashboard();
         renderizarCiclo();
+        atualizarProgresso();
     }
 
     function atualizarDashboard() {
@@ -147,12 +198,23 @@
         document.getElementById('historicoTotal').textContent = historico.totalAcertos + historico.totalErros;
     }
 
+    function atualizarProgresso() {
+        const total = CICLO_MATERIAS.length;
+        const concluidas = dados.materiasConcluidas;
+        const porcentagem = Math.round((concluidas / total) * 100);
+        document.getElementById('progressoPorcentagem').textContent = porcentagem + '%';
+        document.getElementById('concluidasCount').textContent = concluidas;
+        document.getElementById('totalMaterias').textContent = total;
+        document.getElementById('progressoBar').style.width = porcentagem + '%';
+    }
+
     function renderizarCiclo() {
         const container = document.getElementById('cicloLista');
         const concluidas = dados.materiasConcluidas;
         let html = '';
         CICLO_MATERIAS.forEach((nome, index) => {
             const ordem = index + 1;
+            const sigla = MATERIA_SIGLAS[nome];
             let classe = 'ciclo-item a-estudar';
             let statusTexto = '🔵 A estudar';
             if (index < concluidas) {
@@ -162,15 +224,18 @@
                 classe = 'ciclo-item proxima';
                 statusTexto = '🟡 Próxima';
             }
+            const linkQuestoes = sigla ? `questoes.html?materia=${sigla}&modulo=modulo-1&aula=aula-1` : '#';
             html += `
                 <div class="${classe}">
                     <span class="ordem">${ordem}.</span>
                     <span class="nome">${nome}</span>
                     <span class="status-badge">${statusTexto}</span>
+                    <a href="${linkQuestoes}" class="link-questoes" target="_blank">📝 Praticar</a>
                 </div>
             `;
         });
         container.innerHTML = html;
+
         const btn = document.getElementById('btnAvancar');
         if (concluidas >= CICLO_MATERIAS.length) {
             btn.disabled = true;
@@ -179,6 +244,7 @@
             btn.disabled = false;
             btn.textContent = `✅ Concluir "${CICLO_MATERIAS[concluidas]}"`;
         }
+        atualizarProgresso();
     }
 
     window.concluirProxima = function() {
@@ -188,6 +254,14 @@
             const btn = document.getElementById('btnAvancar');
             btn.textContent = '✔️ Concluído!';
             setTimeout(() => renderizarCiclo(), 300);
+        }
+    };
+
+    window.resetarCiclo = function() {
+        if (confirm('Resetar todo o ciclo de estudos? Isso não afeta seu desempenho em questões.')) {
+            dados.materiasConcluidas = 0;
+            salvarDados();
+            alert('Ciclo resetado!');
         }
     };
 
@@ -228,9 +302,13 @@
         };
     };
 
+    // ============================================================
+    // INICIALIZAÇÃO
+    // ============================================================
     document.addEventListener('DOMContentLoaded', function() {
         atualizarDashboard();
         renderizarCiclo();
+        atualizarProgresso();
     });
     </script>
 </body>
