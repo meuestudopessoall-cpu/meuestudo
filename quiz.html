@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quiz — Trilha Policial 2026</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+        .quiz-pergunta {
+            background: #f8faff;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .quiz-pergunta p {
+            font-weight: 600;
+            font-size: 18px;
+        }
+        .quiz-opcoes {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin: 12px 0;
+        }
+        .quiz-opcoes button {
+            background: #e8f0fe;
+            border: 2px solid transparent;
+            padding: 10px 18px;
+            border-radius: 30px;
+            text-align: left;
+            cursor: pointer;
+            font-size: 15px;
+            transition: 0.2s;
+        }
+        .quiz-opcoes button:hover {
+            background: #d2e3fc;
+        }
+        .quiz-opcoes button.selecionado {
+            border-color: #1a73e8;
+            background: #1a73e8;
+            color: white;
+        }
+        .quiz-opcoes button.correto {
+            border-color: #2e7d32;
+            background: #e6f7e6;
+        }
+        .quiz-opcoes button.errado {
+            border-color: #c62828;
+            background: #fde8e8;
+        }
+        .quiz-feedback {
+            margin-top: 12px;
+            padding: 12px;
+            border-radius: 8px;
+            display: none;
+        }
+        .quiz-feedback.correto {
+            display: block;
+            background: #e6f7e6;
+            border-left: 6px solid #2e7d32;
+        }
+        .quiz-feedback.errado {
+            display: block;
+            background: #fde8e8;
+            border-left: 6px solid #c62828;
+        }
+        .quiz-feedback .explicacao {
+            margin-top: 6px;
+        }
+        .botao-proximo {
+            background: #1a73e8;
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 30px;
+            font-weight: 700;
+            cursor: pointer;
+            margin: 10px 0;
+        }
+        .botao-proximo:hover {
+            background: #0d47a1;
+        }
+        .voltar {
+            display: inline-block;
+            margin: 20px 0;
+            background: #e8f0fe;
+            color: #1a73e8;
+            padding: 10px 20px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .voltar:hover {
+            background: #d2e3fc;
+        }
+        .pontuacao {
+            background: #e8f0fe;
+            padding: 12px 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+        .pontuacao span {
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧠 Quiz — Perguntas e Respostas</h1>
+        <a href="index.html" class="voltar">← Voltar ao início</a>
+
+        <div class="filtro" style="display:flex; gap:10px; flex-wrap:wrap; margin:20px 0;">
+            <select id="filtroMateriaQuiz">
+                <option value="direito-constitucional">Direito Constitucional</option>
+            </select>
+            <select id="filtroModuloQuiz">
+                <option value="modulo-1">Módulo 1 — Teoria da Constituição</option>
+                <option value="modulo-2">Módulo 2 — Poder Constituinte</option>
+            </select>
+            <select id="filtroAulaQuiz">
+                <option value="aula-1">Aula 1</option>
+                <option value="aula-2">Aula 2</option>
+            </select>
+            <button onclick="iniciarQuiz()">▶ Iniciar Quiz</button>
+        </div>
+
+        <div id="painelQuiz"></div>
+
+        <div class="footer">
+            🎯 Preparação para PCDF · PMDF · PF · PRF · PCGO · PMGO
+        </div>
+    </div>
+
+    <script src="dados.js"></script>
+    <script>
+        let perguntasQuiz = [];
+        let perguntaAtual = 0;
+        let pontuacao = 0;
+        let quizRespondido = false;
+
+        function iniciarQuiz() {
+            const materia = document.getElementById('filtroMateriaQuiz').value;
+            const modulo = document.getElementById('filtroModuloQuiz').value;
+            const aula = document.getElementById('filtroAulaQuiz').value;
+
+            const dadosMateria = DADOS.materias[materia];
+            if (!dadosMateria) {
+                document.getElementById('painelQuiz').innerHTML = '<p style="color:red;">Matéria não encontrada.</p>';
+                return;
+            }
+
+            const dadosModulo = dadosMateria.modulos[modulo];
+            if (!dadosModulo) {
+                document.getElementById('painelQuiz').innerHTML = '<p style="color:red;">Módulo não encontrado.</p>';
+                return;
+            }
+
+            const dadosAula = dadosModulo.aulas[aula];
+            if (!dadosAula) {
+                document.getElementById('painelQuiz').innerHTML = '<p style="color:red;">Aula não encontrada.</p>';
+                return;
+            }
+
+            // Pega as questões da aula e transforma em perguntas de múltipla escolha
+            const questoes = dadosAula.questoes || [];
+            if (questoes.length === 0) {
+                document.getElementById('painelQuiz').innerHTML = '<p>Nenhuma questão disponível para esta aula.</p>';
+                return;
+            }
+
+            // Gera perguntas no formato quiz
+            perguntasQuiz = questoes.map(q => {
+                const correta = q.resposta === 'C' ? 'CERTO' : 'ERRADO';
+                const opcoes = ['CERTO', 'ERRADO'];
+                // Embaralha as opções para não ficar sempre na mesma ordem
+                const opcoesEmbaralhadas = ['CERTO', 'ERRADO'];
+                return {
+                    pergunta: q.enunciado,
+                    opcoes: opcoesEmbaralhadas,
+                    correta: correta,
+                    comentario: q.comentario || '',
+                    pegadinha: q.pegadinha || ''
+                };
+            });
+
+            perguntaAtual = 0;
+            pontuacao = 0;
+            quizRespondido = false;
+            renderizarPergunta();
+        }
+
+        function renderizarPergunta() {
+            const container = document.getElementById('painelQuiz');
+            if (perguntaAtual >= perguntasQuiz.length) {
+                // Fim do quiz
+                container.innerHTML = `
+                    <div style="background: #e8f0fe; padding:20px; border-radius:12px; text-align:center;">
+                        <h2>🏁 Quiz finalizado!</h2>
+                        <p style="font-size:24px; font-weight:700;">Você acertou ${pontuacao} de ${perguntasQuiz.length}</p>
+                        <p style="font-size:18px;">Aproveitamento: ${Math.round((pontuacao/perguntasQuiz.length)*100)}%</p>
+                        <button onclick="iniciarQuiz()" style="margin-top:12px; background:#1a73e8; color:white; border:none; padding:10px 24px; border-radius:30px; font-weight:700; cursor:pointer;">🔁 Tentar novamente</button>
+                    </div>
+                `;
+                return;
+            }
+
+            const p = perguntasQuiz[perguntaAtual];
+            let html = `
+                <div class="quiz-pergunta">
+                    <p>Pergunta ${perguntaAtual+1} de ${perguntasQuiz.length}</p>
+                    <p style="font-weight:400; font-size:16px;">${p.pergunta}</p>
+                    <div class="quiz-opcoes" id="opcoes-${perguntaAtual}">
+            `;
+
+            p.opcoes.forEach((opcao) => {
+                html += `<button onclick="responderQuiz(${perguntaAtual}, '${opcao}')" id="btn-${perguntaAtual}-${opcao}">${opcao}</button>`;
+            });
+
+            html += `
+                    </div>
+                    <div class="quiz-feedback" id="feedback-${perguntaAtual}"></div>
+                    <button class="botao-proximo" id="proximo-${perguntaAtual}" style="display:none;" onclick="proximaPergunta()">Próxima →</button>
+                </div>
+            `;
+
+            container.innerHTML = html;
+            quizRespondido = false;
+        }
+
+        function responderQuiz(index, opcao) {
+            if (quizRespondido) return;
+            const p = perguntasQuiz[index];
+            const correta = p.correta;
+            const feedback = document.getElementById(`feedback-${index}`);
+            const botoes = document.querySelectorAll(`#opcoes-${index} button`);
+
+            // Desabilita todos os botões
+            botoes.forEach(btn => btn.style.pointerEvents = 'none');
+
+            // Marca a selecionada
+            botoes.forEach(btn => {
+                if (btn.textContent === opcao) {
+                    if (opcao === correta) {
+                        btn.classList.add('correto');
+                    } else {
+                        btn.classList.add('errado');
+                    }
+                }
+                // Marca a correta
+                if (btn.textContent === correta && opcao !== correta) {
+                    btn.classList.add('correto');
+                }
+            });
+
+            // Feedback
+            const acertou = (opcao === correta);
+            if (acertou) {
+                pontuacao++;
+                feedback.className = 'quiz-feedback correto';
+                feedback.innerHTML = `
+                    <strong>✅ Correto!</strong>
+                    <div class="explicacao">${p.comentario}</div>
+                    ${p.pegadinha ? `<div style="color:#c62828; font-weight:600; margin-top:4px;">⚠️ Pegadinha: ${p.pegadinha}</div>` : ''}
+                `;
+            } else {
+                feedback.className = 'quiz-feedback errado';
+                feedback.innerHTML = `
+                    <strong>❌ Errado. A resposta correta é: ${correta}</strong>
+                    <div class="explicacao">${p.comentario}</div>
+                    ${p.pegadinha ? `<div style="color:#c62828; font-weight:600; margin-top:4px;">⚠️ Pegadinha: ${p.pegadinha}</div>` : ''}
+                `;
+            }
+
+            quizRespondido = true;
+            document.getElementById(`proximo-${index}`).style.display = 'inline-block';
+        }
+
+        function proximaPergunta() {
+            perguntaAtual++;
+            renderizarPergunta();
+        }
+
+        // Carrega automaticamente ao abrir
+        window.onload = function() {
+            iniciarQuiz();
+        };
+    </script>
+</body>
+</html>
