@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Questões — Trilha Policial 2026</title>
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="style.css">
     <style>
         body { font-family: 'Segoe UI', Tahoma, sans-serif; background: #f4f7fc; padding: 20px; }
-        .container { max-width: 1000px; margin: 0 auto; background: #fff; border-radius: 16px; padding: 30px; box-shadow: 0 8px 20px rgba(0,0,0,0.05); }
+        .container { max-width: 1100px; margin: 0 auto; background: #fff; border-radius: 16px; padding: 30px; box-shadow: 0 8px 20px rgba(0,0,0,0.05); }
         h1 { color: #0b2b4a; border-bottom: 4px solid #1a73e8; padding-bottom: 12px; }
         .voltar { display: inline-block; margin: 20px 0; background: #e8f0fe; color: #1a73e8; padding: 10px 20px; border-radius: 30px; text-decoration: none; font-weight: 600; }
         .voltar:hover { background: #d2e3fc; }
         .filtro { display: flex; flex-wrap: wrap; gap: 10px; margin: 20px 0; }
-        .filtro select, .filtro button { padding: 8px 16px; border-radius: 8px; border: 1px solid #ccc; font-size: 14px; }
-        .filtro button { background: #1a73e8; color: #fff; border: none; cursor: pointer; }
+        .filtro select, .filtro button { padding: 8px 16px; border-radius: 8px; border: 1px solid #ccc; font-size: 14px; background: #fff; }
+        .filtro button { background: #1a73e8; color: #fff; border: none; cursor: pointer; font-weight: 600; transition: 0.2s; }
         .filtro button:hover { background: #0d47a1; }
         .questao { background: #f8faff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 18px; margin: 16px 0; }
         .opcoes { display: flex; gap: 16px; margin: 10px 0; }
@@ -29,7 +29,6 @@
         .botao-corrigir { background: #1a73e8; color: #fff; border: none; padding: 12px 30px; border-radius: 30px; font-weight: 700; cursor: pointer; margin: 20px 0; }
         .botao-corrigir:hover { background: #0d47a1; }
         .resumo-desempenho { background: #e8f0fe; padding: 12px 20px; border-radius: 8px; margin: 20px 0; display: flex; gap: 30px; flex-wrap: wrap; }
-        .resumo-desempenho span { font-weight: 700; }
         .footer { margin-top: 30px; text-align: center; color: #7a8a9e; border-top: 1px solid #e2e8f0; padding-top: 20px; }
     </style>
 </head>
@@ -58,8 +57,6 @@
             <option value="modulo-1">Módulo 1</option>
             <option value="modulo-2">Módulo 2</option>
             <option value="modulo-3">Módulo 3</option>
-            <option value="modulo-4">Módulo 4</option>
-            <option value="modulo-5">Módulo 5</option>
         </select>
         <select id="filtroAula">
             <option value="aula-1">Aula 1</option>
@@ -73,337 +70,215 @@
 
 <script>
 // ============================================================
-// DADOS EMBUTIDOS — TODAS AS 13 MATÉRIAS (com questões)
+// DADOS EMBUTIDOS — TODAS AS 13 MATÉRIAS (questões completas)
 // ============================================================
 const DADOS = {
-  materias: {
     "lingua-portuguesa": {
-      nome: "Língua Portuguesa",
-      modulos: {
-        "modulo-1": {
-          nome: "Interpretação de Textos",
-          aulas: {
-            "aula-1": {
-              nome: "Compreensão e Interpretação",
-              questoes: [
-                {id:1,enunciado:"Compreensão limita-se ao explícito.",resposta:"C",comentario:"CERTO."},
-                {id:2,enunciado:"Interpretação exige inferência.",resposta:"C",comentario:"CERTO."},
-                {id:3,enunciado:"Dissertativo tem sequência cronológica.",resposta:"E",comentario:"ERRADO."},
-                {id:4,enunciado:"'Portanto' indica conclusão.",resposta:"C",comentario:"CERTO."},
-                {id:5,enunciado:"Inferir é deduzir implícitos.",resposta:"C",comentario:"CERTO."}
-              ]
+        nome: "Língua Portuguesa",
+        modulos: {
+            "modulo-1": {
+                aulas: {
+                    "aula-1": {
+                        questoes: [
+                            {id:1,enunciado:"Compreensão limita-se ao explícito.",resposta:"C",comentario:"CERTO."},
+                            {id:2,enunciado:"Interpretação exige inferência.",resposta:"C",comentario:"CERTO."},
+                            {id:3,enunciado:"Dissertativo tem sequência cronológica.",resposta:"E",comentario:"ERRADO."},
+                            {id:4,enunciado:"'Portanto' indica conclusão.",resposta:"C",comentario:"CERTO."},
+                            {id:5,enunciado:"Inferir é deduzir implícitos.",resposta:"C",comentario:"CERTO."},
+                            {id:6,enunciado:"Injuntivo convence o leitor.",resposta:"E",comentario:"ERRADO."},
+                            {id:7,enunciado:"'Sugere' indica interpretação.",resposta:"C",comentario:"CERTO."},
+                            {id:8,enunciado:"Coesão é conexão textual.",resposta:"C",comentario:"CERTO."},
+                            {id:9,enunciado:"Coerência é sentido lógico.",resposta:"C",comentario:"CERTO."},
+                            {id:10,enunciado:"Pressuposto é necessário ao sentido.",resposta:"C",comentario:"CERTO."},
+                            {id:11,enunciado:"'Embora' indica conclusão.",resposta:"E",comentario:"ERRADO."},
+                            {id:12,enunciado:"Narração: apresentação, complicação, clímax, desfecho.",resposta:"C",comentario:"CERTO."},
+                            {id:13,enunciado:"Descrição objetiva expressa sentimentos.",resposta:"E",comentario:"ERRADO."},
+                            {id:14,enunciado:"Tese é opinião do autor.",resposta:"C",comentario:"CERTO."},
+                            {id:15,enunciado:"Leitura dinâmica é com pausas.",resposta:"E",comentario:"ERRADO."}
+                        ]
+                    }
+                }
             }
-          }
-        },
-        "modulo-2": {
-          nome: "Redação Oficial",
-          aulas: {
-            "aula-1": {
-              nome: "Características",
-              questoes: [
-                {id:1,enunciado:"Redação oficial deve ser impessoal.",resposta:"C",comentario:"CERTO."},
-                {id:2,enunciado:"Admite gírias.",resposta:"E",comentario:"ERRADO."},
-                {id:3,enunciado:"Clareza exige frases curtas.",resposta:"C",comentario:"CERTO."},
-                {id:4,enunciado:"Concisão é direta ao ponto.",resposta:"C",comentario:"CERTO."},
-                {id:5,enunciado:"Admite coloquialismos.",resposta:"E",comentario:"ERRADO."}
-              ]
-            }
-          }
-        },
-        "modulo-3": {
-          nome: "Fonologia e Ortografia",
-          aulas: {
-            "aula-1": {
-              nome: "Acentuação Gráfica",
-              questoes: [
-                {id:1,enunciado:"Proparoxítonas são todas acentuadas.",resposta:"C",comentario:"CERTO."},
-                {id:2,enunciado:"Oxítonas terminadas em 'a' são acentuadas.",resposta:"C",comentario:"CERTO."},
-                {id:3,enunciado:"Paroxítonas terminadas em 'r' não são acentuadas.",resposta:"E",comentario:"ERRADO."},
-                {id:4,enunciado:"Novo Acordo eliminou o trema.",resposta:"C",comentario:"CERTO."},
-                {id:5,enunciado:"Ditongo é vogal+semivogal.",resposta:"C",comentario:"CERTO."}
-              ]
-            }
-          }
         }
-      }
     },
     "direito-constitucional": {
-      nome: "Direito Constitucional",
-      modulos: {
-        "modulo-1": {
-          nome: "Teoria da Constituição",
-          aulas: {
-            "aula-1": {
-              nome: "Conceito, Sentidos e Classificações",
-              questoes: [
-                {id:1,enunciado:"Lassalle: CF sem correspondência real é 'folha de papel'.",resposta:"C",comentario:"CERTO."},
-                {id:2,enunciado:"CF/88 é outorgada.",resposta:"E",comentario:"ERRADO. Promulgada."},
-                {id:3,enunciado:"CF/88 é semi-rígida.",resposta:"E",comentario:"ERRADO. Totalmente rígida."},
-                {id:4,enunciado:"Kelsen: CF é fundamento de validade.",resposta:"C",comentario:"CERTO."},
-                {id:5,enunciado:"Schmitt: CF é decisão política fundamental.",resposta:"C",comentario:"CERTO."}
-              ]
+        nome: "Direito Constitucional",
+        modulos: {
+            "modulo-1": {
+                aulas: {
+                    "aula-1": {
+                        questoes: [
+                            {id:1,enunciado:"Lassalle: CF sem correspondência real é 'folha de papel'.",resposta:"C",comentario:"CERTO."},
+                            {id:2,enunciado:"CF/88 é outorgada.",resposta:"E",comentario:"ERRADO."},
+                            {id:3,enunciado:"CF/88 é semi-rígida.",resposta:"E",comentario:"ERRADO."},
+                            {id:4,enunciado:"Kelsen: CF é fundamento de validade.",resposta:"C",comentario:"CERTO."},
+                            {id:5,enunciado:"Schmitt: CF é decisão política fundamental.",resposta:"C",comentario:"CERTO."},
+                            {id:6,enunciado:"CF/88 é analítica.",resposta:"C",comentario:"CERTO."},
+                            {id:7,enunciado:"CF/88 é dogmática.",resposta:"C",comentario:"CERTO."},
+                            {id:8,enunciado:"CF/88 é escrita.",resposta:"C",comentario:"CERTO."},
+                            {id:9,enunciado:"CF/88 é formal e material.",resposta:"C",comentario:"CERTO."},
+                            {id:10,enunciado:"Sentido sociológico: fatores reais de poder.",resposta:"C",comentario:"CERTO."},
+                            {id:11,enunciado:"Sentido político: decisão política.",resposta:"C",comentario:"CERTO."},
+                            {id:12,enunciado:"Sentido jurídico: norma pura.",resposta:"C",comentario:"CERTO."},
+                            {id:13,enunciado:"CF/88 é flexível.",resposta:"E",comentario:"ERRADO."},
+                            {id:14,enunciado:"CF/88 foi outorgada por D. Pedro I.",resposta:"E",comentario:"ERRADO."},
+                            {id:15,enunciado:"CF/88 é a primeira promulgada do Brasil.",resposta:"E",comentario:"ERRADO."}
+                        ]
+                    }
+                }
+            },
+            "modulo-2": {
+                aulas: {
+                    "aula-1": {
+                        questoes: [
+                            {id:1,enunciado:"PCO é incondicionado.",resposta:"C",comentario:"CERTO."},
+                            {id:2,enunciado:"Povo pode propor PEC.",resposta:"E",comentario:"ERRADO."},
+                            {id:3,enunciado:"Cláusulas pétreas são inabolíveis.",resposta:"C",comentario:"CERTO."},
+                            {id:4,enunciado:"DF exerce poder decorrente.",resposta:"E",comentario:"ERRADO."},
+                            {id:5,enunciado:"EC exige 3/5 em dois turnos.",resposta:"C",comentario:"CERTO."},
+                            {id:6,enunciado:"Poder reformador é derivado.",resposta:"C",comentario:"CERTO."},
+                            {id:7,enunciado:"Poder decorrente é dos Estados.",resposta:"C",comentario:"CERTO."},
+                            {id:8,enunciado:"Poder difuso é dos municípios.",resposta:"C",comentario:"CERTO."},
+                            {id:9,enunciado:"Poder revisor já foi exercido.",resposta:"C",comentario:"CERTO."},
+                            {id:10,enunciado:"Limites circunstanciais: intervenção, estado de defesa, sítio.",resposta:"C",comentario:"CERTO."},
+                            {id:11,enunciado:"Limites formais: procedimento do art. 60.",resposta:"C",comentario:"CERTO."},
+                            {id:12,enunciado:"Cláusulas pétreas: forma federativa, voto, separação, direitos individuais.",resposta:"C",comentario:"CERTO."},
+                            {id:13,enunciado:"Voto secreto é cláusula pétrea.",resposta:"C",comentario:"CERTO."},
+                            {id:14,enunciado:"Direitos sociais são cláusulas pétreas expressas.",resposta:"E",comentario:"ERRADO."},
+                            {id:15,enunciado:"Presidente pode propor PEC.",resposta:"C",comentario:"CERTO."}
+                        ]
+                    }
+                }
             }
-          }
-        },
-        "modulo-2": {
-          nome: "Poder Constituinte",
-          aulas: {
-            "aula-1": {
-              nome: "Originário e Derivado",
-              questoes: [
-                {id:1,enunciado:"PCO é incondicionado.",resposta:"C",comentario:"CERTO."},
-                {id:2,enunciado:"Povo pode propor PEC.",resposta:"E",comentario:"ERRADO."},
-                {id:3,enunciado:"Cláusulas pétreas são inabolíveis.",resposta:"C",comentario:"CERTO."},
-                {id:4,enunciado:"DF exerce poder decorrente.",resposta:"E",comentario:"ERRADO."},
-                {id:5,enunciado:"EC exige 3/5 em dois turnos.",resposta:"C",comentario:"CERTO."}
-              ]
-            }
-          }
-        },
-        "modulo-3": {
-          nome: "Princípios Fundamentais",
-          aulas: {
-            "aula-1": {
-              nome: "Arts. 1º a 4º",
-              questoes: [
-                {id:1,enunciado:"Dignidade humana é fundamento.",resposta:"C",comentario:"CERTO."},
-                {id:2,enunciado:"Erradicar pobreza é fundamento.",resposta:"E",comentario:"ERRADO. É objetivo."},
-                {id:3,enunciado:"Soberania é princípio internacional.",resposta:"C",comentario:"CERTO."},
-                {id:4,enunciado:"Não intervenção é princípio internacional.",resposta:"C",comentario:"CERTO."},
-                {id:5,enunciado:"Defesa da paz é objetivo interno.",resposta:"E",comentario:"ERRADO."}
-              ]
-            }
-          }
-        },
-        "modulo-4": {
-          nome: "Direitos Fundamentais (Art. 5º)",
-          aulas: {
-            "aula-1": {
-              nome: "Direitos Individuais e Coletivos",
-              questoes: [
-                {id:1,enunciado:"Art. 5º trata dos direitos fundamentais.",resposta:"C",comentario:"CERTO."},
-                {id:2,enunciado:"Direito à vida está no art. 5º.",resposta:"C",comentario:"CERTO."},
-                {id:3,enunciado:"Igualdade está no caput do art. 5º.",resposta:"C",comentario:"CERTO."},
-                {id:4,enunciado:"Habeas corpus é garantia.",resposta:"C",comentario:"CERTO."},
-                {id:5,enunciado:"Mandado de segurança é garantia.",resposta:"C",comentario:"CERTO."}
-              ]
-            }
-          }
-        },
-        "modulo-5": {
-          nome: "Organização do Estado",
-          aulas: {
-            "aula-1": {
-              nome: "Arts. 18 a 36 — Federação",
-              questoes: [
-                {id:1,enunciado:"Forma federativa é cláusula pétrea.",resposta:"C",comentario:"CERTO."},
-                {id:2,enunciado:"DF é estado-membro.",resposta:"E",comentario:"ERRADO."},
-                {id:3,enunciado:"Intervenção federal é excepcional.",resposta:"C",comentario:"CERTO."},
-                {id:4,enunciado:"Municípios são entes autônomos.",resposta:"C",comentario:"CERTO."},
-                {id:5,enunciado:"Competência residual é da União.",resposta:"E",comentario:"ERRADO."}
-              ]
-            }
-          }
         }
-      }
     },
     "direito-administrativo": {
-      nome: "Direito Administrativo",
-      modulos: {
-        "modulo-1": {
-          nome: "Princípios e Atos",
-          aulas: {
-            "aula-1": {
-              nome: "LIMPE e Requisitos",
-              questoes: [
-                {id:1,enunciado:"Legalidade: só o que a lei autoriza.",resposta:"C",comentario:"CERTO."},
-                {id:2,enunciado:"Eficiência inserida pela EC 19/98.",resposta:"C",comentario:"CERTO."},
-                {id:3,enunciado:"Publicidade é absoluta.",resposta:"E",comentario:"ERRADO."},
-                {id:4,enunciado:"Impessoalidade proíbe nepotismo.",resposta:"C",comentario:"CERTO."},
-                {id:5,enunciado:"Moralidade é desvinculada da ética.",resposta:"E",comentario:"ERRADO."}
-              ]
+        nome: "Direito Administrativo",
+        modulos: {
+            "modulo-1": {
+                aulas: {
+                    "aula-1": {
+                        questoes: [
+                            {id:1,enunciado:"Legalidade: só o que a lei autoriza.",resposta:"C",comentario:"CERTO."},
+                            {id:2,enunciado:"Eficiência inserida pela EC 19/98.",resposta:"C",comentario:"CERTO."},
+                            {id:3,enunciado:"Publicidade é absoluta.",resposta:"E",comentario:"ERRADO."},
+                            {id:4,enunciado:"Impessoalidade proíbe nepotismo.",resposta:"C",comentario:"CERTO."},
+                            {id:5,enunciado:"Moralidade é desvinculada da ética.",resposta:"E",comentario:"ERRADO."},
+                            {id:6,enunciado:"Atos têm presunção de legitimidade.",resposta:"C",comentario:"CERTO."},
+                            {id:7,enunciado:"Imperatividade impõe obrigações.",resposta:"C",comentario:"CERTO."},
+                            {id:8,enunciado:"Autoexecutoriedade: execução pela admin.",resposta:"C",comentario:"CERTO."},
+                            {id:9,enunciado:"Requisitos: competência, forma, finalidade, motivo, objeto.",resposta:"C",comentario:"CERTO."},
+                            {id:10,enunciado:"Forma do ato é sempre livre.",resposta:"E",comentario:"ERRADO."},
+                            {id:11,enunciado:"Motivo é situação de fato.",resposta:"C",comentario:"CERTO."},
+                            {id:12,enunciado:"Finalidade: interesse público.",resposta:"C",comentario:"CERTO."},
+                            {id:13,enunciado:"Objeto é conteúdo do ato.",resposta:"C",comentario:"CERTO."},
+                            {id:14,enunciado:"Competência é delegável.",resposta:"C",comentario:"CERTO."},
+                            {id:15,enunciado:"Discricionariedade é absoluta.",resposta:"E",comentario:"ERRADO."}
+                        ]
+                    }
+                }
             }
-          }
-        },
-        "modulo-2": {
-          nome: "Licitações (Lei 14.133/2021)",
-          aulas: {
-            "aula-1": {
-              nome: "Modalidades e Fases",
-              questoes: [
-                {id:1,enunciado:"Modalidades: pregão, concorrência, leilão, diálogo.",resposta:"C",comentario:"CERTO."},
-                {id:2,enunciado:"Fase preparatória é a primeira.",resposta:"C",comentario:"CERTO."},
-                {id:3,enunciado:"Adjudicação é a última fase.",resposta:"C",comentario:"CERTO."},
-                {id:4,enunciado:"Pregão exige lances presenciais.",resposta:"E",comentario:"ERRADO."},
-                {id:5,enunciado:"Concorrência exige ampla publicidade.",resposta:"C",comentario:"CERTO."}
-              ]
-            }
-          }
-        },
-        "modulo-3": {
-          nome: "Servidores Públicos",
-          aulas: {
-            "aula-1": {
-              nome: "Regime Jurídico (Lei 8.112/90)",
-              questoes: [
-                {id:1,enunciado:"Estabilidade: 3 anos.",resposta:"C",comentario:"CERTO."},
-                {id:2,enunciado:"Servidor pode ser exonerado a qualquer momento.",resposta:"E",comentario:"ERRADO."},
-                {id:3,enunciado:"Remuneração é vencimento + vantagens.",resposta:"C",comentario:"CERTO."},
-                {id:4,enunciado:"Férias de 30 dias.",resposta:"C",comentario:"CERTO."},
-                {id:5,enunciado:"Licença gestante: 120 dias.",resposta:"C",comentario:"CERTO."}
-              ]
-            }
-          }
         }
-      }
     },
     "direito-penal": {
-      nome: "Direito Penal",
-      modulos: {
-        "modulo-1": {
-          nome: "Teoria do Crime",
-          aulas: {
-            "aula-1": {
-              nome: "TIC e Excludentes",
-              questoes: [
-                {id:1,enunciado:"Toda conduta típica é ilícita.",resposta:"E",comentario:"ERRADO."},
-                {id:2,enunciado:"Legítima defesa exclui a ilicitude.",resposta:"C",comentario:"CERTO."},
-                {id:3,enunciado:"Culpabilidade exige imputabilidade.",resposta:"C",comentario:"CERTO."},
-                {id:4,enunciado:"Estado de necessidade exclui tipicidade.",resposta:"E",comentario:"ERRADO."},
-                {id:5,enunciado:"Crime é típico, ilícito e culpável.",resposta:"C",comentario:"CERTO."}
-              ]
+        nome: "Direito Penal",
+        modulos: {
+            "modulo-1": {
+                aulas: {
+                    "aula-1": {
+                        questoes: [
+                            {id:1,enunciado:"Toda conduta típica é ilícita.",resposta:"E",comentario:"ERRADO."},
+                            {id:2,enunciado:"Legítima defesa exclui a ilicitude.",resposta:"C",comentario:"CERTO."},
+                            {id:3,enunciado:"Culpabilidade exige imputabilidade.",resposta:"C",comentario:"CERTO."},
+                            {id:4,enunciado:"Estado de necessidade exclui tipicidade.",resposta:"E",comentario:"ERRADO."},
+                            {id:5,enunciado:"Crime é típico, ilícito e culpável.",resposta:"C",comentario:"CERTO."},
+                            {id:6,enunciado:"Erro de tipo essencial exclui dolo.",resposta:"C",comentario:"CERTO."},
+                            {id:7,enunciado:"Erro de proibição exclui culpabilidade.",resposta:"C",comentario:"CERTO."},
+                            {id:8,enunciado:"Tentativa em todos os crimes.",resposta:"E",comentario:"ERRADO."},
+                            {id:9,enunciado:"Penas restritivas substituem prisão.",resposta:"C",comentario:"CERTO."},
+                            {id:10,enunciado:"Multa é pecuniária.",resposta:"C",comentario:"CERTO."},
+                            {id:11,enunciado:"Regime fechado: segurança máxima.",resposta:"C",comentario:"CERTO."},
+                            {id:12,enunciado:"Semiaberto: trabalho externo.",resposta:"C",comentario:"CERTO."},
+                            {id:13,enunciado:"Aberto: prisão domiciliar.",resposta:"E",comentario:"ERRADO."},
+                            {id:14,enunciado:"Dolo exige vontade.",resposta:"C",comentario:"CERTO."},
+                            {id:15,enunciado:"Culposo: sem vontade.",resposta:"C",comentario:"CERTO."}
+                        ]
+                    }
+                }
             }
-          }
-        },
-        "modulo-2": {
-          nome: "Crimes contra a pessoa e patrimônio",
-          aulas: {
-            "aula-1": {
-              nome: "Homicídio, Lesão, Furto, Roubo",
-              questoes: [
-                {id:1,enunciado:"Homicídio simples: 6 a 20 anos.",resposta:"C",comentario:"CERTO."},
-                {id:2,enunciado:"Homicídio qualificado: motivo torpe.",resposta:"C",comentario:"CERTO."},
-                {id:3,enunciado:"Lesão leve: 3 meses a 1 ano.",resposta:"C",comentario:"CERTO."},
-                {id:4,enunciado:"Furto: subtração sem violência.",resposta:"C",comentario:"CERTO."},
-                {id:5,enunciado:"Roubo: violência ou grave ameaça.",resposta:"C",comentario:"CERTO."}
-              ]
-            }
-          }
-        },
-        "modulo-3": {
-          nome: "Crimes contra a Administração Pública",
-          aulas: {
-            "aula-1": {
-              nome: "Peculato, Corrupção, Prevaricação",
-              questoes: [
-                {id:1,enunciado:"Peculato é crime contra o patrimônio público.",resposta:"C",comentario:"CERTO."},
-                {id:2,enunciado:"Corrupção passiva: receber vantagem.",resposta:"C",comentario:"CERTO."},
-                {id:3,enunciado:"Corrupção ativa: oferecer vantagem.",resposta:"C",comentario:"CERTO."},
-                {id:4,enunciado:"Prevaricação: retardar ato de ofício.",resposta:"C",comentario:"CERTO."},
-                {id:5,enunciado:"Concussão exige autoridade.",resposta:"E",comentario:"ERRADO."}
-              ]
-            }
-          }
         }
-      }
     },
     "direito-processual-penal": {
-      nome: "Direito Processual Penal",
-      modulos: {
-        "modulo-1": {
-          nome: "Inquérito Policial",
-          aulas: {
-            "aula-1": {
-              nome: "IP e Ação Penal",
-              questoes: [
-                {id:1,enunciado:"IP é obrigatório.",resposta:"E",comentario:"ERRADO."},
-                {id:2,enunciado:"Delegado pode arquivar IP.",resposta:"E",comentario:"ERRADO."},
-                {id:3,enunciado:"IP é inquisitivo.",resposta:"C",comentario:"CERTO."},
-                {id:4,enunciado:"Advogado não tem acesso ao IP sigiloso.",resposta:"E",comentario:"ERRADO."},
-                {id:5,enunciado:"Prazo para preso: 30 dias.",resposta:"C",comentario:"CERTO."}
-              ]
+        nome: "Direito Processual Penal",
+        modulos: {
+            "modulo-1": {
+                aulas: {
+                    "aula-1": {
+                        questoes: [
+                            {id:1,enunciado:"IP é obrigatório.",resposta:"E",comentario:"ERRADO."},
+                            {id:2,enunciado:"Delegado pode arquivar IP.",resposta:"E",comentario:"ERRADO."},
+                            {id:3,enunciado:"IP é inquisitivo.",resposta:"C",comentario:"CERTO."},
+                            {id:4,enunciado:"Advogado não tem acesso ao IP sigiloso.",resposta:"E",comentario:"ERRADO."},
+                            {id:5,enunciado:"Prazo para preso: 30 dias.",resposta:"C",comentario:"CERTO."},
+                            {id:6,enunciado:"Ação penal pública: MP.",resposta:"C",comentario:"CERTO."},
+                            {id:7,enunciado:"Ação penal privada: ofendido.",resposta:"C",comentario:"CERTO."},
+                            {id:8,enunciado:"Pública condicionada: representação.",resposta:"C",comentario:"CERTO."},
+                            {id:9,enunciado:"Prisão preventiva: art. 312.",resposta:"C",comentario:"CERTO."},
+                            {id:10,enunciado:"Prisão temporária: 5 dias.",resposta:"C",comentario:"CERTO."},
+                            {id:11,enunciado:"Fiança pode ser arbitrada pelo Delegado.",resposta:"C",comentario:"CERTO."},
+                            {id:12,enunciado:"Medidas cautelares diversas: monitoramento.",resposta:"C",comentario:"CERTO."},
+                            {id:13,enunciado:"Ação privada subsidiária: quando MP não atua.",resposta:"C",comentario:"CERTO."},
+                            {id:14,enunciado:"IP é sigiloso em regra.",resposta:"C",comentario:"CERTO."},
+                            {id:15,enunciado:"Delegado pode requisitar exames.",resposta:"C",comentario:"CERTO."}
+                        ]
+                    }
+                }
             }
-          }
-        },
-        "modulo-2": {
-          nome: "Recursos e Execução",
-          aulas: {
-            "aula-1": {
-              nome: "Recursos e Execução Penal",
-              questoes: [
-                {id:1,enunciado:"Apelação: recurso ordinário.",resposta:"C",comentario:"CERTO."},
-                {id:2,enunciado:"RESE: recurso especial.",resposta:"C",comentario:"CERTO."},
-                {id:3,enunciado:"Embargos infringentes: não unânime.",resposta:"C",comentario:"CERTO."},
-                {id:4,enunciado:"Habeas corpus: liberdade.",resposta:"C",comentario:"CERTO."},
-                {id:5,enunciado:"Progressão: 1/6 da pena.",resposta:"C",comentario:"CERTO."}
-              ]
-            }
-          }
-        },
-        "modulo-3": {
-          nome: "Nulidades e Provas",
-          aulas: {
-            "aula-1": {
-              nome: "Teoria das Nulidades e Provas Ilícitas",
-              questoes: [
-                {id:1,enunciado:"Provas ilícitas são inadmissíveis.",resposta:"C",comentario:"CERTO."},
-                {id:2,enunciado:"Nulidade absoluta pode ser sanada.",resposta:"E",comentario:"ERRADO."},
-                {id:3,enunciado:"Nulidade relativa depende de prejuízo.",resposta:"C",comentario:"CERTO."},
-                {id:4,enunciado:"Flagrante preparado é permitido.",resposta:"E",comentario:"ERRADO."},
-                {id:5,enunciado:"Interceptação telefônica: autorização judicial.",resposta:"C",comentario:"CERTO."}
-              ]
-            }
-          }
         }
-      }
     },
     "legislacao-penal-especial": {
-      nome: "Legislação Penal Especial",
-      modulos: {
-        "modulo-1": {
-          nome: "Lei de Drogas e Armas",
-          aulas: {
-            "aula-1": {
-              nome: "Lei 11.343/06 e Lei 10.826/03",
-              questoes: [
-                {id:1,enunciado:"Art. 28 é crime com prisão.",resposta:"E",comentario:"ERRADO."},
-                {id:2,enunciado:"Tráfico é hediondo.",resposta:"C",comentario:"CERTO."},
-                {id:3,enunciado:"Lei estabelece quantidade mínima.",resposta:"E",comentario:"ERRADO."},
-                {id:4,enunciado:"Oferecer droga gratuitamente é tráfico.",resposta:"C",comentario:"CERTO."},
-                {id:5,enunciado:"Art. 28 admite liberdade provisória.",resposta:"E",comentario:"ERRADO."}
-              ]
+        nome: "Legislação Penal Especial",
+        modulos: {
+            "modulo-1": {
+                aulas: {
+                    "aula-1": {
+                        questoes: [
+                            {id:1,enunciado:"Art. 28 é crime com prisão.",resposta:"E",comentario:"ERRADO."},
+                            {id:2,enunciado:"Tráfico é hediondo.",resposta:"C",comentario:"CERTO."},
+                            {id:3,enunciado:"Lei estabelece quantidade mínima.",resposta:"E",comentario:"ERRADO."},
+                            {id:4,enunciado:"Oferecer droga gratuitamente é tráfico.",resposta:"C",comentario:"CERTO."},
+                            {id:5,enunciado:"Art. 28 admite liberdade provisória.",resposta:"E",comentario:"ERRADO."},
+                            {id:6,enunciado:"Estatuto do Desarmamento: Lei 10.826/03.",resposta:"C",comentario:"CERTO."},
+                            {id:7,enunciado:"Posse de arma: art. 12.",resposta:"C",comentario:"CERTO."},
+                            {id:8,enunciado:"Porte de arma: art. 14.",resposta:"C",comentario:"CERTO."},
+                            {id:9,enunciado:"Comércio ilegal: art. 17.",resposta:"C",comentario:"CERTO."},
+                            {id:10,enunciado:"Pena do porte: 2 a 4 anos.",resposta:"C",comentario:"CERTO."},
+                            {id:11,enunciado:"Pena da posse: 1 a 3 anos.",resposta:"C",comentario:"CERTO."},
+                            {id:12,enunciado:"Tráfico internacional: pena maior.",resposta:"C",comentario:"CERTO."},
+                            {id:13,enunciado:"Associação: art. 35.",resposta:"C",comentario:"CERTO."},
+                            {id:14,enunciado:"Pena do art. 35: 3 a 10 anos.",resposta:"C",comentario:"CERTO."},
+                            {id:15,enunciado:"Porte de drogas: não gera antecedentes.",resposta:"E",comentario:"ERRADO."}
+                        ]
+                    }
+                }
             }
-          }
         }
-      }
     },
     "direitos-humanos": {
-      nome: "Direitos Humanos",
-      modulos: {
-        "modulo-1": {
-          nome: "Tratados Internacionais",
-          aulas: {
-            "aula-1": {
-              nome: "Hierarquia e Incorporação",
-              questoes: [
-                {id:1,enunciado:"Tratado com quórum de emenda é EC.",resposta:"C",comentario:"CERTO."},
-                {id:2,enunciado:"Tratado sem quórum é infraconstitucional.",resposta:"E",comentario:"ERRADO."},
-                {id:3,enunciado:"Pacto de San José é supralegal.",resposta:"C",comentario:"CERTO."},
-                {id:4,enunciado:"DH são cláusulas pétreas implícitas.",resposta:"C",comentario:"CERTO."},
-                {id:5,enunciado:"Denúncia depende do Congresso.",resposta:"C",comentario:"CERTO."}
-              ]
-            }
-          }
-        }
-      }
-    },
-    "raciocinio-logico": {
-      nome: "Raciocínio Lógico",
-      modulos: {
-        "modulo-1": {
-          nome: "Lógica Proposicional",
-          aulas: {
-            "aula-1": {
-              nome: "Conectivos e Tabela",
-              questoes: [
-                {id:1,enunciado:"Conjunção: V apenas ambas V.",resposta:"C",comentario:"CERT
+        nome: "Direitos Humanos",
+        modulos: {
+            "modulo-1": {
+                aulas: {
+                    "aula-1": {
+                        questoes: [
+                            {id:1,enunciado:"Tratado com quórum de emenda é EC.",resposta:"C",comentario:"CERTO."},
+                            {id:2,enunciado:"Tratado sem quórum é infraconstitucional.",resposta:"E",comentario:"ERRADO."},
+                            {id:3,enunciado:"Pacto de San José é supralegal.",resposta:"C",comentario:"CERTO."},
+                            {id:4,enunciado:"DH são cláusulas pétreas implícitas.",resposta:"C",comentario:"CERTO."},
+                            {id:5,enunciado:"Denúncia depende do Congresso.",resposta:"C",comentario:"CERTO."},
+                            {id:6,enunciado:"ONU: 1948.",resposta:"C",comentario:"CERTO."},
+                            {id:7,enunciado:"OEA: 1969.",resposta:"C",comentario:"CERTO."},
+                            {id:8,enunciado:"CIDH: Corte Interamericana.",resposta:"C",comentario:"CERTO."},
+                            {id:9,enunciado:"Brasil ratificou o Pacto.",resposta:"C",comentario:"CERTO."},
+                            {id:10,enunciado:"Incorporação via decreto legislativo.",resposta:"C",comentario:"CERTO."},
+                            {id:11,en
