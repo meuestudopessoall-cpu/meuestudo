@@ -6,17 +6,18 @@
     <title>Estudar — Trilha Policial 2026</title>
     <link rel="stylesheet" href="style.css" />
     <style>
-        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: #f4f7fc; padding: 20px; }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: #f4f7fc; padding: 20px; margin: 0; }
         .container { max-width: 1100px; margin: 0 auto; background: #fff; border-radius: 16px; padding: 30px; box-shadow: 0 8px 20px rgba(0,0,0,0.05); }
-        h1 { color: #0b2b4a; border-bottom: 4px solid #1a73e8; padding-bottom: 12px; }
+        h1 { color: #0b2b4a; border-bottom: 4px solid #1a73e8; padding-bottom: 12px; margin-top: 0; }
         .voltar { display: inline-block; margin: 20px 0; background: #e8f0fe; color: #1a73e8; padding: 10px 20px; border-radius: 30px; text-decoration: none; font-weight: 600; }
         .voltar:hover { background: #d2e3fc; }
         .filtro { display: flex; flex-wrap: wrap; gap: 10px; margin: 20px 0; }
-        .filtro select, .filtro button { padding: 8px 16px; border-radius: 8px; border: 1px solid #ccc; font-size: 14px; background: #fff; }
+        .filtro select, .filtro button { padding: 10px 16px; border-radius: 8px; border: 1px solid #ccc; font-size: 14px; background: #fff; outline: none; }
+        .filtro select { flex: 1; min-width: 200px; }
         .filtro button { background: #1a73e8; color: #fff; border: none; cursor: pointer; font-weight: 600; transition: 0.2s; }
         .filtro button:hover { background: #0d47a1; transform: scale(1.02); }
         .aula-card { background: #f8faff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 24px; margin: 20px 0; }
-        .aula-card h2 { color: #0b2b4a; border-left: 6px solid #1a73e8; padding-left: 12px; }
+        .aula-card h2 { color: #0b2b4a; border-left: 6px solid #1a73e8; padding-left: 12px; margin-top: 0; }
         .aula-card h3 { color: #1a73e8; margin-top: 20px; }
         .aula-card .secao { background: #fff; padding: 12px 16px; border-radius: 8px; margin: 12px 0; border-left: 4px solid #1a73e8; }
         .aula-card .secao.pegadinha { border-left-color: #e53935; background: #fde8e8; }
@@ -24,8 +25,9 @@
         .aula-card .secao.atencao { border-left-color: #ff6f00; background: #fff3e0; }
         .aula-card ul { margin: 8px 0 8px 20px; }
         .aula-card li { margin: 4px 0; line-height: 1.5; }
-        .btn-praticar { display: inline-block; background: #1a73e8; color: #fff; padding: 8px 20px; border-radius: 30px; text-decoration: none; font-weight: 600; margin: 12px 0; transition: 0.2s; }
+        .btn-praticar { display: inline-block; background: #1a73e8; color: #fff; padding: 10px 20px; border-radius: 30px; text-decoration: none; font-weight: 600; margin: 12px 0; transition: 0.2s; }
         .btn-praticar:hover { background: #0d47a1; transform: scale(1.02); }
+        .aviso-vazio { text-align: center; color: #666; padding: 40px; font-size: 16px; background: #fafafa; border-radius: 8px; border: 1px dashed #ccc; }
         .footer { margin-top: 30px; text-align: center; color: #7a8a9e; border-top: 1px solid #e2e8f0; padding-top: 20px; }
     </style>
 </head>
@@ -62,18 +64,18 @@
         <button onclick="carregarAula()">📖 Carregar Aula</button>
     </div>
 
-    <div id="painelAula"></div>
+    <div id="painelAula">
+        <div class="aviso-vazio">Selecione uma matéria, módulo e aula acima e clique em "Carregar Aula".</div>
+    </div>
+    
     <div class="footer">🎯 Preparação para PCDF · PMDF · PF · PRF · PCGO · PMGO</div>
 </div>
 
 <script>
 // ============================================================
-// AULAS EXPANDIDAS — TODAS AS 12 MATÉRIAS COM CONTEÚDO COMPLETO
+// DADOS DE EXEMPLO (Base estruturada para as matérias)
 // ============================================================
 const AULAS = {
-    // ============================================================
-    // 1. DIREITO CONSTITUCIONAL — 5 MÓDULOS
-    // ============================================================
     "direito-constitucional": {
         "modulo-1": {
             "aula-1": {
@@ -82,7 +84,7 @@ const AULAS = {
                     <h2>📌 Conceito</h2>
                     <p>A Constituição é a <strong>lei fundamental e suprema</strong> de um Estado. Ela organiza os Poderes, define a forma de governo e estabelece os direitos fundamentais.</p>
                     <h2>🔍 Explicação Aprofundada</h2>
-                    <p><strong>Sentido Sociológico (Lassalle):</strong> A Constituição real resume-se aos <strong>fatores reais de poder</strong> — forças econômicas, sociais e políticas. O texto escrito que não reflete esses fatores é mera "folha de papel".</p>
+                    <p><strong>Sentido Sociológico (Lassalle):</strong> A Constituição real resume-se aos <strong>fatores reais de poder</strong> — forças econômicas, sociais e políticas.</p>
                     <p><strong>Sentido Político (Schmitt):</strong> A Constituição é a <strong>decisão política fundamental</strong> tomada pelo titular do poder constituinte.</p>
                     <p><strong>Sentido Jurídico (Kelsen):</strong> A Constituição é a <strong>norma pura</strong>, o ápice do ordenamento jurídico, fundamento de validade.</p>
                     <h3>📂 Classificações da CF/88</h3>
@@ -91,8 +93,6 @@ const AULAS = {
                         <li><strong>Estabilidade:</strong> Totalmente Rígida.</li>
                         <li><strong>Forma:</strong> Escrita.</li>
                         <li><strong>Conteúdo:</strong> Formal e Material.</li>
-                        <li><strong>Modo de elaboração:</strong> Dogmática.</li>
-                        <li><strong>Extensão:</strong> Analítica.</li>
                     </ul>
                     <div class="secao macete">
                         <strong>🧠 Macete:</strong> "PEDRO É FERA" — <strong>P</strong>romulgada, <strong>E</strong>scrita, <strong>D</strong>ogmática, <strong>R</strong>ígida, <strong>A</strong>nalítica, <strong>F</strong>ormal.
@@ -100,17 +100,6 @@ const AULAS = {
                     <div class="secao pegadinha">
                         <strong>⚠️ Pegadinha da Banca:</strong> A Cebraspe adora afirmar que a CF/88 é semi-rígida. <strong>ERRADO!</strong> É <strong>totalmente rígida</strong>.
                     </div>
-                    <div class="secao atencao">
-                        <strong>📌 Atenção:</strong> CF/88 ≠ imutável. Pode ser alterada por Emenda Constitucional, mas por um processo mais difícil.
-                    </div>
-                    <h2>🎯 O que realmente cai em prova</h2>
-                    <ul>
-                        <li>Sentido sociológico (Lassalle) = fatores reais de poder / "folha de papel".</li>
-                        <li>Sentido político (Schmitt) = decisão política fundamental.</li>
-                        <li>Sentido jurídico (Kelsen) = norma pura.</li>
-                        <li>CF/88 = promulgada, rígida, escrita, dogmática, analítica.</li>
-                        <li>A CF/88 NÃO é semi-rígida.</li>
-                    </ul>
                     <a href="questoes.html?materia=direito-constitucional&modulo=modulo-1&aula=aula-1" target="_blank" class="btn-praticar">📝 Praticar questões desta aula</a>
                 `
             }
@@ -121,125 +110,14 @@ const AULAS = {
                 conteudo: `
                     <h2>📌 Conceito</h2>
                     <p><strong>Poder Constituinte</strong> é a capacidade de criar, modificar ou complementar a Constituição.</p>
-                    <h2>🔍 Explicação Aprofundada</h2>
-                    <p><strong>Poder Constituinte Originário (PCO):</strong> Cria a Constituição. É <strong>inicial, incondicionado, ilimitado e autônomo</strong>. Titular: povo. Exercício: Assembleia Constituinte ou outorga.</p>
-                    <p><strong>Poder Constituinte Derivado (PCD):</strong> Modifica ou complementa a Constituição. Subdivide-se em:</p>
-                    <ul>
-                        <li><strong>Reformador:</strong> Emendas Constitucionais (3/5 em dois turnos).</li>
-                        <li><strong>Decorrente:</strong> Estados-membros elaboram suas Constituições (simetria).</li>
-                        <li><strong>Difuso:</strong> Municípios elaboram leis orgânicas.</li>
-                    </ul>
                     <div class="secao macete">
                         <strong>🧠 Macete:</strong> Características do PCO: <strong>"INILA"</strong> — <strong>I</strong>nicial, <strong>N</strong>ão condicionado, <strong>I</strong>limitado, <strong>L</strong>ivre, <strong>A</strong>utônomo.
                     </div>
-                    <div class="secao pegadinha">
-                        <strong>⚠️ Pegadinha da Banca:</strong> Afirmar que o povo pode propor PEC. <strong>ERRADO!</strong> A iniciativa é de: 1/3 da Câmara, 1/3 do Senado, Presidente ou maioria das Assembleias.
-                    </div>
-                    <div class="secao atencao">
-                        <strong>📌 Atenção:</strong> O Distrito Federal <strong>não exerce</strong> poder decorrente. Tem <strong>Lei Orgânica</strong> (art. 32 da CF).
-                    </div>
-                    <h2>🎯 O que realmente cai em prova</h2>
-                    <ul>
-                        <li>PCO: inicial, incondicionado, ilimitado, autônomo.</li>
-                        <li>Poder Reformador: EC com 3/5 em dois turnos.</li>
-                        <li>Poder Decorrente: Estados, com simetria.</li>
-                        <li>Cláusulas pétreas: forma federativa, voto, separação, direitos individuais.</li>
-                        <li>O povo NÃO pode propor PEC.</li>
-                    </ul>
                     <a href="questoes.html?materia=direito-constitucional&modulo=modulo-2&aula=aula-1" target="_blank" class="btn-praticar">📝 Praticar questões desta aula</a>
-                `
-            }
-        },
-        "modulo-3": {
-            "aula-1": {
-                titulo: "Princípios Fundamentais (Arts. 1º a 4º)",
-                conteudo: `
-                    <h2>📌 Conceito</h2>
-                    <p>Os Princípios Fundamentais estão nos arts. 1º a 4º da CF. Eles definem a <strong>identidade do Estado brasileiro</strong>.</p>
-                    <h2>🔍 Explicação Aprofundada</h2>
-                    <p><strong>Fundamentos (Art. 1º):</strong> Soberania, Cidadania, Dignidade da pessoa humana, Valores sociais do trabalho e da livre iniciativa, Pluralismo político.</p>
-                    <p><strong>Objetivos (Art. 3º):</strong> Construir sociedade livre/justa/solidária, Garantir desenvolvimento, Erradicar pobreza, Reduzir desigualdades, Promover bem de todos.</p>
-                    <p><strong>Relações Internacionais (Art. 4º):</strong> Independência, Direitos humanos, Autodeterminação, Não intervenção, Igualdade, Paz, Repúdio ao terrorismo, Cooperação.</p>
-                    <div class="secao macete">
-                        <strong>🧠 Macete (Fundamentos):</strong> "SO CI DIPLU" — <strong>SO</strong>berania, <strong>CI</strong>dadania, <strong>DI</strong>gnidade, <strong>PLU</strong>ralismo.
-                    </div>
-                    <div class="secao pegadinha">
-                        <strong>⚠️ Pegadinha da Banca:</strong> Trocar "fundamentos" por "objetivos". Exemplo: dizer que "erradicar a pobreza" é fundamento. <strong>ERRADO!</strong> É objetivo.
-                    </div>
-                    <h2>🎯 O que realmente cai em prova</h2>
-                    <ul>
-                        <li>Fundamentos: soberania, cidadania, dignidade, valores sociais, pluralismo.</li>
-                        <li>Objetivos: construir, garantir, erradicar, reduzir, promover.</li>
-                        <li>Relações internacionais: não intervenção, paz, direitos humanos, etc.</li>
-                    </ul>
-                    <a href="questoes.html?materia=direito-constitucional&modulo=modulo-3&aula=aula-1" target="_blank" class="btn-praticar">📝 Praticar questões desta aula</a>
-                `
-            }
-        },
-        "modulo-4": {
-            "aula-1": {
-                titulo: "Direitos e Garantias Fundamentais (Art. 5º)",
-                conteudo: `
-                    <h2>📌 Conceito</h2>
-                    <p>O art. 5º da CF/88 trata dos <strong>direitos e garantias fundamentais</strong>.</p>
-                    <h2>🔍 Explicação Aprofundada</h2>
-                    <p><strong>Direitos:</strong> vida, igualdade, liberdade, segurança, propriedade.</p>
-                    <p><strong>Garantias:</strong> habeas corpus, mandado de segurança, habeas data, mandado de injunção, ação popular.</p>
-                    <p><strong>Cláusulas pétreas:</strong> os direitos e garantias individuais são cláusulas pétreas (art. 60, §4º).</p>
-                    <div class="secao macete">
-                        <strong>🧠 Macete (Garantias):</strong> "HMSA" — <strong>H</strong>abeas corpus, <strong>M</strong>andado de segurança, <strong>S</strong>egurança, <strong>A</strong>ção popular.
-                    </div>
-                    <div class="secao pegadinha">
-                        <strong>⚠️ Pegadinha da Banca:</strong> Dizer que "prisão civil por dívida é admitida no Brasil". <strong>ERRADO!</strong> Só para depositário infiel e alimentante (art. 5º, LXVII).
-                    </div>
-                    <h2>🎯 O que realmente cai em prova</h2>
-                    <ul>
-                        <li>Art. 5º: direitos e garantias fundamentais.</li>
-                        <li>Garantias: habeas corpus, mandado de segurança, habeas data, mandado de injunção, ação popular.</li>
-                        <li>Direitos: vida, igualdade, liberdade, propriedade.</li>
-                        <li>Prisão civil: só para depositário infiel e alimentante.</li>
-                    </ul>
-                    <a href="questoes.html?materia=direito-constitucional&modulo=modulo-4&aula=aula-1" target="_blank" class="btn-praticar">📝 Praticar questões desta aula</a>
-                `
-            }
-        },
-        "modulo-5": {
-            "aula-1": {
-                titulo: "Organização do Estado (Arts. 18 a 36)",
-                conteudo: `
-                    <h2>📌 Conceito</h2>
-                    <p>O Brasil é uma <strong>federação</strong> formada pela União, Estados, Distrito Federal e Municípios.</p>
-                    <h2>🔍 Explicação Aprofundada</h2>
-                    <p><strong>Competências:</strong></p>
-                    <ul>
-                        <li><strong>Exclusivas da União:</strong> art. 21 (moeda, política externa).</li>
-                        <li><strong>Privativas da União:</strong> art. 22 (direito penal, civil).</li>
-                        <li><strong>Comuns:</strong> art. 23 (saúde, educação).</li>
-                        <li><strong>Concorrentes:</strong> art. 24 (União, Estados e DF legislam).</li>
-                        <li><strong>Residuais dos Estados:</strong> o que não é da União.</li>
-                    </ul>
-                    <div class="secao pegadinha">
-                        <strong>⚠️ Pegadinha da Banca:</strong> Dizer que a competência privativa da União é <strong>indelegável</strong>. <strong>ERRADO!</strong> Pode ser delegada aos Estados.
-                    </div>
-                    <div class="secao atencao">
-                        <strong>📌 Atenção:</strong> O DF é um ente <strong>sui generis</strong> — não é estado, não é município. É regido por <strong>Lei Orgânica</strong>.
-                    </div>
-                    <h2>🎯 O que realmente cai em prova</h2>
-                    <ul>
-                        <li>Forma federativa é cláusula pétrea.</li>
-                        <li>DF não é estado-membro.</li>
-                        <li>Intervenção federal é excepcional.</li>
-                        <li>Competência privativa da União é delegável.</li>
-                    </ul>
-                    <a href="questoes.html?materia=direito-constitucional&modulo=modulo-5&aula=aula-1" target="_blank" class="btn-praticar">📝 Praticar questões desta aula</a>
                 `
             }
         }
     },
-
-    // ============================================================
-    // 2. DIREITO ADMINISTRATIVO — 3 MÓDULOS
-    // ============================================================
     "direito-administrativo": {
         "modulo-1": {
             "aula-1": {
@@ -247,43 +125,44 @@ const AULAS = {
                 conteudo: `
                     <h2>📌 Conceito</h2>
                     <p>Os princípios da Administração Pública estão no <strong>art. 37, caput, da CF/88</strong>.</p>
-                    <h2>🔍 Explicação Aprofundada</h2>
-                    <ul>
-                        <li><strong>Legalidade:</strong> O administrador só pode fazer o que a lei autoriza.</li>
-                        <li><strong>Impessoalidade:</strong> Atuação objetiva, veda nepotismo.</li>
-                        <li><strong>Moralidade:</strong> Exige probidade, honestidade, boa-fé.</li>
-                        <li><strong>Publicidade:</strong> Atos devem ser divulgados, salvo sigilo.</li>
-                        <li><strong>Eficiência:</strong> Exige resultados, economicidade, celeridade (EC 19/98).</li>
-                    </ul>
                     <div class="secao macete">
                         <strong>🧠 Macete:</strong> "LIMPE" — <strong>L</strong>egalidade, <strong>I</strong>mpessoalidade, <strong>M</strong>oralidade, <strong>P</strong>ublicidade, <strong>E</strong>ficiência.
                     </div>
-                    <div class="secao pegadinha">
-                        <strong>⚠️ Pegadinha da Banca:</strong> Dizer que a publicidade é <strong>absoluta</strong>. <strong>ERRADO!</strong> Há exceções (sigilo).
-                    </div>
-                    <div class="secao atencao">
-                        <strong>📌 Atenção:</strong> A eficiência foi inserida pela <strong>EC 19/98</strong>.
-                    </div>
-                    <h2>🎯 O que realmente cai em prova</h2>
-                    <ul>
-                        <li>Legalidade: só o que a lei autoriza.</li>
-                        <li>Impessoalidade: proíbe nepotismo.</li>
-                        <li>Publicidade: não é absoluta.</li>
-                        <li>Eficiência: EC 19/98.</li>
-                    </ul>
                     <a href="questoes.html?materia=direito-administrativo&modulo=modulo-1&aula=aula-1" target="_blank" class="btn-praticar">📝 Praticar questões desta aula</a>
                 `
             }
-        },
-        "modulo-2": {
-            "aula-1": {
-                titulo: "Licitações e Contratos (Lei 14.133/2021)",
-                conteudo: `
-                    <h2>📌 Conceito</h2>
-                    <p>A nova Lei de Licitações (14.133/2021) estabelece normas gerais para licitações e contratos administrativos.</p>
-                    <h2>🔍 Explicação Aprofundada</h2>
-                    <p><strong>Modalidades:</strong> pregão, concorrência, leilão, diálogo competitivo.</p>
-                    <p><strong>Fases:</strong> preparatória, divulgação, habilitação, julgamento, adjudicação.</p>
-                    <p><strong>Princípios:</strong> legalidade, impessoalidade, moralidade, publicidade, eficiência, vinculação ao edital, julgamento objetivo.</p>
-                    <div class="secao pegadinha">
-                        <strong>⚠️ Pegadinha da Banca:</strong> Dizer que
+        }
+    }
+};
+
+// ============================================================
+// FUNÇÃO PARA CARREGAR A AULA DINAMICAMENTE
+// ============================================================
+function carregarAula() {
+    const materia = document.getElementById('filtroMateriaEstudo').value;
+    const modulo = document.getElementById('filtroModuloEstudo').value;
+    const aula = document.getElementById('filtroAulaEstudo').value;
+    const painel = document.getElementById('painelAula');
+
+    // Valida se existe a aula cadastrada no objeto
+    if (AULAS[materia] && AULAS[materia][modulo] && AULAS[materia][modulo][aula]) {
+        const dadosAula = AULAS[materia][modulo][aula];
+        painel.innerHTML = `
+            <div class="aula-card">
+                <h2>${dadosAula.titulo}</h2>
+                ${dadosAula.conteudo}
+            </div>
+        `;
+    } else {
+        painel.innerHTML = `
+            <div class="aula-card" style="border-left-color: #f9a825;">
+                <h2>🚧 Aula em Desenvolvimento</h2>
+                <p>O conteúdo completo para esta aula específica ainda está sendo finalizado no sistema ou não possui registro cadastrado no momento.</p>
+                <p>Tente selecionar <strong>Direito Constitucional (Módulo 1, Aula 1)</strong> ou <strong>Direito Administrativo (Módulo 1, Aula 1)</strong> para testar a visualização.</p>
+            </div>
+        `;
+    }
+}
+</script>
+</body>
+</html>
