@@ -1,9 +1,9 @@
-// dados.js — EXPANSÃO MÁXIMA (16 matérias, 405 questões)
+// dados.js — VERSÃO COMPLETA (13 matérias, ~300 questões)
 const DADOS = {
   materias: {
 
     // ============================================================
-    // 1. LÍNGUA PORTUGUESA (30 questões) — MANTIDO
+    // 1. LÍNGUA PORTUGUESA
     // ============================================================
     "lingua-portuguesa": {
       nome: "Língua Portuguesa",
@@ -59,12 +59,38 @@ const DADOS = {
               ]
             }
           }
+        },
+        "modulo-3": {
+          nome: "Fonologia e Ortografia",
+          aulas: {
+            "aula-1": {
+              nome: "Acentuação Gráfica e Divisão Silábica",
+              resumo: "Regras de acentuação: oxítonas, paroxítonas, proparoxítonas. Hiatos, ditongos, tritongos. Uso do hífen. Novo Acordo Ortográfico.",
+              questoes: [
+                {id:1,enunciado:"Proparoxítonas são todas acentuadas.",resposta:"C",comentario:"CERTO."},
+                {id:2,enunciado:"Oxítonas terminadas em 'a' são acentuadas.",resposta:"C",comentario:"CERTO."},
+                {id:3,enunciado:"Paroxítonas terminadas em 'r' não são acentuadas.",resposta:"E",comentario:"ERRADO. São acentuadas."},
+                {id:4,enunciado:"O hiato 'i' tônico sozinho na sílaba é acentuado.",resposta:"C",comentario:"CERTO."},
+                {id:5,enunciado:"O Novo Acordo Ortográfico eliminou o trema.",resposta:"C",comentario:"CERTO."},
+                {id:6,enunciado:"Ditongo é o encontro de vogal e semivogal.",resposta:"C",comentario:"CERTO."},
+                {id:7,enunciado:"Tritongo é o encontro de três vogais.",resposta:"E",comentario:"ERRADO. É semivogal+vogal+semivogal."},
+                {id:8,enunciado:"Acento diferencial ainda existe em 'pôr' e 'poder'.",resposta:"C",comentario:"CERTO."},
+                {id:9,enunciado:"O hífen é usado em palavras compostas com 'bem'.",resposta:"C",comentario:"CERTO."},
+                {id:10,enunciado:"Palavras oxítonas terminadas em 'em' são acentuadas.",resposta:"E",comentario:"ERRADO. Só se terminarem em 'a', 'e', 'o', 'em' com dois 'ens'?"},
+                {id:11,enunciado:"Acentuam-se os monossílabos tônicos terminados em 'a', 'e', 'o'.",resposta:"C",comentario:"CERTO."},
+                {id:12,enunciado:"O acento gráfico pode alterar o significado das palavras.",resposta:"C",comentario:"CERTO."},
+                {id:13,enunciado:"A palavra 'ideia' perdeu o acento no Novo Acordo.",resposta:"C",comentario:"CERTO."},
+                {id:14,enunciado:"A palavra 'voo' não tem mais acento.",resposta:"C",comentario:"CERTO."},
+                {id:15,enunciado:"O trema ainda é usado em nomes próprios.",resposta:"C",comentario:"CERTO."}
+              ]
+            }
+          }
         }
       }
     },
 
     // ============================================================
-    // 2. DIREITO CONSTITUCIONAL — 75 questões (5 módulos)
+    // 2. DIREITO CONSTITUCIONAL
     // ============================================================
     "direito-constitucional": {
       nome: "Direito Constitucional",
@@ -174,27 +200,27 @@ const DADOS = {
           }
         },
         "modulo-5": {
-          nome: "Organização do Estado (Arts. 18 a 36)",
+          nome: "Organização do Estado",
           aulas: {
             "aula-1": {
-              nome: "União, Estados, DF e Municípios",
-              resumo: "Forma federativa. Competências administrativas e legislativas. Intervenção federal.",
+              nome: "Arts. 18 a 36 — Federação",
+              resumo: "Forma federativa, cláusula pétrea. União, Estados, DF, Municípios. Competências exclusivas, privativas, comuns e concorrentes. Intervenção federal.",
               questoes: [
-                {id:1,enunciado:"A União é o ente central da federação.",resposta:"C",comentario:"CERTO."},
-                {id:2,enunciado:"Os Estados têm autonomia para se organizar.",resposta:"C",comentario:"CERTO."},
-                {id:3,enunciado:"O DF acumula competências estaduais e municipais.",resposta:"C",comentario:"CERTO."},
-                {id:4,enunciado:"A intervenção federal é um mecanismo de exceção.",resposta:"C",comentario:"CERTO."},
-                {id:5,enunciado:"Os municípios são entes da federação.",resposta:"C",comentario:"CERTO."},
-                {id:6,enunciado:"A competência legislativa residual é da União.",resposta:"E",comentario:"ERRADO. É dos Estados."},
-                {id:7,enunciado:"A União pode intervir nos Estados para garantir a ordem pública.",resposta:"C",comentario:"CERTO."},
-                {id:8,enunciado:"O DF não pode ser dividido em municípios.",resposta:"C",comentario:"CERTO."},
-                {id:9,enunciado:"Os territórios federais são autônomos.",resposta:"E",comentario:"ERRADO. São administrados pela União."},
-                {id:10,enunciado:"A forma federativa é cláusula pétrea.",resposta:"C",comentario:"CERTO."},
-                {id:11,enunciado:"A União pode criar novos Estados.",resposta:"C",comentario:"CERTO."},
-                {id:12,enunciado:"A intervenção federal é sempre por decreto do Presidente.",resposta:"C",comentario:"CERTO."},
-                {id:13,enunciado:"Os Estados podem incorporar municípios.",resposta:"E",comentario:"ERRADO. Depende de lei estadual e consulta."},
-                {id:14,enunciado:"O DF é regido por lei orgânica.",resposta:"C",comentario:"CERTO."},
-                {id:15,enunciado:"Os territórios não integram a federação.",resposta:"C",comentario:"CERTO."}
+                {id:1,enunciado:"A forma federativa é cláusula pétrea.",resposta:"C",comentario:"CERTO."},
+                {id:2,enunciado:"O DF é um estado-membro da federação.",resposta:"E",comentario:"ERRADO. É ente sui generis."},
+                {id:3,enunciado:"Competência privativa da União é indelegável.",resposta:"E",comentario:"ERRADO. Pode ser delegada."},
+                {id:4,enunciado:"Intervenção federal é excepcional.",resposta:"C",comentario:"CERTO."},
+                {id:5,enunciado:"Os municípios são entes federativos autônomos.",resposta:"C",comentario:"CERTO."},
+                {id:6,enunciado:"A União pode intervir nos Estados para garantir a ordem pública.",resposta:"C",comentario:"CERTO."},
+                {id:7,enunciado:"Os Estados podem legislar sobre todos os assuntos.",resposta:"E",comentario:"ERRADO. Competência residual."},
+                {id:8,enunciado:"O DF é regido por lei orgânica, não por Constituição.",resposta:"C",comentario:"CERTO."},
+                {id:9,enunciado:"Competência concorrente permite que União, Estados e DF legislem.",resposta:"C",comentario:"CERTO."},
+                {id:10,enunciado:"A intervenção federal depende de decreto do Presidente.",resposta:"C",comentario:"CERTO."},
+                {id:11,enunciado:"Os municípios têm autonomia para criar leis municipais.",resposta:"C",comentario:"CERTO."},
+                {id:12,enunciado:"A União não pode intervir nos municípios.",resposta:"E",comentario:"ERRADO. Pode, em certos casos."},
+                {id:13,enunciado:"Os Estados podem criar regiões metropolitanas.",resposta:"C",comentario:"CERTO."},
+                {id:14,enunciado:"A competência comum é administrativa.",resposta:"C",comentario:"CERTO."},
+                {id:15,enunciado:"A federação brasileira é indissolúvel.",resposta:"C",comentario:"CERTO."}
               ]
             }
           }
@@ -203,7 +229,7 @@ const DADOS = {
     },
 
     // ============================================================
-    // 3. DIREITO ADMINISTRATIVO — 45 questões (3 módulos)
+    // 3. DIREITO ADMINISTRATIVO
     // ============================================================
     "direito-administrativo": {
       nome: "Direito Administrativo",
@@ -250,31 +276,4 @@ const DADOS = {
                 {id:7,enunciado:"Contrato formalizado por termo.",resposta:"C",comentario:"CERTO."},
                 {id:8,enunciado:"Fiscalização é dever da admin.",resposta:"C",comentario:"CERTO."},
                 {id:9,enunciado:"Extinção pode ser por acordo.",resposta:"C",comentario:"CERTO."},
-                {id:10,enunciado:"Diálogo competitivo é para inovações.",resposta:"C",comentario:"CERTO."},
-                {id:11,enunciado:"Habilitação verifica capacidade.",resposta:"C",comentario:"CERTO."},
-                {id:12,enunciado:"Julgamento analisa propostas.",resposta:"C",comentario:"CERTO."},
-                {id:13,enunciado:"Publicidade é requisito de validade.",resposta:"C",comentario:"CERTO."},
-                {id:14,enunciado:"Empate: preferência para ME/EPP.",resposta:"C",comentario:"CERTO."},
-                {id:15,enunciado:"Contrato pode ser alterado unilateralmente.",resposta:"C",comentario:"CERTO."}
-              ]
-            }
-          }
-        },
-        "modulo-3": {
-          nome: "Servidores Públicos (Lei 8.112/90)",
-          aulas: {
-            "aula-1": {
-              nome: "Direitos, Deveres e Regime",
-              resumo: "Regime estatutário (servidores civis). Estabilidade: 3 anos. Licenças, concessões, penalidades.",
-              questoes: [
-                {id:1,enunciado:"Servidor federal é regido pela Lei 8.112/90.",resposta:"C",comentario:"CERTO."},
-                {id:2,enunciado:"Estabilidade: 3 anos de efetivo exercício.",resposta:"C",comentario:"CERTO."},
-                {id:3,enunciado:"O servidor pode acumular cargos públicos, desde que compatíveis.",resposta:"C",comentario:"CERTO."},
-                {id:4,enunciado:"Licença para capacitação é de 3 meses a cada 5 anos.",resposta:"C",comentario:"CERTO."},
-                {id:5,enunciado:"A demissão é penalidade aplicada ao servidor.",resposta:"C",comentario:"CERTO."},
-                {id:6,enunciado:"O servidor tem direito a férias de 30 dias.",resposta:"C",comentario:"CERTO."},
-                {id:7,enunciado:"Aposentadoria voluntária: 35 anos de contribuição (homem).",resposta:"C",comentario:"CERTO."},
-                {id:8,enunciado:"Aposentadoria compulsória: 70 anos.",resposta:"C",comentario:"CERTO."},
-                {id:9,enunciado:"O servidor pode ser afastado para exercer mandato eletivo.",resposta:"C",comentario:"CERTO."},
-                {id:10,enunciado:"A lei 8.112 aplica-se aos servidores estaduais.",resposta:"E",comentario:"ERRADO. Aplica-se aos federais."},
-                {id:11,enunciado:"O servidor tem direito à licença gestante de 120 dias.",resp
+                {id:10,
