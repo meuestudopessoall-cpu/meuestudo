@@ -1,63 +1,98 @@
-// script.js — Controle de progresso com histórico permanente
+// ============================================================
+// SCRIPT.JS — CONTROLE DE PROGRESSO & HISTÓRICO V3.1
+// ============================================================
 
 document.addEventListener('DOMContentLoaded', function() {
 
-    // Inicializa os dados
-    let dados = JSON.parse(localStorage.getItem('trilhaPolicial')) || {
-        acertos: 0,
-        erros: 0,
-        materiasConcluidas: 0,
-        questoesRespondidas: []
-    };
+    // Inicializa os dados com tratamento de erro e fallbacks seguros
+    let dados;
+    try {
+        dados = JSON.parse(localStorage.getItem('trilhaPolicial')) || {
+            acertos: 0,
+            erros: 0,
+            materiasConcluidas: 0,
+            questoesRespondidas: []
+        };
+    } catch (e) {
+        dados = {
+            acertos: 0,
+            erros: 0,
+            materiasConcluidas: 0,
+            questoesRespondidas: []
+        };
+    }
 
     // Inicializa o histórico geral (nunca zera)
-    let historico = JSON.parse(localStorage.getItem('trilhaHistorico')) || {
-        totalAcertos: 0,
-        totalErros: 0,
-        sessao: 0
-    };
+    let historico;
+    try {
+        historico = JSON.parse(localStorage.getItem('trilhaHistorico')) || {
+            totalAcertos: 0,
+            totalErros: 0,
+            sessao: 0
+        };
+    } catch (e) {
+        historico = {
+            totalAcertos: 0,
+            totalErros: 0,
+            sessao: 0
+        };
+    }
 
-    // Atualiza a interface com os dados carregados
+    // Atualiza a interface com os dados carregados de forma segura
     function atualizarDashboard() {
-        const total = dados.acertos + dados.erros;
-        const aproveitamento = total > 0 ? Math.round((dados.acertos / total) * 100) : 0;
+        const total = (dados.acertos || 0) + (dados.erros || 0);
+        const aproveitamento = total > 0 ? Math.round(((dados.acertos || 0) / total) * 100) : 0;
 
-        document.getElementById('acertos').textContent = dados.acertos;
-        document.getElementById('erros').textContent = dados.erros;
-        document.getElementById('aproveitamento').textContent = aproveitamento + '%';
-        document.getElementById('materias').textContent = dados.materiasConcluidas;
+        const elAcertos = document.getElementById('acertos');
+        const elErros = document.getElementById('erros');
+        const elAproveitamento = document.getElementById('aproveitamento');
+        const elMaterias = document.getElementById('materias');
+
+        if (elAcertos) elAcertos.textContent = dados.acertos || 0;
+        if (elErros) elErros.textContent = dados.erros || 0;
+        if (elAproveitamento) elAproveitamento.textContent = aproveitamento + '%';
+        if (elMaterias) elMaterias.textContent = dados.materiasConcluidas || 0;
 
         const histAcertos = document.getElementById('historicoAcertos');
         const histErros = document.getElementById('historicoErros');
         const histTotal = document.getElementById('historicoTotal');
-        if (histAcertos) histAcertos.textContent = historico.totalAcertos;
-        if (histErros) histErros.textContent = historico.totalErros;
-        if (histTotal) histTotal.textContent = historico.totalAcertos + historico.totalErros;
+
+        if (histAcertos) histAcertos.textContent = historico.totalAcertos || 0;
+        if (histErros) histErros.textContent = historico.totalErros || 0;
+        if (histTotal) histTotal.textContent = (historico.totalAcertos || 0) + (historico.totalErros || 0);
     }
 
-    // Salva os dados no navegador
+    // Salva os dados no navegador com persistência segura
     function salvarDados() {
-        localStorage.setItem('trilhaPolicial', JSON.stringify(dados));
-        localStorage.setItem('trilhaHistorico', JSON.stringify(historico));
-        atualizarDashboard();
+        try {
+            localStorage.setItem('trilhaPolicial', JSON.stringify(dados));
+            localStorage.setItem('trilhaHistorico', JSON.stringify(historico));
+            atualizarDashboard();
+        } catch (e) {
+            console.error('❌ Erro ao salvar dados no LocalStorage:', e);
+        }
     }
 
     // Função para registrar acerto/erro
     window.registrarQuestao = function(acertou, materia, modulo, aula, questaoId) {
         if (acertou) {
-            dados.acertos++;
-            historico.totalAcertos++;
+            dados.acertos = (dados.acertos || 0) + 1;
+            historico.totalAcertos = (historico.totalAcertos || 0) + 1;
         } else {
-            dados.erros++;
-            historico.totalErros++;
+            dados.erros = (dados.erros || 0) + 1;
+            historico.totalErros = (historico.totalErros || 0) + 1;
         }
+
         if (questaoId) {
+            if (!Array.isArray(dados.questoesRespondidas)) {
+                dados.questoesRespondidas = [];
+            }
             dados.questoesRespondidas.push({
-                materia: materia,
-                modulo: modulo,
-                aula: aula,
+                materia: materia || 'Geral',
+                modulo: modulo || 'Geral',
+                aula: aula || 'Geral',
                 questaoId: questaoId,
-                acertou: acertou,
+                acertou: !!acertou,
                 data: new Date().toISOString()
             });
         }
@@ -66,29 +101,35 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Função para zerar o desempenho atual (mantém histórico)
     window.zerarDesempenho = function() {
-        if (confirm('Zerar seu desempenho atual? O histórico geral será mantido.')) {
+        if (confirm('Deseja zerar seu desempenho atual? O histórico geral será mantido.')) {
             dados.acertos = 0;
             dados.erros = 0;
             dados.materiasConcluidas = 0;
             dados.questoesRespondidas = [];
             salvarDados();
-            alert('Desempenho zerado! Histórico geral mantido.');
+            
+            // Suporte opcional a toasts personalizados se existirem na interface
+            if (typeof showToast === 'function') {
+                showToast('Desempenho atual zerado com sucesso!');
+            } else {
+                alert('Desempenho zerado! Histórico geral mantido.');
+            }
         }
     };
 
     // Função para exibir o histórico
     window.exibirHistorico = function() {
         return {
-            totalAcertos: historico.totalAcertos,
-            totalErros: historico.totalErros,
-            totalQuestoes: historico.totalAcertos + historico.totalErros,
-            sessao: historico.sessao
+            totalAcertos: historico.totalAcertos || 0,
+            totalErros: historico.totalErros || 0,
+            totalQuestoes: (historico.totalAcertos || 0) + (historico.totalErros || 0),
+            sessao: historico.sessao || 0
         };
     };
 
     // Função para concluir uma matéria
     window.concluirMateria = function() {
-        dados.materiasConcluidas++;
+        dados.materiasConcluidas = (dados.materiasConcluidas || 0) + 1;
         salvarDados();
     };
 
