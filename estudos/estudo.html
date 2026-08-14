@@ -13,7 +13,7 @@
         .voltar:hover { background: #d2e3fc; }
         .filtro { display: flex; flex-wrap: wrap; gap: 10px; margin: 20px 0; }
         .filtro select, .filtro button { padding: 10px 16px; border-radius: 8px; border: 1px solid #ccc; font-size: 14px; background: #fff; outline: none; }
-        .filtro select { flex: 1; min-width: 200px; }
+        .filtro select { flex: 1; min-width: 180px; }
         .filtro button { background: #1a73e8; color: #fff; border: none; cursor: pointer; font-weight: 600; transition: 0.2s; }
         .filtro button:hover { background: #0d47a1; transform: scale(1.02); }
         .aula-card { background: #f8faff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 24px; margin: 20px 0; }
@@ -29,6 +29,11 @@
         .btn-praticar:hover { background: #0d47a1; transform: scale(1.02); }
         .aviso-vazio { text-align: center; color: #666; padding: 40px; font-size: 16px; background: #fafafa; border-radius: 8px; border: 1px dashed #ccc; }
         .footer { margin-top: 30px; text-align: center; color: #7a8a9e; border-top: 1px solid #e2e8f0; padding-top: 20px; }
+        @media (max-width: 600px) {
+            .container { padding: 15px; }
+            .filtro select, .filtro button { font-size: 13px; padding: 8px 10px; }
+            .aula-card { padding: 15px; }
+        }
     </style>
 </head>
 <body>
@@ -37,7 +42,8 @@
     <a href="index.html" class="voltar">← Voltar ao início</a>
 
     <div class="filtro">
-        <select id="filtroMateriaEstudo">
+        <select id="filtroMateriaEstudo" onchange="atualizarModulos()">
+            <option value="lingua-portuguesa">Língua Portuguesa</option>
             <option value="direito-constitucional">Direito Constitucional</option>
             <option value="direito-administrativo">Direito Administrativo</option>
             <option value="direito-penal">Direito Penal</option>
@@ -46,20 +52,16 @@
             <option value="direitos-humanos">Direitos Humanos</option>
             <option value="raciocinio-logico">Raciocínio Lógico</option>
             <option value="informatica">Informática</option>
-            <option value="lodf">LODF</option>
+            <option value="lodf">Lei Orgânica do DF (LODF)</option>
             <option value="ride">RIDE</option>
             <option value="lc-840">LC 840/2011</option>
             <option value="eca">ECA</option>
         </select>
-        <select id="filtroModuloEstudo">
-            <option value="modulo-1">Módulo 1</option>
-            <option value="modulo-2">Módulo 2</option>
-            <option value="modulo-3">Módulo 3</option>
-            <option value="modulo-4">Módulo 4</option>
-            <option value="modulo-5">Módulo 5</option>
+        <select id="filtroModuloEstudo" onchange="atualizarAulas()">
+            <!-- Preenchido via JavaScript -->
         </select>
         <select id="filtroAulaEstudo">
-            <option value="aula-1">Aula 1</option>
+            <!-- Preenchido via JavaScript -->
         </select>
         <button onclick="carregarAula()">📖 Carregar Aula</button>
     </div>
@@ -73,18 +75,90 @@
 
 <script>
 // ============================================================
-// DADOS DE EXEMPLO (Base estruturada para as matérias)
+// BASE DE DADOS COMPLETA — 12 MATÉRIAS COM CONTEÚDO
 // ============================================================
 const AULAS = {
+    // ============================================================
+    // 1. LÍNGUA PORTUGUESA — 2 MÓDULOS
+    // ============================================================
+    "lingua-portuguesa": {
+        "modulo-1": {
+            "aula-1": {
+                titulo: "Compreensão e Interpretação de Textos",
+                conteudo: `
+                    <h2>📌 Conceito</h2>
+                    <p><strong>Compreensão</strong> é a extração de informações explícitas do texto. <strong>Interpretação</strong> é a captação de ideias implícitas, inferências, pressupostos e subentendidos.</p>
+                    <h2>🔍 Explicação Aprofundada</h2>
+                    <p><strong>Diferença:</strong> Compreensão = "o que está escrito". Interpretação = "o que o autor quis dizer".</p>
+                    <p><strong>Tipos textuais:</strong></p>
+                    <ul>
+                        <li><strong>Narrativo:</strong> conta uma história (personagens, tempo, espaço). Estrutura: apresentação, complicação, clímax, desfecho.</li>
+                        <li><strong>Descritivo:</strong> descreve seres, objetos ou cenários (objetivo ou subjetivo).</li>
+                        <li><strong>Dissertativo:</strong> expõe ideias e argumentos (tese, antítese, conclusão).</li>
+                        <li><strong>Injuntivo:</strong> orienta, instrui (manuais, receitas).</li>
+                    </ul>
+                    <p><strong>Marcadores textuais:</strong> "portanto" (conclusão), "contudo" (oposição), "assim" (consequência).</p>
+                    <div class="secao macete">
+                        <strong>🧠 Macete:</strong> Compreensão = "está escrito". Interpretação = "o que o autor quis dizer". Se a questão diz "infere-se", é interpretação.
+                    </div>
+                    <div class="secao pegadinha">
+                        <strong>⚠️ Pegadinha da Banca:</strong> A Cebraspe adora misturar compreensão com interpretação. Exemplo: afirmar que "o texto diz explicitamente que a crise é culpa do governo" – se o texto não diz isso, é interpretação forçada, ou seja, ERRADO.
+                    </div>
+                    <div class="secao atencao">
+                        <strong>📌 Atenção:</strong> Pressuposto é informação implícita necessária para o sentido. Subentendido é informação implícita deduzível. A banca cobra a diferença.
+                    </div>
+                    <h2>🎯 O que realmente cai em prova</h2>
+                    <ul>
+                        <li>Compreensão = explícito.</li>
+                        <li>Interpretação = implícito/inferência.</li>
+                        <li>Marcadores textuais: "portanto" (conclusão), "contudo" (oposição).</li>
+                        <li>Tipos textuais: narrativo, descritivo, dissertativo, injuntivo.</li>
+                    </ul>
+                    <a href="questoes.html?materia=lingua-portuguesa&modulo=modulo-1&aula=aula-1" target="_blank" class="btn-praticar">📝 Praticar questões desta aula</a>
+                `
+            }
+        },
+        "modulo-2": {
+            "aula-1": {
+                titulo: "Redação Oficial",
+                conteudo: `
+                    <h2>📌 Conceito</h2>
+                    <p>A redação oficial é a forma padronizada de comunicação administrativa. Suas características principais são: <strong>impessoal, clara, objetiva, concisa, formal e uniforme</strong>.</p>
+                    <h2>🔍 Explicação Aprofundada</h2>
+                    <ul>
+                        <li><strong>Impessoalidade:</strong> uso de terceira pessoa, evitar pronomes de primeira pessoa ("eu", "nós").</li>
+                        <li><strong>Clareza:</strong> frases curtas, vocabulário acessível.</li>
+                        <li><strong>Objetividade:</strong> direta ao ponto, sem rodeios.</li>
+                        <li><strong>Concisão:</strong> dizer o máximo com o mínimo de palavras.</li>
+                        <li><strong>Formalidade:</strong> linguagem adequada ao ambiente administrativo, sem gírias ou regionalismos.</li>
+                        <li><strong>Uniformidade:</strong> padrão linguístico consistente em todos os documentos.</li>
+                    </ul>
+                    <div class="secao pegadinha">
+                        <strong>⚠️ Pegadinha da Banca:</strong> Dizer que a redação oficial admite gírias ou regionalismos. <strong>ERRADO!</strong> Deve ser formal e uniforme.
+                    </div>
+                    <h2>🎯 O que realmente cai em prova</h2>
+                    <ul>
+                        <li>Características: impessoal, clara, objetiva, concisa, formal, uniforme.</li>
+                        <li>Impessoalidade: terceira pessoa.</li>
+                        <li>Não admite gírias, regionalismos ou marcas de oralidade.</li>
+                    </ul>
+                    <a href="questoes.html?materia=lingua-portuguesa&modulo=modulo-2&aula=aula-1" target="_blank" class="btn-praticar">📝 Praticar questões desta aula</a>
+                `
+            }
+        }
+    },
+    // ============================================================
+    // 2. DIREITO CONSTITUCIONAL — 5 MÓDULOS
+    // ============================================================
     "direito-constitucional": {
         "modulo-1": {
             "aula-1": {
                 titulo: "Conceito, Sentidos e Classificações da Constituição",
                 conteudo: `
                     <h2>📌 Conceito</h2>
-                    <p>A Constituição é a <strong>lei fundamental e suprema</strong> de um Estado. Ela organiza os Poderes, define a forma de governo e estabelece os direitos fundamentais.</p>
+                    <p>A Constituição é a <strong>lei fundamental e suprema</strong> de um Estado. Ela organiza os Poderes, define a forma de governo e estabelece os direitos fundamentais. Nenhuma norma abaixo dela pode contrariá-la.</p>
                     <h2>🔍 Explicação Aprofundada</h2>
-                    <p><strong>Sentido Sociológico (Lassalle):</strong> A Constituição real resume-se aos <strong>fatores reais de poder</strong> — forças econômicas, sociais e políticas.</p>
+                    <p><strong>Sentido Sociológico (Lassalle):</strong> A Constituição real resume-se aos <strong>fatores reais de poder</strong> — forças econômicas, sociais e políticas. O texto escrito que não reflete esses fatores é mera "folha de papel".</p>
                     <p><strong>Sentido Político (Schmitt):</strong> A Constituição é a <strong>decisão política fundamental</strong> tomada pelo titular do poder constituinte.</p>
                     <p><strong>Sentido Jurídico (Kelsen):</strong> A Constituição é a <strong>norma pura</strong>, o ápice do ordenamento jurídico, fundamento de validade.</p>
                     <h3>📂 Classificações da CF/88</h3>
@@ -93,6 +167,8 @@ const AULAS = {
                         <li><strong>Estabilidade:</strong> Totalmente Rígida.</li>
                         <li><strong>Forma:</strong> Escrita.</li>
                         <li><strong>Conteúdo:</strong> Formal e Material.</li>
+                        <li><strong>Modo de elaboração:</strong> Dogmática.</li>
+                        <li><strong>Extensão:</strong> Analítica.</li>
                     </ul>
                     <div class="secao macete">
                         <strong>🧠 Macete:</strong> "PEDRO É FERA" — <strong>P</strong>romulgada, <strong>E</strong>scrita, <strong>D</strong>ogmática, <strong>R</strong>ígida, <strong>A</strong>nalítica, <strong>F</strong>ormal.
@@ -100,6 +176,17 @@ const AULAS = {
                     <div class="secao pegadinha">
                         <strong>⚠️ Pegadinha da Banca:</strong> A Cebraspe adora afirmar que a CF/88 é semi-rígida. <strong>ERRADO!</strong> É <strong>totalmente rígida</strong>.
                     </div>
+                    <div class="secao atencao">
+                        <strong>📌 Atenção:</strong> Constituição rígida ≠ imutável. Pode ser alterada por Emenda Constitucional, mas por um processo mais difícil.
+                    </div>
+                    <h2>🎯 O que realmente cai em prova</h2>
+                    <ul>
+                        <li>Sentido sociológico (Lassalle) = fatores reais de poder / "folha de papel".</li>
+                        <li>Sentido político (Schmitt) = decisão política fundamental.</li>
+                        <li>Sentido jurídico (Kelsen) = norma pura.</li>
+                        <li>CF/88 = promulgada, rígida, escrita, dogmática, analítica.</li>
+                        <li>A CF/88 NÃO é semi-rígida.</li>
+                    </ul>
                     <a href="questoes.html?materia=direito-constitucional&modulo=modulo-1&aula=aula-1" target="_blank" class="btn-praticar">📝 Praticar questões desta aula</a>
                 `
             }
@@ -109,15 +196,123 @@ const AULAS = {
                 titulo: "Poder Constituinte Originário e Derivado",
                 conteudo: `
                     <h2>📌 Conceito</h2>
-                    <p><strong>Poder Constituinte</strong> é a capacidade de criar, modificar ou complementar a Constituição.</p>
+                    <p><strong>Poder Constituinte</strong> é a capacidade de criar, modificar ou complementar a Constituição de um Estado.</p>
+                    <h2>🔍 Explicação Aprofundada</h2>
+                    <p><strong>Poder Constituinte Originário (PCO):</strong> Cria a Constituição. É <strong>inicial, incondicionado, ilimitado juridicamente e autônomo</strong>. Titular: povo. Exercício: Assembleia Constituinte ou outorga.</p>
+                    <p><strong>Poder Constituinte Derivado (PCD):</strong> Modifica ou complementa a Constituição. Subdivide-se em:</p>
+                    <ul>
+                        <li><strong>Reformador:</strong> Emendas Constitucionais (3/5 em dois turnos).</li>
+                        <li><strong>Decorrente:</strong> Estados-membros elaboram suas Constituições (simetria).</li>
+                        <li><strong>Difuso:</strong> Municípios elaboram leis orgânicas.</li>
+                    </ul>
                     <div class="secao macete">
                         <strong>🧠 Macete:</strong> Características do PCO: <strong>"INILA"</strong> — <strong>I</strong>nicial, <strong>N</strong>ão condicionado, <strong>I</strong>limitado, <strong>L</strong>ivre, <strong>A</strong>utônomo.
                     </div>
+                    <div class="secao pegadinha">
+                        <strong>⚠️ Pegadinha da Banca:</strong> Afirmar que o povo pode propor PEC. <strong>ERRADO!</strong> A iniciativa é de: 1/3 da Câmara, 1/3 do Senado, Presidente ou maioria das Assembleias.
+                    </div>
+                    <div class="secao atencao">
+                        <strong>📌 Atenção:</strong> O Distrito Federal <strong>não exerce</strong> poder decorrente. Tem <strong>Lei Orgânica</strong> (art. 32 da CF).
+                    </div>
+                    <h2>🎯 O que realmente cai em prova</h2>
+                    <ul>
+                        <li>PCO: inicial, incondicionado, ilimitado, autônomo.</li>
+                        <li>Poder Reformador: EC com 3/5 em dois turnos.</li>
+                        <li>Poder Decorrente: Estados, com simetria.</li>
+                        <li>O povo NÃO pode propor PEC.</li>
+                    </ul>
                     <a href="questoes.html?materia=direito-constitucional&modulo=modulo-2&aula=aula-1" target="_blank" class="btn-praticar">📝 Praticar questões desta aula</a>
+                `
+            }
+        },
+        "modulo-3": {
+            "aula-1": {
+                titulo: "Princípios Fundamentais (Arts. 1º a 4º)",
+                conteudo: `
+                    <h2>📌 Conceito</h2>
+                    <p>Os Princípios Fundamentais estão nos arts. 1º a 4º da CF. Eles definem a <strong>identidade do Estado brasileiro</strong>.</p>
+                    <h2>🔍 Explicação Aprofundada</h2>
+                    <p><strong>Fundamentos (Art. 1º):</strong> Soberania, Cidadania, Dignidade da pessoa humana, Valores sociais do trabalho e da livre iniciativa, Pluralismo político.</p>
+                    <p><strong>Objetivos (Art. 3º):</strong> Construir sociedade livre/justa/solidária, Garantir desenvolvimento, Erradicar pobreza, Reduzir desigualdades, Promover bem de todos.</p>
+                    <p><strong>Relações Internacionais (Art. 4º):</strong> Independência, Direitos humanos, Autodeterminação, Não intervenção, Igualdade, Paz, Repúdio ao terrorismo, Cooperação.</p>
+                    <div class="secao macete">
+                        <strong>🧠 Macete (Fundamentos):</strong> "SO CI DIPLU" — <strong>SO</strong>berania, <strong>CI</strong>dadania, <strong>DI</strong>gnidade, <strong>PLU</strong>ralismo.
+                    </div>
+                    <div class="secao pegadinha">
+                        <strong>⚠️ Pegadinha da Banca:</strong> Trocar "fundamentos" por "objetivos". Exemplo: dizer que "erradicar a pobreza" é fundamento. <strong>ERRADO!</strong> É objetivo.
+                    </div>
+                    <h2>🎯 O que realmente cai em prova</h2>
+                    <ul>
+                        <li>Fundamentos: soberania, cidadania, dignidade, valores sociais, pluralismo.</li>
+                        <li>Objetivos: construir, garantir, erradicar, reduzir, promover.</li>
+                        <li>Relações internacionais: não intervenção, paz, direitos humanos, etc.</li>
+                    </ul>
+                    <a href="questoes.html?materia=direito-constitucional&modulo=modulo-3&aula=aula-1" target="_blank" class="btn-praticar">📝 Praticar questões desta aula</a>
+                `
+            }
+        },
+        "modulo-4": {
+            "aula-1": {
+                titulo: "Direitos e Garantias Fundamentais (Art. 5º)",
+                conteudo: `
+                    <h2>📌 Conceito</h2>
+                    <p>O art. 5º da CF/88 trata dos <strong>direitos e garantias fundamentais</strong>.</p>
+                    <h2>🔍 Explicação Aprofundada</h2>
+                    <p><strong>Direitos:</strong> vida, igualdade, liberdade, segurança, propriedade.</p>
+                    <p><strong>Garantias:</strong> habeas corpus, mandado de segurança, habeas data, mandado de injunção, ação popular.</p>
+                    <p><strong>Cláusulas pétreas:</strong> os direitos e garantias individuais são cláusulas pétreas (art. 60, §4º).</p>
+                    <div class="secao macete">
+                        <strong>🧠 Macete (Garantias):</strong> "HMSA" — <strong>H</strong>abeas corpus, <strong>M</strong>andado de segurança, <strong>S</strong>egurança, <strong>A</strong>ção popular.
+                    </div>
+                    <div class="secao pegadinha">
+                        <strong>⚠️ Pegadinha da Banca:</strong> Dizer que "prisão civil por dívida é admitida no Brasil". <strong>ERRADO!</strong> Só para depositário infiel e alimentante.
+                    </div>
+                    <h2>🎯 O que realmente cai em prova</h2>
+                    <ul>
+                        <li>Art. 5º: direitos e garantias fundamentais.</li>
+                        <li>Garantias: habeas corpus, mandado de segurança, habeas data, mandado de injunção, ação popular.</li>
+                        <li>Prisão civil: só para depositário infiel e alimentante.</li>
+                    </ul>
+                    <a href="questoes.html?materia=direito-constitucional&modulo=modulo-4&aula=aula-1" target="_blank" class="btn-praticar">📝 Praticar questões desta aula</a>
+                `
+            }
+        },
+        "modulo-5": {
+            "aula-1": {
+                titulo: "Organização do Estado (Arts. 18 a 36)",
+                conteudo: `
+                    <h2>📌 Conceito</h2>
+                    <p>O Brasil é uma <strong>federação</strong> formada pela União, Estados, Distrito Federal e Municípios.</p>
+                    <h2>🔍 Explicação Aprofundada</h2>
+                    <p><strong>Competências:</strong></p>
+                    <ul>
+                        <li><strong>Exclusivas da União:</strong> art. 21 (moeda, política externa).</li>
+                        <li><strong>Privativas da União:</strong> art. 22 (direito penal, civil).</li>
+                        <li><strong>Comuns:</strong> art. 23 (saúde, educação).</li>
+                        <li><strong>Concorrentes:</strong> art. 24 (União, Estados e DF legislam).</li>
+                        <li><strong>Residuais dos Estados:</strong> o que não é da União.</li>
+                    </ul>
+                    <div class="secao pegadinha">
+                        <strong>⚠️ Pegadinha da Banca:</strong> Dizer que a competência privativa da União é <strong>indelegável</strong>. <strong>ERRADO!</strong> Pode ser delegada aos Estados.
+                    </div>
+                    <div class="secao atencao">
+                        <strong>📌 Atenção:</strong> O DF é um ente <strong>sui generis</strong> — não é estado, não é município. É regido por <strong>Lei Orgânica</strong>.
+                    </div>
+                    <h2>🎯 O que realmente cai em prova</h2>
+                    <ul>
+                        <li>Forma federativa é cláusula pétrea.</li>
+                        <li>DF não é estado-membro.</li>
+                        <li>Competência privativa da União é delegável.</li>
+                    </ul>
+                    <a href="questoes.html?materia=direito-constitucional&modulo=modulo-5&aula=aula-1" target="_blank" class="btn-praticar">📝 Praticar questões desta aula</a>
                 `
             }
         }
     },
+
+    // ============================================================
+    // 3. DIREITO ADMINISTRATIVO — 3 MÓDULOS
+    // ============================================================
     "direito-administrativo": {
         "modulo-1": {
             "aula-1": {
@@ -125,44 +320,238 @@ const AULAS = {
                 conteudo: `
                     <h2>📌 Conceito</h2>
                     <p>Os princípios da Administração Pública estão no <strong>art. 37, caput, da CF/88</strong>.</p>
+                    <h2>🔍 Explicação Aprofundada</h2>
+                    <ul>
+                        <li><strong>Legalidade:</strong> O administrador só pode fazer o que a lei autoriza.</li>
+                        <li><strong>Impessoalidade:</strong> Atuação objetiva, veda nepotismo.</li>
+                        <li><strong>Moralidade:</strong> Exige probidade, honestidade, boa-fé.</li>
+                        <li><strong>Publicidade:</strong> Atos devem ser divulgados, salvo sigilo.</li>
+                        <li><strong>Eficiência:</strong> Exige resultados, economicidade, celeridade (EC 19/98).</li>
+                    </ul>
                     <div class="secao macete">
                         <strong>🧠 Macete:</strong> "LIMPE" — <strong>L</strong>egalidade, <strong>I</strong>mpessoalidade, <strong>M</strong>oralidade, <strong>P</strong>ublicidade, <strong>E</strong>ficiência.
                     </div>
+                    <div class="secao pegadinha">
+                        <strong>⚠️ Pegadinha da Banca:</strong> Dizer que a publicidade é <strong>absoluta</strong>. <strong>ERRADO!</strong> Há exceções (sigilo).
+                    </div>
+                    <div class="secao atencao">
+                        <strong>📌 Atenção:</strong> A eficiência foi inserida pela <strong>EC 19/98</strong>.
+                    </div>
+                    <h2>🎯 O que realmente cai em prova</h2>
+                    <ul>
+                        <li>Legalidade: só o que a lei autoriza.</li>
+                        <li>Impessoalidade: proíbe nepotismo.</li>
+                        <li>Publicidade: não é absoluta.</li>
+                        <li>Eficiência: EC 19/98.</li>
+                    </ul>
                     <a href="questoes.html?materia=direito-administrativo&modulo=modulo-1&aula=aula-1" target="_blank" class="btn-praticar">📝 Praticar questões desta aula</a>
+                `
+            }
+        },
+        "modulo-2": {
+            "aula-1": {
+                titulo: "Licitações e Contratos (Lei 14.133/2021)",
+                conteudo: `
+                    <h2>📌 Conceito</h2>
+                    <p>A nova Lei de Licitações (14.133/2021) estabelece normas gerais para licitações e contratos administrativos.</p>
+                    <h2>🔍 Explicação Aprofundada</h2>
+                    <p><strong>Modalidades:</strong> pregão, concorrência, leilão, diálogo competitivo.</p>
+                    <p><strong>Fases:</strong> preparatória, divulgação, habilitação, julgamento, adjudicação.</p>
+                    <div class="secao pegadinha">
+                        <strong>⚠️ Pegadinha da Banca:</strong> Dizer que o pregão é sempre presencial. <strong>ERRADO!</strong> Em regra é eletrônico.
+                    </div>
+                    <div class="secao atencao">
+                        <strong>📌 Atenção:</strong> A Lei 14.133/2021 revogou a Lei 8.666/93, a Lei 10.520/02 e partes da Lei 12.462/11.
+                    </div>
+                    <h2>🎯 O que realmente cai em prova</h2>
+                    <ul>
+                        <li>Modalidades: pregão, concorrência, leilão, diálogo.</li>
+                        <li>Pregão é eletrônico em regra.</li>
+                        <li>Nova lei revogou a 8.666/93.</li>
+                    </ul>
+                    <a href="questoes.html?materia=direito-administrativo&modulo=modulo-2&aula=aula-1" target="_blank" class="btn-praticar">📝 Praticar questões desta aula</a>
+                `
+            }
+        },
+        "modulo-3": {
+            "aula-1": {
+                titulo: "Servidores Públicos (Lei 8.112/90)",
+                conteudo: `
+                    <h2>📌 Conceito</h2>
+                    <p>A Lei 8.112/90 estabelece o regime jurídico dos servidores públicos civis da União.</p>
+                    <h2>🔍 Explicação Aprofundada</h2>
+                    <p><strong>Regime:</strong> Estatutário (não é CLT).</p>
+                    <p><strong>Estabilidade:</strong> Após 3 anos de efetivo exercício.</p>
+                    <p><strong>Licenças:</strong> Gestante (120 dias), paternidade (5 dias), capacitação.</p>
+                    <p><strong>Penalidades:</strong> Advertência, suspensão (até 90 dias), demissão.</p>
+                    <div class="secao pegadinha">
+                        <strong>⚠️ Pegadinha da Banca:</strong> Dizer que o servidor público federal é regido pela CLT. <strong>ERRADO!</strong> É regime estatutário.
+                    </div>
+                    <h2>🎯 O que realmente cai em prova</h2>
+                    <ul>
+                        <li>Regime estatutário, não CLT.</li>
+                        <li>Estabilidade: 3 anos.</li>
+                        <li>Licenças: gestante 120d, paternidade 5d.</li>
+                    </ul>
+                    <a href="questoes.html?materia=direito-administrativo&modulo=modulo-3&aula=aula-1" target="_blank" class="btn-praticar">📝 Praticar questões desta aula</a>
+                `
+            }
+        }
+    },
+
+    // ============================================================
+    // 4. DIREITO PENAL — 3 MÓDULOS
+    // ============================================================
+    "direito-penal": {
+        "modulo-1": {
+            "aula-1": {
+                titulo: "Teoria do Crime (TIC)",
+                conteudo: `
+                    <h2>📌 Conceito</h2>
+                    <p>Crime é <strong>fato típico, ilícito e culpável</strong>.</p>
+                    <h2>🔍 Explicação Aprofundada</h2>
+                    <p><strong>Fato Típico:</strong> conduta (ação ou omissão), nexo causal, resultado (em crimes materiais), tipicidade.</p>
+                    <p><strong>Ilicitude:</strong> conduta contrária ao ordenamento. Excludentes: legítima defesa, estado de necessidade, estrito cumprimento do dever legal, exercício regular de direito.</p>
+                    <p><strong>Culpabilidade:</strong> imputabilidade, potencial consciência da ilicitude, exigibilidade de conduta diversa.</p>
+                    <div class="secao macete">
+                        <strong>🧠 Macete:</strong> "TIC" — <strong>T</strong>ípica, <strong>I</strong>lícita, <strong>C</strong>ulpável.
+                    </div>
+                    <div class="secao pegadinha">
+                        <strong>⚠️ Pegadinha da Banca:</strong> Afirmar que "toda conduta típica é ilícita". <strong>ERRADO!</strong> Há excludentes de ilicitude.
+                    </div>
+                    <h2>🎯 O que realmente cai em prova</h2>
+                    <ul>
+                        <li>Fato típico: conduta, nexo, resultado, tipicidade.</li>
+                        <li>Ilicitude: excludentes (legítima defesa, estado de necessidade).</li>
+                        <li>Culpabilidade: imputabilidade, consciência, exigibilidade.</li>
+                    </ul>
+                    <a href="questoes.html?materia=direito-penal&modulo=modulo-1&aula=aula-1" target="_blank" class="btn-praticar">📝 Praticar questões desta aula</a>
+                `
+            }
+        },
+        "modulo-2": {
+            "aula-1": {
+                titulo: "Crimes contra a pessoa",
+                conteudo: `
+                    <h2>📌 Homicídio (art. 121)</h2>
+                    <p>Pena: 6 a 20 anos. Qualificado: 12 a 30 anos. Privilegiado: redução.</p>
+                    <h2>📌 Lesão corporal (art. 129)</h2>
+                    <p>Leve: 3m a 1a. Grave: 1 a 5a. Gravíssima: 2 a 8a.</p>
+                    <div class="secao pegadinha">
+                        <strong>⚠️ Pegadinha da Banca:</strong> Homicídio privilegiado não é causa de aumento, é redução.
+                    </div>
+                    <a href="questoes.html?materia=direito-penal&modulo=modulo-2&aula=aula-1" target="_blank" class="btn-praticar">📝 Praticar questões desta aula</a>
+                `
+            }
+        },
+        "modulo-3": {
+            "aula-1": {
+                titulo: "Crimes contra o patrimônio",
+                conteudo: `
+                    <h2>📌 Furto (art. 155)</h2>
+                    <p>Pena: 1 a 4 anos. Qualificado: 2 a 8 anos.</p>
+                    <h2>📌 Roubo (art. 157)</h2>
+                    <p>Pena: 4 a 10 anos (majorado com arma).</p>
+                    <div class="secao pegadinha">
+                        <strong>⚠️ Pegadinha da Banca:</strong> Furto qualificado não é hediondo; roubo majorado é.
+                    </div>
+                    <a href="questoes.html?materia=direito-penal&modulo=modulo-3&aula=aula-1" target="_blank" class="btn-praticar">📝 Praticar questões desta aula</a>
+                `
+            }
+        }
+    },
+
+    // ============================================================
+    // 5. DIREITO PROCESSUAL PENAL — 3 MÓDULOS
+    // ============================================================
+    "direito-processual-penal": {
+        "modulo-1": {
+            "aula-1": {
+                titulo: "Inquérito Policial (Arts. 4º a 23 do CPP)",
+                conteudo: `
+                    <h2>📌 Conceito</h2>
+                    <p>O inquérito policial é um <strong>procedimento administrativo, inquisitivo, escrito, dispensável e sigiloso</strong>.</p>
+                    <p><strong>Prazos:</strong> Preso: 30 dias (prorrogável +30). Solto: 10 dias (prorrogável +10).</p>
+                    <div class="secao macete">
+                        <strong>🧠 Macete:</strong> "OIEDSS" — <strong>O</strong>ficial, <strong>I</strong>nquisitivo, <strong>E</strong>scrito, <strong>D</strong>ispensável, <strong>S</strong>igiloso, <strong>S</strong>umário.
+                    </div>
+                    <div class="secao pegadinha">
+                        <strong>⚠️ Pegadinha da Banca:</strong> Afirmar que o IP é obrigatório. <strong>ERRADO!</strong> É dispensável.
+                    </div>
+                    <a href="questoes.html?materia=direito-processual-penal&modulo=modulo-1&aula=aula-1" target="_blank" class="btn-praticar">📝 Praticar questões desta aula</a>
+                `
+            }
+        },
+        "modulo-2": {
+            "aula-1": {
+                titulo: "Recursos no Processo Penal",
+                conteudo: `
+                    <h2>📌 Apelação (art. 593 CPP)</h2>
+                    <p>Recurso ordinário. Prazo: 5 dias.</p>
+                    <h2>📌 RESE (art. 581 CPP)</h2>
+                    <p>Recurso em sentido estrito. Prazo: 5 dias.</p>
+                    <div class="secao pegadinha">
+                        <strong>⚠️ Pegadinha da Banca:</strong> Dizer que o prazo para apelação é de 10 dias. <strong>ERRADO!</strong> É 5 dias.
+                    </div>
+                    <a href="questoes.html?materia=direito-processual-penal&modulo=modulo-2&aula=aula-1" target="_blank" class="btn-praticar">📝 Praticar questões desta aula</a>
+                `
+            }
+        },
+        "modulo-3": {
+            "aula-1": {
+                titulo: "Medidas Cautelares e Prisões",
+                conteudo: `
+                    <h2>📌 Prisão Preventiva (art. 312 CPP)</h2>
+                    <p>Para garantir a ordem pública, conveniência da instrução ou aplicação da lei penal.</p>
+                    <h2>📌 Prisão Temporária (Lei 7.960/89)</h2>
+                    <p>Prazo: 5 dias (prorrogável +5).</p>
+                    <div class="secao pegadinha">
+                        <strong>⚠️ Pegadinha da Banca:</strong> Dizer que a prisão preventiva é automática em hediondos. <strong>ERRADO!</strong> Depende de fundamentação.
+                    </div>
+                    <a href="questoes.html?materia=direito-processual-penal&modulo=modulo-3&aula=aula-1" target="_blank" class="btn-praticar">📝 Praticar questões desta aula</a>
+                `
+            }
+        }
+    },
+
+    // ============================================================
+    // 6. LEGISLAÇÃO PENAL ESPECIAL — 2 MÓDULOS
+    // ============================================================
+    "legislacao-penal-especial": {
+        "modulo-1": {
+            "aula-1": {
+                titulo: "Lei de Drogas (Lei 11.343/2006) — Arts. 28 e 33",
+                conteudo: `
+                    <h2>📌 Art. 28 (Porte para consumo pessoal)</h2>
+                    <p>Penas alternativas. <strong>NÃO</strong> há prisão. É crime, mas sem prisão.</p>
+                    <h2>📌 Art. 33 (Tráfico)</h2>
+                    <p>Pena: 5 a 15 anos. Crime hediondo.</p>
+                    <div class="secao macete">
+                        <strong>🧠 Macete:</strong> "28 não prende, 33 prende muito."
+                    </div>
+                    <div class="secao pegadinha">
+                        <strong>⚠️ Pegadinha da Banca:</strong> Afirmar que o porte (art. 28) não é crime. <strong>ERRADO!</strong> É crime, mas com penas alternativas.
+                    </div>
+                    <a href="questoes.html?materia=legislacao-penal-especial&modulo=modulo-1&aula=aula-1" target="_blank" class="btn-praticar">📝 Praticar questões desta aula</a>
+                `
+            }
+        },
+        "modulo-2": {
+            "aula-1": {
+                titulo: "Estatuto do Desarmamento (Lei 10.826/2003)",
+                conteudo: `
+                    <h2>📌 Posse (art. 12)</h2>
+                    <p>Pena: 1 a 3 anos.</p>
+                    <h2>📌 Porte (art. 14)</h2>
+                    <p>Pena: 2 a 4 anos.</p>
+                    <div class="secao pegadinha">
+                        <strong>⚠️ Pegadinha da Banca:</strong> Dizer que posse e porte são crimes idênticos. <strong>ERRADO!</strong> Posse é em casa; porte é fora de casa.
+                    </div>
+                    <a href="questoes.html?materia=legislacao-penal-especial&modulo=modulo-2&aula=aula-1" target="_blank" class="btn-praticar">📝 Praticar questões desta aula</a>
                 `
             }
         }
     }
-};
-
-// ============================================================
-// FUNÇÃO PARA CARREGAR A AULA DINAMICAMENTE
-// ============================================================
-function carregarAula() {
-    const materia = document.getElementById('filtroMateriaEstudo').value;
-    const modulo = document.getElementById('filtroModuloEstudo').value;
-    const aula = document.getElementById('filtroAulaEstudo').value;
-    const painel = document.getElementById('painelAula');
-
-    // Valida se existe a aula cadastrada no objeto
-    if (AULAS[materia] && AULAS[materia][modulo] && AULAS[materia][modulo][aula]) {
-        const dadosAula = AULAS[materia][modulo][aula];
-        painel.innerHTML = `
-            <div class="aula-card">
-                <h2>${dadosAula.titulo}</h2>
-                ${dadosAula.conteudo}
-            </div>
-        `;
-    } else {
-        painel.innerHTML = `
-            <div class="aula-card" style="border-left-color: #f9a825;">
-                <h2>🚧 Aula em Desenvolvimento</h2>
-                <p>O conteúdo completo para esta aula específica ainda está sendo finalizado no sistema ou não possui registro cadastrado no momento.</p>
-                <p>Tente selecionar <strong>Direito Constitucional (Módulo 1, Aula 1)</strong> ou <strong>Direito Administrativo (Módulo 1, Aula 1)</strong> para testar a visualização.</p>
-            </div>
-        `;
-    }
-}
-</script>
-</body>
-</html>
+    // ============================================================
+    // CONTINUA NA PARTE 2 (MATÉRIAS 7 A 12 + JAVASCRIPT)
+    // ============================================================
