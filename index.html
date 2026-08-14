@@ -150,6 +150,53 @@
                 display: none;
             }
         }
+        /* Estilo do botão futuro aprovado */
+        .btn-futuro-aprovado {
+            background: #f9a825;
+            color: #0b2b4a;
+            padding: 8px 18px;
+            border-radius: 30px;
+            font-weight: 700;
+            text-decoration: none;
+            font-size: 15px;
+            transition: 0.2s;
+            display: inline-block;
+            border: 2px solid #f9a825;
+        }
+        .btn-futuro-aprovado:hover {
+            background: #fbc02d;
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(249, 168, 37, 0.4);
+        }
+        .menu {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin: 25px 0 30px 0;
+            align-items: center;
+        }
+        .menu a {
+            background: #1a73e8;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 15px;
+            transition: 0.2s;
+            display: inline-block;
+        }
+        .menu a:hover {
+            background: #0d47a1;
+            transform: scale(1.02);
+        }
+        .menu a.secundario {
+            background: #e8f0fe;
+            color: #1a73e8;
+        }
+        .menu a.secundario:hover {
+            background: #d2e3fc;
+        }
     </style>
 </head>
 <body>
@@ -164,9 +211,9 @@
             <p style="font-size:14px; color:#2c3e50;">📌 Clique em uma matéria abaixo para acessar resumos, questões e quiz.</p>
         </div>
 
-        <!-- MENU SUPERIOR COM LINKS CORRIGIDOS -->
+        <!-- MENU SUPERIOR COM BOTÃO FUTURO APROVADO -->
         <div class="menu">
-            <a href="index.html">📖 Início</a>
+            <a href="index.html" class="btn-futuro-aprovado">🏆 futuro aprovado</a>
             <a href="resumos.html" class="secundario">📚 Resumos</a>
             <a href="questoes.html" class="secundario">📝 Questões</a>
             <a href="quiz.html" class="secundario">🧠 Quiz</a>
@@ -176,7 +223,7 @@
         <!-- LISTA DE 12 MATÉRIAS COM LINKS PARA RESUMOS -->
         <h2 style="font-size:20px; margin: 20px 0 10px 0;">📚 Matérias do ciclo</h2>
         <div class="menu-materias" id="listaMaterias">
-            <!-- Será preenchido pelo JavaScript com links para resumos.html?materia=... -->
+            <!-- Será preenchido pelo JavaScript -->
         </div>
 
         <!-- PAINEL DE DESEMPENHO -->
