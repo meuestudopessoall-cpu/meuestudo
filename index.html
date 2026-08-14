@@ -23,6 +23,7 @@
             font-size: 14px;
             transition: 0.2s;
             border: 1px solid transparent;
+            display: block;
         }
         .menu-materias a:hover {
             background: #1a73e8;
@@ -37,7 +38,7 @@
             background: #2e7d32;
             color: white;
         }
-        /* Player flutuante (mantido) */
+        /* Player flutuante */
         .player-flutuante {
             position: fixed;
             bottom: 20px;
@@ -160,10 +161,10 @@
         <div class="status">
             <p><strong>✅ Bem-vindo de volta, futuro aprovado!</strong></p>
             <p>Seu progresso é salvo automaticamente no navegador.</p>
-            <p style="font-size:14px; color:#2c3e50;">📌 Clique em uma matéria abaixo para começar a estudar.</p>
+            <p style="font-size:14px; color:#2c3e50;">📌 Clique em uma matéria abaixo para acessar resumos, questões e quiz.</p>
         </div>
 
-        <!-- MENU SUPERIOR -->
+        <!-- MENU SUPERIOR COM LINKS CORRIGIDOS -->
         <div class="menu">
             <a href="index.html">📖 Início</a>
             <a href="resumos.html" class="secundario">📚 Resumos</a>
@@ -172,10 +173,10 @@
             <a href="#" class="secundario">📊 Progresso</a>
         </div>
 
-        <!-- LISTA DE 12 MATÉRIAS -->
+        <!-- LISTA DE 12 MATÉRIAS COM LINKS PARA RESUMOS -->
         <h2 style="font-size:20px; margin: 20px 0 10px 0;">📚 Matérias do ciclo</h2>
         <div class="menu-materias" id="listaMaterias">
-            <!-- Será preenchido pelo JavaScript -->
+            <!-- Será preenchido pelo JavaScript com links para resumos.html?materia=... -->
         </div>
 
         <!-- PAINEL DE DESEMPENHO -->
@@ -211,14 +212,14 @@
 
     </div>
 
-    <!-- ===== PLAYER FLUTUANTE ===== -->
+    <!-- PLAYER FLUTUANTE -->
     <div class="player-flutuante" id="player">
         <button class="toggle-min" onclick="toggleMinimizar()" title="Minimizar">−</button>
-        <button onclick="tocarAnterior()" title="Música anterior">⏮</button>
-        <button class="play-btn" id="playBtn" onclick="playPause()" title="Play / Pause">▶</button>
-        <button class="proxima-btn" onclick="tocarProxima()" title="Próxima música">⏭</button>
+        <button onclick="tocarAnterior()" title="Anterior">⏮</button>
+        <button class="play-btn" id="playBtn" onclick="playPause()" title="Play/Pause">▶</button>
+        <button class="proxima-btn" onclick="tocarProxima()" title="Próxima">⏭</button>
         <span class="tempo" id="tempoAtual">0:00</span>
-        <span class="info" id="musicaInfo">🎵 Lo-Fi para estudar</span>
+        <span class="info" id="musicaInfo">🎵 Lo-Fi</span>
         <input type="range" class="volume-slider" id="volumeSlider" min="0" max="1" step="0.05" value="0.5" title="Volume" />
         <button onclick="toggleMudo()" title="Mudo" style="font-size:18px;">🔊</button>
     </div>
@@ -227,7 +228,7 @@
     <script src="script.js"></script>
     <script>
         // ============================================
-        // CARREGA LISTA DE MATÉRIAS DO DADOS.JS
+        // CARREGA LISTA DE MATÉRIAS COM LINKS
         // ============================================
         document.addEventListener('DOMContentLoaded', function() {
             const container = document.getElementById('listaMaterias');
@@ -236,7 +237,6 @@
                 return;
             }
 
-            // Mapeia as siglas das matérias para nomes legíveis
             const nomesMaterias = {
                 'lingua-portuguesa': 'Língua Portuguesa',
                 'direito-constitucional': 'Direito Constitucional',
@@ -255,16 +255,28 @@
             let html = '';
             for (const [sigla, materia] of Object.entries(DADOS.materias)) {
                 const nome = nomesMaterias[sigla] || materia.nome || sigla;
-                // Verifica se a matéria tem conteúdo (mais de 1 questão ou resumo)
-                const temConteudo = Object.keys(materia.modulos || {}).length > 0;
-                html += `<a href="#" class="${temConteudo ? 'concluido' : ''}" data-sigla="${sigla}">${nome}</a>`;
+                // Verifica se tem conteúdo (mais de 0 questões no total)
+                let temConteudo = false;
+                for (const modulo of Object.values(materia.modulos || {})) {
+                    for (const aula of Object.values(modulo.aulas || {})) {
+                        if (aula.questoes && aula.questoes.length > 0) temConteudo = true;
+                    }
+                }
+                const classe = temConteudo ? 'concluido' : '';
+                // Link para resumos com parâmetro
+                html += `<a href="resumos.html?materia=${sigla}" class="${classe}">${nome}</a>`;
             }
             container.innerHTML = html;
 
-            // Atualiza a próxima matéria com base na primeira que não tem conteúdo
+            // Define a próxima matéria (a primeira sem conteúdo)
             let proxima = 'Língua Portuguesa';
             for (const [sigla, materia] of Object.entries(DADOS.materias)) {
-                const temConteudo = Object.keys(materia.modulos || {}).length > 0;
+                let temConteudo = false;
+                for (const modulo of Object.values(materia.modulos || {})) {
+                    for (const aula of Object.values(modulo.aulas || {})) {
+                        if (aula.questoes && aula.questoes.length > 0) temConteudo = true;
+                    }
+                }
                 if (!temConteudo) {
                     proxima = nomesMaterias[sigla] || materia.nome || sigla;
                     break;
@@ -281,10 +293,7 @@
             { nome: "🎵 Lo-Fi 2", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" },
             { nome: "🎵 Lo-Fi 3", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" }
         ];
-
-        let musicaAtual = 0;
-        let tocando = false;
-        let minimizado = false;
+        let musicaAtual = 0, tocando = false, minimizado = false;
         const audio = new Audio();
         audio.volume = 0.5;
         audio.loop = false;
@@ -294,11 +303,8 @@
             if (!musica) return;
             audio.src = musica.url;
             document.getElementById('musicaInfo').textContent = musica.nome;
-            if (tocando) {
-                audio.play().catch(e => console.log('Erro ao tocar:', e));
-            }
+            if (tocando) audio.play().catch(e => console.log('Erro ao tocar:', e));
         }
-
         function playPause() {
             const btn = document.getElementById('playBtn');
             if (tocando) {
@@ -312,43 +318,35 @@
                 tocando = true;
             }
         }
-
         function tocarProxima() {
             musicaAtual = (musicaAtual + 1) % PLAYLIST.length;
             carregarMusica(musicaAtual);
             if (tocando) audio.play().catch(e => console.log('Erro ao tocar:', e));
         }
-
         function tocarAnterior() {
             musicaAtual = (musicaAtual - 1 + PLAYLIST.length) % PLAYLIST.length;
             carregarMusica(musicaAtual);
             if (tocando) audio.play().catch(e => console.log('Erro ao tocar:', e));
         }
-
         function toggleMudo() {
             audio.muted = !audio.muted;
-            const btn = document.querySelector('.player-flutuante button:last-child');
-            btn.textContent = audio.muted ? '🔇' : '🔊';
+            document.querySelector('.player-flutuante button:last-child').textContent = audio.muted ? '🔇' : '🔊';
         }
-
         function toggleMinimizar() {
             const player = document.getElementById('player');
             minimizado = !minimizado;
             player.classList.toggle('minimizado');
             document.querySelector('.toggle-min').textContent = minimizado ? '+' : '−';
         }
-
         document.getElementById('volumeSlider').addEventListener('input', function() {
             audio.volume = this.value;
         });
-
         audio.addEventListener('timeupdate', function() {
             const tempo = document.getElementById('tempoAtual');
             const min = Math.floor(this.currentTime / 60);
             const seg = Math.floor(this.currentTime % 60);
             tempo.textContent = min + ':' + (seg < 10 ? '0' : '') + seg;
         });
-
         audio.addEventListener('ended', tocarProxima);
         window.addEventListener('load', () => carregarMusica(0));
     </script>
