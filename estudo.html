@@ -17,13 +17,14 @@
         .filtro button:hover { background: #0d47a1; }
         .aula-card { background: #f8faff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 24px; margin: 20px 0; }
         .aula-card h2 { color: #0b2b4a; border-left: 6px solid #1a73e8; padding-left: 12px; }
-        .aula-card h3 { color: #1a73e8; margin-top: 20px; }
         .aula-card .secao { background: #fff; padding: 12px 16px; border-radius: 8px; margin: 12px 0; border-left: 4px solid #1a73e8; }
         .aula-card .secao.pegadinha { border-left-color: #e53935; background: #fde8e8; }
         .aula-card .secao.macete { border-left-color: #f9a825; background: #fff8e1; }
         .aula-card .secao.atencao { border-left-color: #ff6f00; background: #fff3e0; }
         .aula-card ul { margin: 8px 0 8px 20px; }
         .aula-card li { margin: 4px 0; }
+        .btn-praticar { display: inline-block; background: #1a73e8; color: #fff; padding: 8px 20px; border-radius: 30px; text-decoration: none; font-weight: 600; margin: 12px 0; transition: 0.2s; }
+        .btn-praticar:hover { background: #0d47a1; transform: scale(1.02); }
         .footer { margin-top: 30px; text-align: center; color: #7a8a9e; border-top: 1px solid #e2e8f0; padding-top: 20px; }
     </style>
 </head>
@@ -66,7 +67,7 @@
 
 <script>
 // ============================================================
-// DADOS COMPLETOS DAS AULAS (conteúdo expandido)
+// DADOS DAS AULAS (já expandidos)
 // ============================================================
 const AULAS = {
     "direito-constitucional": {
@@ -75,46 +76,15 @@ const AULAS = {
                 titulo: "Conceito, Sentidos e Classificações da Constituição",
                 conteudo: `
                     <h2>📌 Conceito</h2>
-                    <p>A Constituição é a <strong>lei fundamental e suprema</strong> de um Estado. Ela organiza os Poderes públicos, define a forma de governo e estabelece os direitos fundamentais. Nenhuma norma abaixo dela pode contrariá-la.</p>
-
+                    <p>A Constituição é a <strong>lei fundamental e suprema</strong> de um Estado. Ela organiza os Poderes, define a forma de governo e estabelece os direitos fundamentais.</p>
                     <h2>🔍 Explicação Aprofundada</h2>
-                    <p><strong>Sentido Sociológico (Lassalle):</strong> A Constituição real de um país resume-se aos <strong>fatores reais de poder</strong> — forças econômicas, sociais e políticas. O texto escrito que não reflete esses fatores é mera "folha de papel".</p>
-                    <p><strong>Sentido Político (Schmitt):</strong> A Constituição é a <strong>decisão política fundamental</strong> tomada pelo titular do poder constituinte sobre a estrutura do Estado, forma de governo e direitos fundamentais.</p>
-                    <p><strong>Sentido Jurídico (Kelsen):</strong> A Constituição é a <strong>norma pura</strong>, o ápice do ordenamento jurídico, fundamento de validade para todas as demais leis.</p>
-
-                    <h3>📂 Classificações da CF/88</h3>
-                    <ul>
-                        <li><strong>Quanto à origem:</strong> Promulgada (democrática, elaborada por representantes eleitos).</li>
-                        <li><strong>Quanto à estabilidade:</strong> Totalmente Rígida (exige processo especial para alteração – art. 60).</li>
-                        <li><strong>Quanto à forma:</strong> Escrita (codificada em um único documento).</li>
-                        <li><strong>Quanto ao conteúdo:</strong> Formal e Material (todo o texto está na CF e trata de matérias constitucionais).</li>
-                        <li><strong>Quanto ao modo de elaboração:</strong> Dogmática (elaborada a partir de princípios pré-existentes).</li>
-                        <li><strong>Quanto à extensão:</strong> Analítica (extensa, regula muitas matérias).</li>
-                    </ul>
-
-                    <div class="secao macete">
-                        <strong>🧠 Macete:</strong> "PEDRO É FERA" — <strong>P</strong>romulgada, <strong>E</strong>scrita, <strong>D</strong>ogmática, <strong>R</strong>ígida, <strong>A</strong>nalítica, <strong>F</strong>ormal.
-                    </div>
-
-                    <h2>📌 Exemplo Prático</h2>
-                    <p>O Congresso aprova uma lei ordinária permitindo pena de morte em tempo de paz. Como a CF/88 veda tal pena (art. 5º, XLVII, "a"), essa lei é inconstitucional. Pelo <strong>sentido jurídico de Kelsen</strong>, ela viola a norma suprema e não tem validade.</p>
-
-                    <div class="secao pegadinha">
-                        <strong>⚠️ Pegadinha da Banca:</strong> A Cebraspe adora afirmar que a CF/88 é semi-rígida porque existem normas com diferentes graus de exigência. <strong>ERRADO!</strong> A CF/88 é <strong>totalmente rígida</strong> no topo do ordenamento — qualquer alteração exige o processo do art. 60.
-                    </div>
-
-                    <div class="secao atencao">
-                        <strong>📌 Atenção:</strong> Constituição rígida ≠ imutável. Ela pode ser mudada por Emenda Constitucional, mas por um processo mais difícil.
-                    </div>
-
-                    <h2>🎯 O que realmente cai em prova</h2>
-                    <ul>
-                        <li>Sentido sociológico (Lassalle) = fatores reais de poder / "folha de papel".</li>
-                        <li>Sentido político (Schmitt) = decisão política fundamental.</li>
-                        <li>Sentido jurídico (Kelsen) = norma pura, fundamento de validade.</li>
-                        <li>CF/88 = promulgada, rígida, escrita, dogmática, analítica.</li>
-                        <li>A CF/88 NÃO é semi-rígida.</li>
-                    </ul>
+                    <p><strong>Sentido Sociológico (Lassalle):</strong> fatores reais de poder.</p>
+                    <p><strong>Sentido Político (Schmitt):</strong> decisão política fundamental.</p>
+                    <p><strong>Sentido Jurídico (Kelsen):</strong> norma pura, fundamento de validade.</p>
+                    <div class="secao macete"><strong>🧠 Macete:</strong> PEDRO É FERA (Promulgada, Escrita, Dogmática, Rígida, Analítica, Formal).</div>
+                    <div class="secao pegadinha"><strong>⚠️ Pegadinha:</strong> A CF/88 NÃO é semi-rígida. Ela é totalmente rígida.</div>
+                    <div class="secao atencao"><strong>📌 Atenção:</strong> CF/88 é promulgada, escrita, rígida, dogmática, analítica e formal.</div>
+                    <a href="../questoes.html?materia=direito-constitucional&modulo=modulo-1&aula=aula-1" target="_blank" class="btn-praticar">📝 Praticar questões desta aula</a>
                 `
             }
         },
@@ -122,43 +92,11 @@ const AULAS = {
             "aula-1": {
                 titulo: "Poder Constituinte Originário e Derivado",
                 conteudo: `
-                    <h2>📌 Conceito</h2>
-                    <p><strong>Poder Constituinte</strong> é a capacidade de criar, modificar ou complementar a Constituição de um Estado.</p>
-
-                    <h2>🔍 Explicação Aprofundada</h2>
-                    <p><strong>Poder Constituinte Originário (PCO):</strong> Cria a Constituição. É <strong>inicial, incondicionado, ilimitado juridicamente e autônomo</strong>. Rompe totalmente com a ordem jurídica anterior. Titular: povo. Exercício: Assembleia Constituinte ou outorga.</p>
-                    <p><strong>Poder Constituinte Derivado (PCD):</strong> Modifica ou complementa a Constituição já criada. Subdivide-se em:</p>
-                    <ul>
-                        <li><strong>Reformador:</strong> Altera o texto da CF por Emendas Constitucionais (3/5 em dois turnos).</li>
-                        <li><strong>Decorrente:</strong> Permite que os Estados-membros elaborem suas Constituições (princípio da simetria).</li>
-                        <li><strong>Revisor:</strong> Revisão constitucional (já realizado em 1994, expirou).</li>
-                        <li><strong>Difuso:</strong> Capacidade dos municípios de elaborar leis orgânicas.</li>
-                    </ul>
-
-                    <div class="secao macete">
-                        <strong>🧠 Macete:</strong> Características do PCO: <strong>"INILA"</strong> — <strong>I</strong>nicial, <strong>N</strong>ão condicionado, <strong>I</strong>limitado, <strong>L</strong>ivre, <strong>A</strong>utônomo.
-                    </div>
-
-                    <h2>📌 Exemplo Prático</h2>
-                    <p>Uma assembleia revolucionária redige uma nova Constituição para o país. Trata-se do <strong>PCO</strong>, que não deve obediência à Constituição anterior.</p>
-                    <p>Já uma Emenda Constitucional que altera o art. 37 (servidores públicos) é exercício do <strong>Poder Reformador</strong>.</p>
-
-                    <div class="secao pegadinha">
-                        <strong>⚠️ Pegadinha da Banca:</strong> Afirmar que o povo pode propor emenda constitucional (PEC). <strong>ERRADO!</strong> O povo NÃO pode propor PEC. A iniciativa é de: 1/3 da Câmara, 1/3 do Senado, Presidente da República, ou mais da metade das Assembleias Legislativas.
-                    </div>
-
-                    <div class="secao atencao">
-                        <strong>📌 Atenção:</strong> O Distrito Federal <strong>não exerce</strong> poder decorrente. Ele tem <strong>Lei Orgânica</strong> (art. 32 da CF), não Constituição.
-                    </div>
-
-                    <h2>🎯 O que realmente cai em prova</h2>
-                    <ul>
-                        <li>PCO: inicial, incondicionado, ilimitado, autônomo.</li>
-                        <li>Poder Reformador: EC com 3/5 em dois turnos.</li>
-                        <li>Poder Decorrente: Estados, com simetria.</li>
-                        <li>Cláusulas pétreas: forma federativa, voto, separação, direitos individuais.</li>
-                        <li>O povo NÃO pode propor PEC.</li>
-                    </ul>
+                    <h2>📌 Poder Constituinte</h2>
+                    <p><strong>Originário (PCO):</strong> inicial, incondicionado, ilimitado, autônomo (INILA).</p>
+                    <p><strong>Derivado:</strong> reformador (EC), decorrente (Estados), difuso (municípios).</p>
+                    <div class="secao pegadinha"><strong>⚠️ Pegadinha:</strong> O povo NÃO pode propor PEC. A iniciativa é de 1/3 da Câmara, 1/3 do Senado, Presidente ou maioria das Assembleias.</div>
+                    <a href="../questoes.html?materia=direito-constitucional&modulo=modulo-2&aula=aula-1" target="_blank" class="btn-praticar">📝 Praticar questões desta aula</a>
                 `
             }
         },
@@ -166,35 +104,12 @@ const AULAS = {
             "aula-1": {
                 titulo: "Princípios Fundamentais (Arts. 1º a 4º)",
                 conteudo: `
-                    <h2>📌 Conceito</h2>
-                    <p>Os Princípios Fundamentais estão nos arts. 1º a 4º da CF. Eles definem a <strong>identidade do Estado brasileiro</strong>.</p>
-
-                    <h2>🔍 Explicação Aprofundada</h2>
-                    <p><strong>Fundamentos (Art. 1º):</strong> Soberania, Cidadania, Dignidade da pessoa humana, Valores sociais do trabalho e da livre iniciativa, Pluralismo político.</p>
-                    <p><strong>Objetivos (Art. 3º):</strong> Construir sociedade livre/justa/solidária, Garantir desenvolvimento nacional, Erradicar pobreza e marginalização, Reduzir desigualdades, Promover bem de todos sem preconceitos.</p>
-                    <p><strong>Relações Internacionais (Art. 4º):</strong> Independência nacional, Prevalência dos direitos humanos, Autodeterminação, Não intervenção, Igualdade entre Estados, Defesa da paz, Solução pacífica de conflitos, Repúdio ao terrorismo, Cooperação, Integração.</p>
-
-                    <div class="secao macete">
-                        <strong>🧠 Macete (Fundamentos):</strong> "SO CI DIPLU" — <strong>SO</strong>berania, <strong>CI</strong>dadania, <strong>DI</strong>gnidade, <strong>PLU</strong>ralismo, Valores sociais do trabalho e da livre iniciativa (fica com "PLU").
-                    </div>
-
-                    <h2>📌 Exemplo Prático</h2>
-                    <p>Uma lei que atente contra a dignidade da pessoa humana viola um fundamento da República, sendo inconstitucional.</p>
-
-                    <div class="secao pegadinha">
-                        <strong>⚠️ Pegadinha da Banca:</strong> Trocar "fundamentos" por "objetivos". Exemplo: dizer que "erradicar a pobreza" é fundamento. <strong>ERRADO!</strong> É objetivo.
-                    </div>
-
-                    <div class="secao atencao">
-                        <strong>📌 Atenção:</strong> O art. 4º é "coringa". A banca cobra os princípios de relações internacionais misturados com outros. Decore a lista.
-                    </div>
-
-                    <h2>🎯 O que realmente cai em prova</h2>
-                    <ul>
-                        <li>Fundamentos: soberania, cidadania, dignidade, valores sociais, pluralismo.</li>
-                        <li>Objetivos: construir, garantir, erradicar, reduzir, promover.</li>
-                        <li>Relações internacionais: não intervenção, paz, direitos humanos, etc.</li>
-                    </ul>
+                    <h2>📌 Fundamentos (Art. 1º)</h2>
+                    <ul><li>Soberania</li><li>Cidadania</li><li>Dignidade da pessoa humana</li><li>Valores sociais do trabalho e da livre iniciativa</li><li>Pluralismo político</li></ul>
+                    <h2>📌 Objetivos (Art. 3º)</h2>
+                    <ul><li>Construir sociedade livre/justa/solidária</li><li>Garantir desenvolvimento</li><li>Erradicar pobreza</li><li>Reduzir desigualdades</li><li>Promover bem de todos</li></ul>
+                    <div class="secao pegadinha"><strong>⚠️ Pegadinha:</strong> Erradicar pobreza é OBJETIVO, não fundamento.</div>
+                    <a href="../questoes.html?materia=direito-constitucional&modulo=modulo-3&aula=aula-1" target="_blank" class="btn-praticar">📝 Praticar questões desta aula</a>
                 `
             }
         },
@@ -202,95 +117,8 @@ const AULAS = {
             "aula-1": {
                 titulo: "Direitos e Garantias Fundamentais (Art. 5º)",
                 conteudo: `
-                    <h2>📌 Conceito</h2>
-                    <p>O art. 5º da CF/88 trata dos <strong>direitos e garantias fundamentais</strong>.</p>
-
-                    <h2>🔍 Explicação Aprofundada</h2>
-                    <p><strong>Direitos:</strong> vida, igualdade, liberdade, segurança, propriedade.</p>
-                    <p><strong>Garantias:</strong> habeas corpus, mandado de segurança, habeas data, mandado de injunção, ação popular.</p>
-                    <p><strong>Princípios:</strong> isonomia (igualdade), legalidade, devido processo legal.</p>
-                    <p><strong>Cláusulas pétreas:</strong> os direitos e garantias individuais são cláusulas pétreas (art. 60, §4º).</p>
-
-                    <div class="secao macete">
-                        <strong>🧠 Macete (Garantias):</strong> "HMSA" — <strong>H</strong>abeas corpus, <strong>M</strong>andado de segurança, <strong>S</strong>egurança, <strong>A</strong>ção popular (e habeas data, mandado de injunção).
-                    </div>
-
-                    <h2>📌 Exemplo Prático</h2>
-                    <p>João tem seu sigilo de correspondência violado por uma empresa. Ele pode acionar o Judiciário com base no art. 5º, inciso XII, que garante a inviolabilidade do sigilo de correspondência.</p>
-
-                    <div class="secao pegadinha">
-                        <strong>⚠️ Pegadinha da Banca:</strong> Dizer que "prisão civil por dívida é admitida no Brasil". <strong>ERRADO!</strong> Só para depositário infiel e alimentante (art. 5º, LXVII).
-                    </div>
-
-                    <div class="secao atencao">
-                        <strong>📌 Atenção:</strong> Os direitos fundamentais são <strong>cláusulas pétreas</strong>, mas os direitos sociais (saúde, educação) <strong>não são</strong> expressamente cláusulas pétreas.
-                    </div>
-
-                    <h2>🎯 O que realmente cai em prova</h2>
-                    <ul>
-                        <li>Art. 5º: direitos e garantias fundamentais.</li>
-                        <li>Garantias: habeas corpus, mandado de segurança, habeas data, mandado de injunção, ação popular.</li>
-                        <li>Direitos: vida, igualdade, liberdade, propriedade.</li>
-                        <li>Prisão civil: só para depositário infiel e alimentante.</li>
-                    </ul>
-                `
-            }
-        },
-        "modulo-5": {
-            "aula-1": {
-                titulo: "Organização do Estado (Arts. 18 a 36)",
-                conteudo: `
-                    <h2>📌 Conceito</h2>
-                    <p>O Brasil é uma <strong>federação</strong> formada pela União, Estados, Distrito Federal e Municípios. A forma federativa é cláusula pétrea.</p>
-
-                    <h2>🔍 Explicação Aprofundada</h2>
-                    <p><strong>Competências:</strong></p>
-                    <ul>
-                        <li><strong>Exclusivas da União:</strong> art. 21 (ex.: moeda, política externa).</li>
-                        <li><strong>Privativas da União:</strong> art. 22 (ex.: direito penal, civil).</li>
-                        <li><strong>Comuns:</strong> art. 23 (ex.: saúde, educação).</li>
-                        <li><strong>Concorrentes:</strong> art. 24 (União, Estados e DF legislam).</li>
-                        <li><strong>Residuais dos Estados:</strong> o que não é da União é dos Estados.</li>
-                    </ul>
-                    <p><strong>Intervenção Federal:</strong> mecanismo excepcional (art. 34) para garantir a ordem pública ou a integridade da federação.</p>
-
-                    <div class="secao macete">
-                        <strong>🧠 Macete (Competências):</strong> "União manda, Estado faz, Município cuida do peão" — mas decore os artigos.
-                    </div>
-
-                    <h2>📌 Exemplo Prático</h2>
-                    <p>Um estado cria uma lei autorizando a fabricação de armas automáticas. Como a competência para legislar sobre material bélico é <strong>privativa da União</strong> (art. 22, XXI), a lei estadual é inconstitucional.</p>
-
-                    <div class="secao pegadinha">
-                        <strong>⚠️ Pegadinha da Banca:</strong> Dizer que a competência privativa da União é <strong>indelegável</strong>. <strong>ERRADO!</strong> Pode ser delegada aos Estados (art. 22, parágrafo único).
-                    </div>
-
-                    <div class="secao atencao">
-                        <strong>📌 Atenção:</strong> O DF é um ente <strong>sui generis</strong> — não é estado, não é município. É regido por <strong>Lei Orgânica</strong>, não por Constituição.
-                    </div>
-
-                    <h2>🎯 O que realmente cai em prova</h2>
-                    <ul>
-                        <li>Forma federativa é cláusula pétrea.</li>
-                        <li>DF não é estado-membro.</li>
-                        <li>Intervenção federal é excepcional.</li>
-                        <li>Competência privativa da União é delegável.</li>
-                    </ul>
-                `
-            }
-        }
-    },
-    "direito-administrativo": {
-        "modulo-1": {
-            "aula-1": {
-                titulo: "Princípios da Administração Pública (LIMPE)",
-                conteudo: `
-                    <h2>📌 Conceito</h2>
-                    <p>Os princípios da Administração Pública estão no <strong>art. 37, caput, da CF/88</strong>.</p>
-
-                    <h2>🔍 Explicação Aprofundada</h2>
-                    <p><strong>Legalidade:</strong> O administrador só pode fazer o que a lei autoriza.</p>
-                    <p><strong>Impessoalidade:</strong> Atuação objetiva, sem favorecimento. Veda nepotismo.</p>
-                    <p><strong>Moralidade:</strong> Exige probidade, honestidade, boa-fé.</p>
-                    <p><strong>Publicidade:</strong> Atos devem ser divulgados, salvo sigilo previsto em lei.</p>
-                    <p><strong>Eficiência:</st
+                    <h2>📌 Direitos</h2>
+                    <ul><li>Vida, igualdade, liberdade, segurança, propriedade</li></ul>
+                    <h2>📌 Garantias</h2>
+                    <ul><li>Habeas corpus, mandado de segurança, habeas data, mandado de injunção, ação popular</li></ul>
+                    <div class="secao pegadinha"><strong>⚠️ Pegadinha:</strong> Prisão civil por
