@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Resumos — Trilha Policial 2026</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+        .resumo-box {
+            background: #f8faff;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            white-space: pre-wrap;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+        .materia-titulo {
+            background: #1a73e8;
+            color: white;
+            padding: 10px 18px;
+            border-radius: 8px;
+            margin: 30px 0 10px 0;
+        }
+        .modulo-titulo {
+            background: #e8f0fe;
+            color: #0b2b4a;
+            padding: 8px 16px;
+            border-radius: 6px;
+            margin: 20px 0 10px 0;
+            border-left: 4px solid #1a73e8;
+        }
+        .aula-titulo {
+            font-weight: 700;
+            color: #1a73e8;
+            margin: 16px 0 6px 0;
+            font-size: 18px;
+        }
+        .voltar {
+            display: inline-block;
+            margin: 20px 0;
+            background: #e8f0fe;
+            color: #1a73e8;
+            padding: 10px 20px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .voltar:hover {
+            background: #d2e3fc;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📚 Resumos por Matéria</h1>
+        <a href="index.html" class="voltar">← Voltar ao início</a>
+
+        <div id="conteudoResumos"></div>
+
+        <div class="footer">
+            🎯 Preparação para PCDF · PMDF · PF · PRF · PCGO · PMGO
+        </div>
+    </div>
+
+    <script src="dados.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const container = document.getElementById('conteudoResumos');
+
+            if (typeof DADOS === 'undefined') {
+                container.innerHTML = '<p style="color:red;">Erro: dados.js não foi carregado.</p>';
+                return;
+            }
+
+            let html = '';
+
+            // Percorre as matérias
+            for (const [sigla, materia] of Object.entries(DADOS.materias)) {
+                html += `<h2 class="materia-titulo">📘 ${materia.nome}</h2>`;
+
+                for (const [moduloId, modulo] of Object.entries(materia.modulos)) {
+                    html += `<h3 class="modulo-titulo">📌 ${modulo.nome}</h3>`;
+
+                    for (const [aulaId, aula] of Object.entries(modulo.aulas)) {
+                        html += `<div class="aula-titulo">▶ ${aula.nome}</div>`;
+                        html += `<div class="resumo-box">${aula.resumo}</div>`;
+                    }
+                }
+            }
+
+            container.innerHTML = html;
+        });
+    </script>
+</body>
+</html>
