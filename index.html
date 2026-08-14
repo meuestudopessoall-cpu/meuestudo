@@ -5,6 +5,151 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Trilha Policial 2026 — Meu Estudo</title>
     <link rel="stylesheet" href="style.css" />
+    <style>
+        .menu-materias {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+            margin: 20px 0;
+        }
+        .menu-materias a {
+            background: #e8f0fe;
+            color: #0b2b4a;
+            padding: 12px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            text-align: center;
+            font-size: 14px;
+            transition: 0.2s;
+            border: 1px solid transparent;
+        }
+        .menu-materias a:hover {
+            background: #1a73e8;
+            color: white;
+            border-color: #1a73e8;
+        }
+        .menu-materias a.concluido {
+            border-color: #2e7d32;
+            background: #e6f7e6;
+        }
+        .menu-materias a.concluido:hover {
+            background: #2e7d32;
+            color: white;
+        }
+        /* Player flutuante (mantido) */
+        .player-flutuante {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #0b2b4a;
+            color: white;
+            padding: 12px 18px;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+            z-index: 999;
+            font-size: 14px;
+            transition: 0.3s;
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .player-flutuante button {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 22px;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+        }
+        .player-flutuante button:hover {
+            background: rgba(255,255,255,0.15);
+        }
+        .player-flutuante .info {
+            max-width: 120px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-size: 13px;
+            opacity: 0.8;
+        }
+        .player-flutuante .volume-slider {
+            width: 60px;
+            accent-color: #1a73e8;
+            cursor: pointer;
+        }
+        .player-flutuante .tempo {
+            font-size: 12px;
+            opacity: 0.6;
+            min-width: 32px;
+            text-align: center;
+        }
+        .player-flutuante .play-btn {
+            font-size: 28px;
+            width: 44px;
+            height: 44px;
+            background: #1a73e8;
+        }
+        .player-flutuante .play-btn:hover {
+            background: #0d47a1;
+        }
+        .player-flutuante .proxima-btn {
+            font-size: 20px;
+        }
+        .player-flutuante.minimizado {
+            padding: 8px 14px;
+            border-radius: 40px;
+            gap: 8px;
+        }
+        .player-flutuante.minimizado .info,
+        .player-flutuante.minimizado .volume-slider,
+        .player-flutuante.minimizado .tempo,
+        .player-flutuante.minimizado .proxima-btn {
+            display: none;
+        }
+        .player-flutuante .toggle-min {
+            font-size: 14px;
+            opacity: 0.5;
+            width: 28px;
+            height: 28px;
+        }
+        .player-flutuante .toggle-min:hover {
+            opacity: 1;
+        }
+        @media (max-width: 600px) {
+            .player-flutuante {
+                padding: 8px 12px;
+                gap: 8px;
+                bottom: 10px;
+                right: 10px;
+                font-size: 12px;
+                border-radius: 40px;
+            }
+            .player-flutuante .info {
+                max-width: 80px;
+                font-size: 11px;
+            }
+            .player-flutuante .volume-slider {
+                width: 40px;
+            }
+            .player-flutuante .play-btn {
+                width: 36px;
+                height: 36px;
+                font-size: 22px;
+            }
+            .player-flutuante .tempo {
+                display: none;
+            }
+        }
+    </style>
 </head>
 <body>
 
@@ -14,21 +159,27 @@
 
         <div class="status">
             <p><strong>✅ Bem-vindo de volta, futuro aprovado!</strong></p>
-            <p>Rodada 1 — Língua Portuguesa · Módulo 1 — Interpretação de Textos</p>
-            <p style="font-size:14px; color:#2c3e50;">📌 Seu progresso é salvo automaticamente no navegador.</p>
+            <p>Seu progresso é salvo automaticamente no navegador.</p>
+            <p style="font-size:14px; color:#2c3e50;">📌 Clique em uma matéria abaixo para começar a estudar.</p>
         </div>
 
-        <!-- MENU ATUALIZADO COM OS LINKS CORRETOS -->
+        <!-- MENU SUPERIOR -->
         <div class="menu">
             <a href="index.html">📖 Início</a>
             <a href="resumos.html" class="secundario">📚 Resumos</a>
             <a href="questoes.html" class="secundario">📝 Questões</a>
             <a href="quiz.html" class="secundario">🧠 Quiz</a>
-            <a href="#" class="secundario">📊 Progresso</a> <!-- Esta página ainda será criada -->
+            <a href="#" class="secundario">📊 Progresso</a>
         </div>
 
-        <h2 style="font-size:20px; margin: 20px 0 10px 0;">📊 Seu desempenho</h2>
+        <!-- LISTA DE 12 MATÉRIAS -->
+        <h2 style="font-size:20px; margin: 20px 0 10px 0;">📚 Matérias do ciclo</h2>
+        <div class="menu-materias" id="listaMaterias">
+            <!-- Será preenchido pelo JavaScript -->
+        </div>
 
+        <!-- PAINEL DE DESEMPENHO -->
+        <h2 style="font-size:20px; margin: 30px 0 10px 0;">📊 Seu desempenho geral</h2>
         <div class="cards" id="cardsDesempenho">
             <div class="card">
                 <div class="numero" id="acertos">0</div>
@@ -49,8 +200,8 @@
         </div>
 
         <div style="background: #f0f4fa; border-radius:12px; padding:20px; margin: 20px 0;">
-            <p style="font-weight:600;">📌 Próxima matéria:</p>
-            <p style="font-size:18px; color:#0b2b4a;"><strong>Direito Constitucional</strong> (após Língua Portuguesa)</p>
+            <p style="font-weight:600;">📌 Próxima matéria a estudar:</p>
+            <p style="font-size:18px; color:#0b2b4a;"><strong id="proximaMateria">Língua Portuguesa</strong></p>
         </div>
 
         <div class="footer">
@@ -60,6 +211,146 @@
 
     </div>
 
+    <!-- ===== PLAYER FLUTUANTE ===== -->
+    <div class="player-flutuante" id="player">
+        <button class="toggle-min" onclick="toggleMinimizar()" title="Minimizar">−</button>
+        <button onclick="tocarAnterior()" title="Música anterior">⏮</button>
+        <button class="play-btn" id="playBtn" onclick="playPause()" title="Play / Pause">▶</button>
+        <button class="proxima-btn" onclick="tocarProxima()" title="Próxima música">⏭</button>
+        <span class="tempo" id="tempoAtual">0:00</span>
+        <span class="info" id="musicaInfo">🎵 Lo-Fi para estudar</span>
+        <input type="range" class="volume-slider" id="volumeSlider" min="0" max="1" step="0.05" value="0.5" title="Volume" />
+        <button onclick="toggleMudo()" title="Mudo" style="font-size:18px;">🔊</button>
+    </div>
+
+    <script src="dados.js"></script>
     <script src="script.js"></script>
+    <script>
+        // ============================================
+        // CARREGA LISTA DE MATÉRIAS DO DADOS.JS
+        // ============================================
+        document.addEventListener('DOMContentLoaded', function() {
+            const container = document.getElementById('listaMaterias');
+            if (typeof DADOS === 'undefined') {
+                container.innerHTML = '<p style="color:red;">Erro: dados.js não carregado.</p>';
+                return;
+            }
+
+            // Mapeia as siglas das matérias para nomes legíveis
+            const nomesMaterias = {
+                'lingua-portuguesa': 'Língua Portuguesa',
+                'direito-constitucional': 'Direito Constitucional',
+                'direito-administrativo': 'Direito Administrativo',
+                'direito-penal': 'Direito Penal',
+                'direito-processual-penal': 'Direito Processual Penal',
+                'legislacao-penal-especial': 'Legislação Penal Especial',
+                'direitos-humanos': 'Direitos Humanos',
+                'raciocinio-logico': 'Raciocínio Lógico-Matemático',
+                'informatica': 'Informática',
+                'lodf': 'Lei Orgânica do DF (LODF)',
+                'ride': 'RIDE',
+                'lc-840': 'LC 840/2011'
+            };
+
+            let html = '';
+            for (const [sigla, materia] of Object.entries(DADOS.materias)) {
+                const nome = nomesMaterias[sigla] || materia.nome || sigla;
+                // Verifica se a matéria tem conteúdo (mais de 1 questão ou resumo)
+                const temConteudo = Object.keys(materia.modulos || {}).length > 0;
+                html += `<a href="#" class="${temConteudo ? 'concluido' : ''}" data-sigla="${sigla}">${nome}</a>`;
+            }
+            container.innerHTML = html;
+
+            // Atualiza a próxima matéria com base na primeira que não tem conteúdo
+            let proxima = 'Língua Portuguesa';
+            for (const [sigla, materia] of Object.entries(DADOS.materias)) {
+                const temConteudo = Object.keys(materia.modulos || {}).length > 0;
+                if (!temConteudo) {
+                    proxima = nomesMaterias[sigla] || materia.nome || sigla;
+                    break;
+                }
+            }
+            document.getElementById('proximaMateria').textContent = proxima;
+        });
+
+        // ============================================
+        // PLAYER DE MÚSICA
+        // ============================================
+        const PLAYLIST = [
+            { nome: "🎵 Lo-Fi 1", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" },
+            { nome: "🎵 Lo-Fi 2", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" },
+            { nome: "🎵 Lo-Fi 3", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" }
+        ];
+
+        let musicaAtual = 0;
+        let tocando = false;
+        let minimizado = false;
+        const audio = new Audio();
+        audio.volume = 0.5;
+        audio.loop = false;
+
+        function carregarMusica(index) {
+            const musica = PLAYLIST[index];
+            if (!musica) return;
+            audio.src = musica.url;
+            document.getElementById('musicaInfo').textContent = musica.nome;
+            if (tocando) {
+                audio.play().catch(e => console.log('Erro ao tocar:', e));
+            }
+        }
+
+        function playPause() {
+            const btn = document.getElementById('playBtn');
+            if (tocando) {
+                audio.pause();
+                btn.textContent = '▶';
+                tocando = false;
+            } else {
+                if (!audio.src) carregarMusica(musicaAtual);
+                audio.play().catch(e => console.log('Erro ao tocar:', e));
+                btn.textContent = '⏸';
+                tocando = true;
+            }
+        }
+
+        function tocarProxima() {
+            musicaAtual = (musicaAtual + 1) % PLAYLIST.length;
+            carregarMusica(musicaAtual);
+            if (tocando) audio.play().catch(e => console.log('Erro ao tocar:', e));
+        }
+
+        function tocarAnterior() {
+            musicaAtual = (musicaAtual - 1 + PLAYLIST.length) % PLAYLIST.length;
+            carregarMusica(musicaAtual);
+            if (tocando) audio.play().catch(e => console.log('Erro ao tocar:', e));
+        }
+
+        function toggleMudo() {
+            audio.muted = !audio.muted;
+            const btn = document.querySelector('.player-flutuante button:last-child');
+            btn.textContent = audio.muted ? '🔇' : '🔊';
+        }
+
+        function toggleMinimizar() {
+            const player = document.getElementById('player');
+            minimizado = !minimizado;
+            player.classList.toggle('minimizado');
+            document.querySelector('.toggle-min').textContent = minimizado ? '+' : '−';
+        }
+
+        document.getElementById('volumeSlider').addEventListener('input', function() {
+            audio.volume = this.value;
+        });
+
+        audio.addEventListener('timeupdate', function() {
+            const tempo = document.getElementById('tempoAtual');
+            const min = Math.floor(this.currentTime / 60);
+            const seg = Math.floor(this.currentTime % 60);
+            tempo.textContent = min + ':' + (seg < 10 ? '0' : '') + seg;
+        });
+
+        audio.addEventListener('ended', tocarProxima);
+        window.addEventListener('load', () => carregarMusica(0));
+    </script>
 </body>
 </html>
