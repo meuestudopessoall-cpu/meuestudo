@@ -3,95 +3,141 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Resumos — Trilha Policial 2026</title>
+    <title>Questões — Trilha Policial 2026</title>
     <link rel="stylesheet" href="style.css" />
     <style>
-        .resumo-box {
-            background: #f8faff;
-            border: 1px solid #e2e8f0;
-            border-radius: 12px;
-            padding: 20px;
-            margin: 20px 0;
-            white-space: pre-wrap;
-            font-size: 15px;
-            line-height: 1.6;
-        }
-        .materia-titulo {
-            background: #1a73e8;
-            color: white;
-            padding: 10px 18px;
-            border-radius: 8px;
-            margin: 30px 0 10px 0;
-        }
-        .modulo-titulo {
-            background: #e8f0fe;
-            color: #0b2b4a;
-            padding: 8px 16px;
-            border-radius: 6px;
-            margin: 20px 0 10px 0;
-            border-left: 4px solid #1a73e8;
-        }
-        .aula-titulo {
-            font-weight: 700;
-            color: #1a73e8;
-            margin: 16px 0 6px 0;
-            font-size: 18px;
-        }
-        .voltar {
-            display: inline-block;
-            margin: 20px 0;
-            background: #e8f0fe;
-            color: #1a73e8;
-            padding: 10px 20px;
-            border-radius: 30px;
-            text-decoration: none;
-            font-weight: 600;
-        }
-        .voltar:hover {
-            background: #d2e3fc;
-        }
+        .questao { background: #f8faff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 18px; margin: 16px 0; }
+        .opcoes { display: flex; gap: 16px; margin: 10px 0; }
+        .opcoes button { background: #e8f0fe; border: 2px solid transparent; padding: 8px 20px; border-radius: 30px; font-weight: 600; cursor: pointer; }
+        .opcoes button.selecionado-c { border-color: #1a73e8; background: #1a73e8; color: white; }
+        .opcoes button.selecionado-e { border-color: #e53935; background: #e53935; color: white; }
+        .resultado { margin-top: 10px; padding: 12px; border-radius: 8px; display: none; }
+        .resultado.certo { display: block; background: #e6f7e6; border-left: 6px solid #2e7d32; }
+        .resultado.errado { display: block; background: #fde8e8; border-left: 6px solid #c62828; }
+        .botao-corrigir { background: #1a73e8; color: white; border: none; padding: 12px 30px; border-radius: 30px; font-weight: 700; cursor: pointer; margin: 20px 0; }
+        .filtro { display: flex; flex-wrap: wrap; gap: 10px; margin: 20px 0; }
+        .filtro select, .filtro button { padding: 8px 16px; border-radius: 8px; border: 1px solid #ccc; font-size: 14px; }
+        .filtro button { background: #1a73e8; color: white; border: none; cursor: pointer; }
+        .voltar { display: inline-block; margin: 20px 0; background: #e8f0fe; color: #1a73e8; padding: 10px 20px; border-radius: 30px; text-decoration: none; font-weight: 600; }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>📚 Resumos por Matéria</h1>
+        <h1>📝 Bateria de Questões</h1>
         <a href="index.html" class="voltar">← Voltar ao início</a>
 
-        <div id="conteudoResumos"></div>
-
-        <div class="footer">
-            🎯 Preparação para PCDF · PMDF · PF · PRF · PCGO · PMGO
+        <div class="filtro">
+            <select id="filtroMateria">
+                <option value="lingua-portuguesa">Língua Portuguesa</option>
+                <option value="direito-constitucional">Direito Constitucional</option>
+                <option value="direito-administrativo">Direito Administrativo</option>
+                <option value="direito-penal">Direito Penal</option>
+                <option value="direito-processual-penal">Direito Processual Penal</option>
+                <option value="legislacao-penal-especial">Legislação Penal Especial</option>
+                <option value="direitos-humanos">Direitos Humanos</option>
+                <option value="raciocinio-logico">Raciocínio Lógico</option>
+                <option value="informatica">Informática</option>
+                <option value="lodf">LODF</option>
+                <option value="ride">RIDE</option>
+                <option value="lc-840">LC 840/2011</option>
+            </select>
+            <select id="filtroModulo">
+                <option value="modulo-1">Módulo 1</option>
+            </select>
+            <select id="filtroAula">
+                <option value="aula-1">Aula 1</option>
+            </select>
+            <button onclick="carregarQuestoes()">Carregar questões</button>
         </div>
+
+        <div id="painelQuestoes"></div>
+
+        <div class="footer">🎯 Preparação para PCDF · PMDF · PF · PRF · PCGO · PMGO</div>
     </div>
 
     <script src="dados.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const container = document.getElementById('conteudoResumos');
+        let questoesAtuais = [];
+        let respostasUsuario = {};
 
-            if (typeof DADOS === 'undefined') {
-                container.innerHTML = '<p style="color:red;">Erro: dados.js não foi carregado.</p>';
+        function carregarQuestoes() {
+            const materia = document.getElementById('filtroMateria').value;
+            const modulo = document.getElementById('filtroModulo').value;
+            const aula = document.getElementById('filtroAula').value;
+
+            const dadosMateria = DADOS.materias[materia];
+            if (!dadosMateria) { alert('Matéria não encontrada.'); return; }
+            const dadosModulo = dadosMateria.modulos[modulo];
+            if (!dadosModulo) { alert('Módulo não encontrado.'); return; }
+            const dadosAula = dadosModulo.aulas[aula];
+            if (!dadosAula) { alert('Aula não encontrada.'); return; }
+
+            questoesAtuais = dadosAula.questoes || [];
+            respostasUsuario = {};
+            renderizarQuestoes();
+        }
+
+        function renderizarQuestoes() {
+            const container = document.getElementById('painelQuestoes');
+            if (questoesAtuais.length === 0) {
+                container.innerHTML = '<p>Nenhuma questão encontrada para esta aula.</p>';
                 return;
             }
 
             let html = '';
-
-            // Percorre as matérias
-            for (const [sigla, materia] of Object.entries(DADOS.materias)) {
-                html += `<h2 class="materia-titulo">📘 ${materia.nome}</h2>`;
-
-                for (const [moduloId, modulo] of Object.entries(materia.modulos)) {
-                    html += `<h3 class="modulo-titulo">📌 ${modulo.nome}</h3>`;
-
-                    for (const [aulaId, aula] of Object.entries(modulo.aulas)) {
-                        html += `<div class="aula-titulo">▶ ${aula.nome}</div>`;
-                        html += `<div class="resumo-box">${aula.resumo}</div>`;
-                    }
-                }
-            }
-
+            questoesAtuais.forEach((q, index) => {
+                const num = index + 1;
+                html += `
+                    <div class="questao" id="questao-${index}">
+                        <p><strong>QUESTÃO ${num}</strong></p>
+                        <p>${q.enunciado}</p>
+                        <div class="opcoes">
+                            <button onclick="selecionarResposta(${index}, 'C')" id="btn-c-${index}">CERTO</button>
+                            <button onclick="selecionarResposta(${index}, 'E')" id="btn-e-${index}">ERRADO</button>
+                        </div>
+                        <div class="resultado" id="resultado-${index}"></div>
+                    </div>
+                `;
+            });
+            html += `<button class="botao-corrigir" onclick="corrigirTodas()">✅ Corrigir todas</button>`;
             container.innerHTML = html;
-        });
+        }
+
+        function selecionarResposta(index, letra) {
+            document.getElementById(`btn-c-${index}`).className = '';
+            document.getElementById(`btn-e-${index}`).className = '';
+            if (letra === 'C') {
+                document.getElementById(`btn-c-${index}`).classList.add('selecionado-c');
+            } else {
+                document.getElementById(`btn-e-${index}`).classList.add('selecionado-e');
+            }
+            respostasUsuario[index] = letra;
+            document.getElementById(`resultado-${index}`).className = 'resultado';
+            document.getElementById(`resultado-${index}`).innerHTML = '';
+        }
+
+        function corrigirTodas() {
+            questoesAtuais.forEach((q, index) => {
+                const resposta = respostasUsuario[index];
+                const resultadoDiv = document.getElementById(`resultado-${index}`);
+                resultadoDiv.className = 'resultado';
+                if (!resposta) {
+                    resultadoDiv.classList.add('errado');
+                    resultadoDiv.innerHTML = `<strong>⚠️ Não respondida.</strong>`;
+                    return;
+                }
+                const correta = q.resposta === 'C' ? 'C' : 'E';
+                if (resposta === correta) {
+                    resultadoDiv.classList.add('certo');
+                    resultadoDiv.innerHTML = `<strong>✅ CORRETO!</strong><div class="comentario">${q.comentario || ''}</div>`;
+                } else {
+                    resultadoDiv.classList.add('errado');
+                    resultadoDiv.innerHTML = `<strong>❌ ERRADO. Resposta: ${correta}.</strong><div class="comentario">${q.comentario || ''}</div>`;
+                }
+            });
+        }
+
+        window.onload = carregarQuestoes;
     </script>
 </body>
 </html>
