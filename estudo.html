@@ -68,9 +68,12 @@
 
 <script>
 // ============================================================
-// DADOS DAS AULAS — CONTEÚDO EXPANDIDO
+// AULAS EXPANDIDAS — TODAS AS 12 MATÉRIAS COM CONTEÚDO COMPLETO
 // ============================================================
 const AULAS = {
+    // ============================================================
+    // 1. DIREITO CONSTITUCIONAL — 5 MÓDULOS
+    // ============================================================
     "direito-constitucional": {
         "modulo-1": {
             "aula-1": {
@@ -135,6 +138,14 @@ const AULAS = {
                     <div class="secao atencao">
                         <strong>📌 Atenção:</strong> O Distrito Federal <strong>não exerce</strong> poder decorrente. Tem <strong>Lei Orgânica</strong> (art. 32 da CF).
                     </div>
+                    <h2>🎯 O que realmente cai em prova</h2>
+                    <ul>
+                        <li>PCO: inicial, incondicionado, ilimitado, autônomo.</li>
+                        <li>Poder Reformador: EC com 3/5 em dois turnos.</li>
+                        <li>Poder Decorrente: Estados, com simetria.</li>
+                        <li>Cláusulas pétreas: forma federativa, voto, separação, direitos individuais.</li>
+                        <li>O povo NÃO pode propor PEC.</li>
+                    </ul>
                     <a href="questoes.html?materia=direito-constitucional&modulo=modulo-2&aula=aula-1" target="_blank" class="btn-praticar">📝 Praticar questões desta aula</a>
                 `
             }
@@ -155,6 +166,12 @@ const AULAS = {
                     <div class="secao pegadinha">
                         <strong>⚠️ Pegadinha da Banca:</strong> Trocar "fundamentos" por "objetivos". Exemplo: dizer que "erradicar a pobreza" é fundamento. <strong>ERRADO!</strong> É objetivo.
                     </div>
+                    <h2>🎯 O que realmente cai em prova</h2>
+                    <ul>
+                        <li>Fundamentos: soberania, cidadania, dignidade, valores sociais, pluralismo.</li>
+                        <li>Objetivos: construir, garantir, erradicar, reduzir, promover.</li>
+                        <li>Relações internacionais: não intervenção, paz, direitos humanos, etc.</li>
+                    </ul>
                     <a href="questoes.html?materia=direito-constitucional&modulo=modulo-3&aula=aula-1" target="_blank" class="btn-praticar">📝 Praticar questões desta aula</a>
                 `
             }
@@ -175,6 +192,13 @@ const AULAS = {
                     <div class="secao pegadinha">
                         <strong>⚠️ Pegadinha da Banca:</strong> Dizer que "prisão civil por dívida é admitida no Brasil". <strong>ERRADO!</strong> Só para depositário infiel e alimentante (art. 5º, LXVII).
                     </div>
+                    <h2>🎯 O que realmente cai em prova</h2>
+                    <ul>
+                        <li>Art. 5º: direitos e garantias fundamentais.</li>
+                        <li>Garantias: habeas corpus, mandado de segurança, habeas data, mandado de injunção, ação popular.</li>
+                        <li>Direitos: vida, igualdade, liberdade, propriedade.</li>
+                        <li>Prisão civil: só para depositário infiel e alimentante.</li>
+                    </ul>
                     <a href="questoes.html?materia=direito-constitucional&modulo=modulo-4&aula=aula-1" target="_blank" class="btn-praticar">📝 Praticar questões desta aula</a>
                 `
             }
@@ -200,11 +224,22 @@ const AULAS = {
                     <div class="secao atencao">
                         <strong>📌 Atenção:</strong> O DF é um ente <strong>sui generis</strong> — não é estado, não é município. É regido por <strong>Lei Orgânica</strong>.
                     </div>
+                    <h2>🎯 O que realmente cai em prova</h2>
+                    <ul>
+                        <li>Forma federativa é cláusula pétrea.</li>
+                        <li>DF não é estado-membro.</li>
+                        <li>Intervenção federal é excepcional.</li>
+                        <li>Competência privativa da União é delegável.</li>
+                    </ul>
                     <a href="questoes.html?materia=direito-constitucional&modulo=modulo-5&aula=aula-1" target="_blank" class="btn-praticar">📝 Praticar questões desta aula</a>
                 `
             }
         }
     },
+
+    // ============================================================
+    // 2. DIREITO ADMINISTRATIVO — 3 MÓDULOS
+    // ============================================================
     "direito-administrativo": {
         "modulo-1": {
             "aula-1": {
@@ -229,51 +264,26 @@ const AULAS = {
                     <div class="secao atencao">
                         <strong>📌 Atenção:</strong> A eficiência foi inserida pela <strong>EC 19/98</strong>.
                     </div>
+                    <h2>🎯 O que realmente cai em prova</h2>
+                    <ul>
+                        <li>Legalidade: só o que a lei autoriza.</li>
+                        <li>Impessoalidade: proíbe nepotismo.</li>
+                        <li>Publicidade: não é absoluta.</li>
+                        <li>Eficiência: EC 19/98.</li>
+                    </ul>
                     <a href="questoes.html?materia=direito-administrativo&modulo=modulo-1&aula=aula-1" target="_blank" class="btn-praticar">📝 Praticar questões desta aula</a>
                 `
             }
-        }
-    }
-};
-
-// ============================================================
-// FUNÇÃO PARA CARREGAR A AULA
-// ============================================================
-function carregarAula() {
-    const materia = document.getElementById('filtroMateriaEstudo').value;
-    const modulo = document.getElementById('filtroModuloEstudo').value;
-    const aula = document.getElementById('filtroAulaEstudo').value;
-
-    const dadosMateria = AULAS[materia];
-    if (!dadosMateria) {
-        document.getElementById('painelAula').innerHTML = '<p style="color:red;">Matéria não encontrada.</p>';
-        return;
-    }
-    const dadosModulo = dadosMateria[modulo];
-    if (!dadosModulo) {
-        document.getElementById('painelAula').innerHTML = '<p style="color:red;">Módulo não encontrado.</p>';
-        return;
-    }
-    const dadosAula = dadosModulo[aula];
-    if (!dadosAula) {
-        document.getElementById('painelAula').innerHTML = '<p style="color:red;">Aula não encontrada.</p>';
-        return;
-    }
-
-    document.getElementById('painelAula').innerHTML = `
-        <div class="aula-card">
-            <h2>📖 ${dadosAula.titulo}</h2>
-            ${dadosAula.conteudo}
-        </div>
-    `;
-}
-
-// ============================================================
-// CARREGAR AULA AUTOMATICAMENTE AO INICIAR
-// ============================================================
-window.addEventListener('load', function() {
-    carregarAula();
-});
-</script>
-</body>
-</html>
+        },
+        "modulo-2": {
+            "aula-1": {
+                titulo: "Licitações e Contratos (Lei 14.133/2021)",
+                conteudo: `
+                    <h2>📌 Conceito</h2>
+                    <p>A nova Lei de Licitações (14.133/2021) estabelece normas gerais para licitações e contratos administrativos.</p>
+                    <h2>🔍 Explicação Aprofundada</h2>
+                    <p><strong>Modalidades:</strong> pregão, concorrência, leilão, diálogo competitivo.</p>
+                    <p><strong>Fases:</strong> preparatória, divulgação, habilitação, julgamento, adjudicação.</p>
+                    <p><strong>Princípios:</strong> legalidade, impessoalidade, moralidade, publicidade, eficiência, vinculação ao edital, julgamento objetivo.</p>
+                    <div class="secao pegadinha">
+                        <strong>⚠️ Pegadinha da Banca:</strong> Dizer que
