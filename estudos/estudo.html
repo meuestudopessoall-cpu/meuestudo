@@ -1,76 +1,7 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Estudar — Trilha Policial 2026</title>
-    <link rel="stylesheet" href="style.css" />
-    <style>
-        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: #f4f7fc; padding: 20px; }
-        .container { max-width: 1100px; margin: 0 auto; background: #fff; border-radius: 16px; padding: 30px; box-shadow: 0 8px 20px rgba(0,0,0,0.05); }
-        h1 { color: #0b2b4a; border-bottom: 4px solid #1a73e8; padding-bottom: 12px; }
-        .voltar { display: inline-block; margin: 20px 0; background: #e8f0fe; color: #1a73e8; padding: 10px 20px; border-radius: 30px; text-decoration: none; font-weight: 600; }
-        .voltar:hover { background: #d2e3fc; }
-        .filtro { display: flex; flex-wrap: wrap; gap: 10px; margin: 20px 0; }
-        .filtro select, .filtro button { padding: 8px 16px; border-radius: 8px; border: 1px solid #ccc; font-size: 14px; background: #fff; }
-        .filtro button { background: #1a73e8; color: #fff; border: none; cursor: pointer; font-weight: 600; transition: 0.2s; }
-        .filtro button:hover { background: #0d47a1; transform: scale(1.02); }
-        .aula-card { background: #f8faff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 24px; margin: 20px 0; }
-        .aula-card h2 { color: #0b2b4a; border-left: 6px solid #1a73e8; padding-left: 12px; }
-        .aula-card h3 { color: #1a73e8; margin-top: 20px; }
-        .aula-card .secao { background: #fff; padding: 12px 16px; border-radius: 8px; margin: 12px 0; border-left: 4px solid #1a73e8; }
-        .aula-card .secao.pegadinha { border-left-color: #e53935; background: #fde8e8; }
-        .aula-card .secao.macete { border-left-color: #f9a825; background: #fff8e1; }
-        .aula-card .secao.atencao { border-left-color: #ff6f00; background: #fff3e0; }
-        .aula-card ul { margin: 8px 0 8px 20px; }
-        .aula-card li { margin: 4px 0; line-height: 1.5; }
-        .btn-praticar { display: inline-block; background: #1a73e8; color: #fff; padding: 8px 20px; border-radius: 30px; text-decoration: none; font-weight: 600; margin: 12px 0; transition: 0.2s; }
-        .btn-praticar:hover { background: #0d47a1; transform: scale(1.02); }
-        .footer { margin-top: 30px; text-align: center; color: #7a8a9e; border-top: 1px solid #e2e8f0; padding-top: 20px; }
-    </style>
-</head>
-<body>
-<div class="container">
-    <h1>📖 Estudar — Aulas Completas</h1>
-    <a href="index.html" class="voltar">← Voltar ao início</a>
-
-    <div class="filtro">
-        <select id="filtroMateriaEstudo">
-            <option value="direito-constitucional">Direito Constitucional</option>
-            <option value="direito-administrativo">Direito Administrativo</option>
-            <option value="direito-penal">Direito Penal</option>
-            <option value="direito-processual-penal">Direito Processual Penal</option>
-            <option value="legislacao-penal-especial">Legislação Penal Especial</option>
-            <option value="direitos-humanos">Direitos Humanos</option>
-            <option value="raciocinio-logico">Raciocínio Lógico</option>
-            <option value="informatica">Informática</option>
-            <option value="lodf">LODF</option>
-            <option value="ride">RIDE</option>
-            <option value="lc-840">LC 840/2011</option>
-            <option value="eca">ECA</option>
-        </select>
-        <select id="filtroModuloEstudo">
-            <option value="modulo-1">Módulo 1</option>
-            <option value="modulo-2">Módulo 2</option>
-            <option value="modulo-3">Módulo 3</option>
-            <option value="modulo-4">Módulo 4</option>
-            <option value="modulo-5">Módulo 5</option>
-        </select>
-        <select id="filtroAulaEstudo">
-            <option value="aula-1">Aula 1</option>
-        </select>
-        <button onclick="carregarAula()">📖 Carregar Aula</button>
-    </div>
-
-    <div id="painelAula"></div>
-    <div class="footer">🎯 Preparação para PCDF · PMDF · PF · PRF · PCGO · PMGO</div>
-</div>
-
-<script>
-// ============================================================
-// DADOS DAS AULAS — CONTEÚDO EXPANDIDO
-// ============================================================
 const AULAS = {
+    // ============================================================
+    // 1. DIREITO CONSTITUCIONAL (já existente)
+    // ============================================================
     "direito-constitucional": {
         "modulo-1": {
             "aula-1": {
@@ -135,6 +66,14 @@ const AULAS = {
                     <div class="secao atencao">
                         <strong>📌 Atenção:</strong> O Distrito Federal <strong>não exerce</strong> poder decorrente. Tem <strong>Lei Orgânica</strong> (art. 32 da CF).
                     </div>
+                    <h2>🎯 O que realmente cai em prova</h2>
+                    <ul>
+                        <li>PCO: inicial, incondicionado, ilimitado, autônomo.</li>
+                        <li>Poder Reformador: EC com 3/5 em dois turnos.</li>
+                        <li>Poder Decorrente: Estados, com simetria.</li>
+                        <li>Cláusulas pétreas: forma federativa, voto, separação, direitos individuais.</li>
+                        <li>O povo NÃO pode propor PEC.</li>
+                    </ul>
                     <a href="questoes.html?materia=direito-constitucional&modulo=modulo-2&aula=aula-1" target="_blank" class="btn-praticar">📝 Praticar questões desta aula</a>
                 `
             }
@@ -155,6 +94,12 @@ const AULAS = {
                     <div class="secao pegadinha">
                         <strong>⚠️ Pegadinha da Banca:</strong> Trocar "fundamentos" por "objetivos". Exemplo: dizer que "erradicar a pobreza" é fundamento. <strong>ERRADO!</strong> É objetivo.
                     </div>
+                    <h2>🎯 O que realmente cai em prova</h2>
+                    <ul>
+                        <li>Fundamentos: soberania, cidadania, dignidade, valores sociais, pluralismo.</li>
+                        <li>Objetivos: construir, garantir, erradicar, reduzir, promover.</li>
+                        <li>Relações internacionais: não intervenção, paz, direitos humanos, etc.</li>
+                    </ul>
                     <a href="questoes.html?materia=direito-constitucional&modulo=modulo-3&aula=aula-1" target="_blank" class="btn-praticar">📝 Praticar questões desta aula</a>
                 `
             }
@@ -175,6 +120,13 @@ const AULAS = {
                     <div class="secao pegadinha">
                         <strong>⚠️ Pegadinha da Banca:</strong> Dizer que "prisão civil por dívida é admitida no Brasil". <strong>ERRADO!</strong> Só para depositário infiel e alimentante (art. 5º, LXVII).
                     </div>
+                    <h2>🎯 O que realmente cai em prova</h2>
+                    <ul>
+                        <li>Art. 5º: direitos e garantias fundamentais.</li>
+                        <li>Garantias: habeas corpus, mandado de segurança, habeas data, mandado de injunção, ação popular.</li>
+                        <li>Direitos: vida, igualdade, liberdade, propriedade.</li>
+                        <li>Prisão civil: só para depositário infiel e alimentante.</li>
+                    </ul>
                     <a href="questoes.html?materia=direito-constitucional&modulo=modulo-4&aula=aula-1" target="_blank" class="btn-praticar">📝 Praticar questões desta aula</a>
                 `
             }
@@ -200,11 +152,22 @@ const AULAS = {
                     <div class="secao atencao">
                         <strong>📌 Atenção:</strong> O DF é um ente <strong>sui generis</strong> — não é estado, não é município. É regido por <strong>Lei Orgânica</strong>.
                     </div>
+                    <h2>🎯 O que realmente cai em prova</h2>
+                    <ul>
+                        <li>Forma federativa é cláusula pétrea.</li>
+                        <li>DF não é estado-membro.</li>
+                        <li>Intervenção federal é excepcional.</li>
+                        <li>Competência privativa da União é delegável.</li>
+                    </ul>
                     <a href="questoes.html?materia=direito-constitucional&modulo=modulo-5&aula=aula-1" target="_blank" class="btn-praticar">📝 Praticar questões desta aula</a>
                 `
             }
         }
     },
+
+    // ============================================================
+    // 2. DIREITO ADMINISTRATIVO (já existente)
+    // ============================================================
     "direito-administrativo": {
         "modulo-1": {
             "aula-1": {
@@ -229,51 +192,86 @@ const AULAS = {
                     <div class="secao atencao">
                         <strong>📌 Atenção:</strong> A eficiência foi inserida pela <strong>EC 19/98</strong>.
                     </div>
+                    <h2>🎯 O que realmente cai em prova</h2>
+                    <ul>
+                        <li>Legalidade: só o que a lei autoriza.</li>
+                        <li>Impessoalidade: proíbe nepotismo.</li>
+                        <li>Publicidade: não é absoluta.</li>
+                        <li>Eficiência: EC 19/98.</li>
+                    </ul>
                     <a href="questoes.html?materia=direito-administrativo&modulo=modulo-1&aula=aula-1" target="_blank" class="btn-praticar">📝 Praticar questões desta aula</a>
                 `
             }
+        },
+        "modulo-2": {
+            "aula-1": {
+                titulo: "Licitações e Contratos (Lei 14.133/2021)",
+                conteudo: `
+                    <h2>📌 Conceito</h2>
+                    <p>A nova Lei de Licitações (14.133/2021) estabelece normas gerais para licitações e contratos administrativos.</p>
+                    <h2>🔍 Explicação Aprofundada</h2>
+                    <p><strong>Modalidades:</strong> pregão, concorrência, leilão, diálogo competitivo.</p>
+                    <p><strong>Fases:</strong> preparatória, divulgação, habilitação, julgamento, adjudicação.</p>
+                    <p><strong>Princípios:</strong> legalidade, impessoalidade, moralidade, publicidade, eficiência, vinculação ao edital, julgamento objetivo.</p>
+                    <div class="secao pegadinha">
+                        <strong>⚠️ Pegadinha da Banca:</strong> Dizer que o pregão é sempre presencial. <strong>ERRADO!</strong> Em regra é eletrônico.
+                    </div>
+                    <div class="secao atencao">
+                        <strong>📌 Atenção:</strong> A Lei 14.133/2021 revogou a Lei 8.666/93, a Lei 10.520/02 e partes da Lei 12.462/11.
+                    </div>
+                    <a href="questoes.html?materia=direito-administrativo&modulo=modulo-2&aula=aula-1" target="_blank" class="btn-praticar">📝 Praticar questões desta aula</a>
+                `
+            }
         }
-    }
-};
+    },
 
-// ============================================================
-// FUNÇÃO PARA CARREGAR A AULA
-// ============================================================
-function carregarAula() {
-    const materia = document.getElementById('filtroMateriaEstudo').value;
-    const modulo = document.getElementById('filtroModuloEstudo').value;
-    const aula = document.getElementById('filtroAulaEstudo').value;
+    // ============================================================
+    // 3. DIREITO PENAL
+    // ============================================================
+    "direito-penal": {
+        "modulo-1": {
+            "aula-1": {
+                titulo: "Teoria do Crime (TIC)",
+                conteudo: `
+                    <h2>📌 Conceito</h2>
+                    <p>Crime é <strong>fato típico, ilícito e culpável</strong> (conceito analítico).</p>
+                    <h2>🔍 Explicação Aprofundada</h2>
+                    <p><strong>Fato Típico:</strong> conduta (ação ou omissão), nexo causal, resultado (em crimes materiais) e tipicidade (adequação à lei).</p>
+                    <p><strong>Ilicitude (Antijuridicidade):</strong> conduta contrária ao ordenamento. Afastada por excludentes: legítima defesa, estado de necessidade, estrito cumprimento do dever legal, exercício regular de direito.</p>
+                    <p><strong>Culpabilidade:</strong> juízo de reprovação. Exige: imputabilidade, potencial consciência da ilicitude e exigibilidade de conduta diversa.</p>
+                    <div class="secao macete">
+                        <strong>🧠 Macete:</strong> "TIC" — <strong>T</strong>ípica, <strong>I</strong>lícita, <strong>C</strong>ulpável.
+                    </div>
+                    <div class="secao pegadinha">
+                        <strong>⚠️ Pegadinha da Banca:</strong> Afirmar que "toda conduta típica é ilícita". <strong>ERRADO!</strong> Há excludentes de ilicitude.
+                    </div>
+                    <div class="secao atencao">
+                        <strong>📌 Atenção:</strong> Não confunda excludente de ilicitude (legítima defesa) com excludente de culpabilidade (coação moral irresistível).
+                    </div>
+                    <a href="questoes.html?materia=direito-penal&modulo=modulo-1&aula=aula-1" target="_blank" class="btn-praticar">📝 Praticar questões desta aula</a>
+                `
+            }
+        }
+    },
 
-    const dadosMateria = AULAS[materia];
-    if (!dadosMateria) {
-        document.getElementById('painelAula').innerHTML = '<p style="color:red;">Matéria não encontrada.</p>';
-        return;
-    }
-    const dadosModulo = dadosMateria[modulo];
-    if (!dadosModulo) {
-        document.getElementById('painelAula').innerHTML = '<p style="color:red;">Módulo não encontrado.</p>';
-        return;
-    }
-    const dadosAula = dadosModulo[aula];
-    if (!dadosAula) {
-        document.getElementById('painelAula').innerHTML = '<p style="color:red;">Aula não encontrada.</p>';
-        return;
-    }
-
-    document.getElementById('painelAula').innerHTML = `
-        <div class="aula-card">
-            <h2>📖 ${dadosAula.titulo}</h2>
-            ${dadosAula.conteudo}
-        </div>
-    `;
-}
-
-// ============================================================
-// CARREGAR AULA AUTOMATICAMENTE AO INICIAR
-// ============================================================
-window.addEventListener('load', function() {
-    carregarAula();
-});
-</script>
-</body>
-</html>
+    // ============================================================
+    // 4. DIREITO PROCESSUAL PENAL
+    // ============================================================
+    "direito-processual-penal": {
+        "modulo-1": {
+            "aula-1": {
+                titulo: "Inquérito Policial (Arts. 4º a 23 do CPP)",
+                conteudo: `
+                    <h2>📌 Conceito</h2>
+                    <p>O inquérito policial é um <strong>procedimento administrativo, inquisitivo, escrito, dispensável e sigiloso</strong>, presidido pelo Delegado de Polícia.</p>
+                    <h2>🔍 Explicação Aprofundada</h2>
+                    <p><strong>Características:</strong> Oficial (instaurado por autoridade policial), inquisitivo (não há contraditório pleno), escrito, dispensável (a ação penal pode ser iniciada sem IP), sigiloso (pode ser sigiloso para garantir eficácia).</p>
+                    <p><strong>Prazos:</strong> Preso: 30 dias (prorrogável por mais 30). Solto: 10 dias (prorrogável por mais 10).</p>
+                    <p><strong>Arquivamento:</strong> O Delegado NÃO pode arquivar o IP. Só o Juiz (art. 28 do CPP).</p>
+                    <div class="secao macete">
+                        <strong>🧠 Macete:</strong> "OIEDSS" — <strong>O</strong>ficial, <strong>I</strong>nquisitivo, <strong>E</strong>scrito, <strong>D</strong>ispensável, <strong>S</strong>igiloso, <strong>S</strong>umário.
+                    </div>
+                    <div class="secao pegadinha">
+                        <strong>⚠️ Pegadinha da Banca:</strong> Afirmar que o Inquérito Policial é obrigatório para toda ação penal. <strong>ERRADO!</strong> É dispensável.
+                    </div>
+                    <a href="questoes.html?materia=direito-processual-penal&modulo=m
