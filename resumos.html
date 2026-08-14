@@ -1,97 +1,106 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Resumos — Trilha Policial 2026</title>
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="style.css">
     <style>
-        .resumo-box {
-            background: #f8faff;
-            border: 1px solid #e2e8f0;
-            border-radius: 12px;
-            padding: 20px;
-            margin: 20px 0;
-            white-space: pre-wrap;
-            font-size: 15px;
-            line-height: 1.6;
-        }
-        .materia-titulo {
-            background: #1a73e8;
-            color: white;
-            padding: 10px 18px;
-            border-radius: 8px;
-            margin: 30px 0 10px 0;
-        }
-        .modulo-titulo {
-            background: #e8f0fe;
-            color: #0b2b4a;
-            padding: 8px 16px;
-            border-radius: 6px;
-            margin: 20px 0 10px 0;
-            border-left: 4px solid #1a73e8;
-        }
-        .aula-titulo {
-            font-weight: 700;
-            color: #1a73e8;
-            margin: 16px 0 6px 0;
-            font-size: 18px;
-        }
-        .voltar {
-            display: inline-block;
-            margin: 20px 0;
-            background: #e8f0fe;
-            color: #1a73e8;
-            padding: 10px 20px;
-            border-radius: 30px;
-            text-decoration: none;
-            font-weight: 600;
-        }
-        .voltar:hover {
-            background: #d2e3fc;
-        }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: #f4f7fc; padding: 20px; }
+        .container { max-width: 1000px; margin: 0 auto; background: #fff; border-radius: 16px; padding: 30px; box-shadow: 0 8px 20px rgba(0,0,0,0.05); }
+        h1 { color: #0b2b4a; border-bottom: 4px solid #1a73e8; padding-bottom: 12px; }
+        .materia-titulo { background: #1a73e8; color: #fff; padding: 10px 18px; border-radius: 8px; margin: 30px 0 10px; }
+        .modulo-titulo { background: #e8f0fe; color: #0b2b4a; padding: 8px 16px; border-radius: 6px; margin: 20px 0 10px; border-left: 4px solid #1a73e8; }
+        .aula-titulo { font-weight: 700; color: #1a73e8; margin: 16px 0 6px; font-size: 18px; }
+        .resumo-box { background: #f8faff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; margin: 10px 0 20px; white-space: pre-wrap; }
+        .voltar { display: inline-block; margin: 20px 0; background: #e8f0fe; color: #1a73e8; padding: 10px 20px; border-radius: 30px; text-decoration: none; font-weight: 600; }
+        .voltar:hover { background: #d2e3fc; }
+        .sem-conteudo { background: #fff3cd; border-left: 6px solid #ffc107; padding: 16px; border-radius: 8px; margin: 20px 0; }
+        .footer { margin-top: 30px; text-align: center; color: #7a8a9e; border-top: 1px solid #e2e8f0; padding-top: 20px; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>📚 Resumos por Matéria</h1>
-        <a href="index.html" class="voltar">← Voltar ao início</a>
+<div class="container">
+    <h1>📚 Resumos por Matéria</h1>
+    <a href="index.html" class="voltar">← Voltar ao início</a>
+    <div id="filtroInfo" style="margin:10px 0;"></div>
+    <div id="conteudoResumos"></div>
+    <div class="footer">🎯 Preparação para PCDF · PMDF · PF · PRF · PCGO · PMGO</div>
+</div>
 
-        <div id="conteudoResumos"></div>
+<script src="dados.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const container = document.getElementById('conteudoResumos');
+    const filtroInfo = document.getElementById('filtroInfo');
 
-        <div class="footer">
-            🎯 Preparação para PCDF · PMDF · PF · PRF · PCGO · PMGO
-        </div>
-    </div>
+    if (typeof DADOS === 'undefined') {
+        container.innerHTML = '<p style="color:red;">Erro: dados.js não foi carregado.</p>';
+        return;
+    }
 
-    <script src="dados.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const container = document.getElementById('conteudoResumos');
+    const urlParams = new URLSearchParams(window.location.search);
+    const materiaSigla = urlParams.get('materia');
 
-            if (typeof DADOS === 'undefined') {
-                container.innerHTML = '<p style="color:red;">Erro: dados.js não foi carregado.</p>';
-                return;
+    const nomesMaterias = {
+        'lingua-portuguesa': 'Língua Portuguesa',
+        'direito-constitucional': 'Direito Constitucional',
+        'direito-administrativo': 'Direito Administrativo',
+        'direito-penal': 'Direito Penal',
+        'direito-processual-penal': 'Direito Processual Penal',
+        'legislacao-penal-especial': 'Legislação Penal Especial',
+        'direitos-humanos': 'Direitos Humanos',
+        'raciocinio-logico': 'Raciocínio Lógico-Matemático',
+        'informatica': 'Informática',
+        'lodf': 'Lei Orgânica do DF (LODF)',
+        'ride': 'RIDE',
+        'lc-840': 'LC 840/2011',
+        'eca': 'ECA — Estatuto da Criança e do Adolescente'
+    };
+
+    let html = '';
+    let materiaEncontrada = false;
+
+    const materiasParaExibir = materiaSigla ? { [materiaSigla]: DADOS.materias[materiaSigla] } : DADOS.materias;
+
+    for (const [sigla, materia] of Object.entries(materiasParaExibir)) {
+        if (!materia) continue;
+        materiaEncontrada = true;
+        const nome = nomesMaterias[sigla] || materia.nome || sigla;
+        html += `<h2 class="materia-titulo">📘 ${nome}</h2>`;
+
+        let temConteudo = false;
+        for (const modulo of Object.values(materia.modulos || {})) {
+            for (const aula of Object.values(modulo.aulas || {})) {
+                if (aula.resumo && aula.resumo.length > 10) temConteudo = true;
             }
+        }
 
-            let html = '';
+        if (!temConteudo) {
+            html += `<div class="sem-conteudo">📌 Conteúdo desta matéria será adicionado em breve.</div>`;
+        }
 
-            // Percorre as matérias
-            for (const [sigla, materia] of Object.entries(DADOS.materias)) {
-                html += `<h2 class="materia-titulo">📘 ${materia.nome}</h2>`;
-
-                for (const [moduloId, modulo] of Object.entries(materia.modulos)) {
-                    html += `<h3 class="modulo-titulo">📌 ${modulo.nome}</h3>`;
-
-                    for (const [aulaId, aula] of Object.entries(modulo.aulas)) {
-                        html += `<div class="aula-titulo">▶ ${aula.nome}</div>`;
-                        html += `<div class="resumo-box">${aula.resumo}</div>`;
-                    }
-                }
+        for (const [moduloId, modulo] of Object.entries(materia.modulos || {})) {
+            html += `<h3 class="modulo-titulo">📌 ${modulo.nome}</h3>`;
+            for (const [aulaId, aula] of Object.entries(modulo.aulas || {})) {
+                html += `<div class="aula-titulo">▶ ${aula.nome}</div>`;
+                const resumo = aula.resumo || 'Conteúdo em breve...';
+                html += `<div class="resumo-box">${resumo}</div>`;
             }
+        }
+    }
 
-            container.innerHTML = html;
-        });
-    </script>
+    if (!materiaEncontrada) {
+        container.innerHTML = '<p>Nenhuma matéria encontrada.</p>';
+    } else {
+        container.innerHTML = html;
+    }
+
+    if (materiaSigla) {
+        const nome = nomesMaterias[materiaSigla] || 'Matéria';
+        filtroInfo.innerHTML = `<span class="filtro-ativo">🔍 Exibindo apenas: <strong>${nome}</strong></span>`;
+    }
+});
+</script>
 </body>
 </html>
