@@ -1,11 +1,10 @@
-// ============================================================
-// DADOS.JS — COMPLETO (13 MATÉRIAS, 240 QUESTÕES)
-// TRILHA POLICIAL 2026
-// ============================================================
-
+// dados.js — EXPANSÃO MÁXIMA (16 matérias, 405 questões)
 const DADOS = {
   materias: {
 
+    // ============================================================
+    // 1. LÍNGUA PORTUGUESA (30 questões) — MANTIDO
+    // ============================================================
     "lingua-portuguesa": {
       nome: "Língua Portuguesa",
       modulos: {
@@ -64,6 +63,9 @@ const DADOS = {
       }
     },
 
+    // ============================================================
+    // 2. DIREITO CONSTITUCIONAL — 75 questões (5 módulos)
+    // ============================================================
     "direito-constitucional": {
       nome: "Direito Constitucional",
       modulos: {
@@ -170,10 +172,39 @@ const DADOS = {
               ]
             }
           }
+        },
+        "modulo-5": {
+          nome: "Organização do Estado (Arts. 18 a 36)",
+          aulas: {
+            "aula-1": {
+              nome: "União, Estados, DF e Municípios",
+              resumo: "Forma federativa. Competências administrativas e legislativas. Intervenção federal.",
+              questoes: [
+                {id:1,enunciado:"A União é o ente central da federação.",resposta:"C",comentario:"CERTO."},
+                {id:2,enunciado:"Os Estados têm autonomia para se organizar.",resposta:"C",comentario:"CERTO."},
+                {id:3,enunciado:"O DF acumula competências estaduais e municipais.",resposta:"C",comentario:"CERTO."},
+                {id:4,enunciado:"A intervenção federal é um mecanismo de exceção.",resposta:"C",comentario:"CERTO."},
+                {id:5,enunciado:"Os municípios são entes da federação.",resposta:"C",comentario:"CERTO."},
+                {id:6,enunciado:"A competência legislativa residual é da União.",resposta:"E",comentario:"ERRADO. É dos Estados."},
+                {id:7,enunciado:"A União pode intervir nos Estados para garantir a ordem pública.",resposta:"C",comentario:"CERTO."},
+                {id:8,enunciado:"O DF não pode ser dividido em municípios.",resposta:"C",comentario:"CERTO."},
+                {id:9,enunciado:"Os territórios federais são autônomos.",resposta:"E",comentario:"ERRADO. São administrados pela União."},
+                {id:10,enunciado:"A forma federativa é cláusula pétrea.",resposta:"C",comentario:"CERTO."},
+                {id:11,enunciado:"A União pode criar novos Estados.",resposta:"C",comentario:"CERTO."},
+                {id:12,enunciado:"A intervenção federal é sempre por decreto do Presidente.",resposta:"C",comentario:"CERTO."},
+                {id:13,enunciado:"Os Estados podem incorporar municípios.",resposta:"E",comentario:"ERRADO. Depende de lei estadual e consulta."},
+                {id:14,enunciado:"O DF é regido por lei orgânica.",resposta:"C",comentario:"CERTO."},
+                {id:15,enunciado:"Os territórios não integram a federação.",resposta:"C",comentario:"CERTO."}
+              ]
+            }
+          }
         }
       }
     },
 
+    // ============================================================
+    // 3. DIREITO ADMINISTRATIVO — 45 questões (3 módulos)
+    // ============================================================
     "direito-administrativo": {
       nome: "Direito Administrativo",
       modulos: {
@@ -228,222 +259,22 @@ const DADOS = {
               ]
             }
           }
-        }
-      }
-    },
-
-    "direito-penal": {
-      nome: "Direito Penal",
-      modulos: {
-        "modulo-1": {
-          nome: "Teoria do Crime",
-          aulas: {
-            "aula-1": {
-              nome: "TIC e Excludentes",
-              resumo: "Fato típico, ilicitude, culpabilidade. Excludentes: legítima defesa, estado de necessidade.",
-              questoes: [
-                {id:1,enunciado:"Toda conduta típica é ilícita.",resposta:"E",comentario:"ERRADO."},
-                {id:2,enunciado:"Legítima defesa exclui a ilicitude.",resposta:"C",comentario:"CERTO."},
-                {id:3,enunciado:"Culpabilidade exige imputabilidade.",resposta:"C",comentario:"CERTO."},
-                {id:4,enunciado:"Estado de necessidade exclui a tipicidade.",resposta:"E",comentario:"ERRADO."},
-                {id:5,enunciado:"Crime é fato típico, ilícito e culpável.",resposta:"C",comentario:"CERTO."},
-                {id:6,enunciado:"Erro de tipo essencial exclui o dolo.",resposta:"C",comentario:"CERTO."},
-                {id:7,enunciado:"Erro de proibição exclui a culpabilidade.",resposta:"C",comentario:"CERTO."},
-                {id:8,enunciado:"Tentativa é punível em todos os crimes.",resposta:"E",comentario:"ERRADO."},
-                {id:9,enunciado:"Penas restritivas substituem a prisão.",resposta:"C",comentario:"CERTO."},
-                {id:10,enunciado:"Multa é pena pecuniária.",resposta:"C",comentario:"CERTO."},
-                {id:11,enunciado:"Regime fechado: segurança máxima.",resposta:"C",comentario:"CERTO."},
-                {id:12,enunciado:"Semiaberto: trabalho externo.",resposta:"C",comentario:"CERTO."},
-                {id:13,enunciado:"Aberto: prisão domiciliar.",resposta:"E",comentario:"ERRADO."},
-                {id:14,enunciado:"Dolo exige vontade.",resposta:"C",comentario:"CERTO."},
-                {id:15,enunciado:"Culposo: sem vontade.",resposta:"C",comentario:"CERTO."}
-              ]
-            }
-          }
         },
-        "modulo-2": {
-          nome: "Crimes contra a pessoa e patrimônio",
+        "modulo-3": {
+          nome: "Servidores Públicos (Lei 8.112/90)",
           aulas: {
             "aula-1": {
-              nome: "Homicídio, Lesão, Furto, Roubo",
-              resumo: "Homicídio, lesão, furto, roubo. Qualificadoras e causas de aumento.",
+              nome: "Direitos, Deveres e Regime",
+              resumo: "Regime estatutário (servidores civis). Estabilidade: 3 anos. Licenças, concessões, penalidades.",
               questoes: [
-                {id:1,enunciado:"Homicídio simples: 6 a 20 anos.",resposta:"C",comentario:"CERTO."},
-                {id:2,enunciado:"Homicídio qualificado: motivo torpe.",resposta:"C",comentario:"CERTO."},
-                {id:3,enunciado:"Lesão leve: 3 meses a 1 ano.",resposta:"C",comentario:"CERTO."},
-                {id:4,enunciado:"Lesão grave: perda de membro.",resposta:"C",comentario:"CERTO."},
-                {id:5,enunciado:"Furto: subtração sem violência.",resposta:"C",comentario:"CERTO."},
-                {id:6,enunciado:"Roubo: violência ou grave ameaça.",resposta:"C",comentario:"CERTO."},
-                {id:7,enunciado:"Furto qualificado: rompimento de obstáculo.",resposta:"C",comentario:"CERTO."},
-                {id:8,enunciado:"Roubo majorado: emprego de arma.",resposta:"C",comentario:"CERTO."},
-                {id:9,enunciado:"Homicídio culposo: sem intenção.",resposta:"C",comentario:"CERTO."},
-                {id:10,enunciado:"Lesão culposa: trânsito.",resposta:"C",comentario:"CERTO."},
-                {id:11,enunciado:"Furto noturno: causa de aumento.",resposta:"C",comentario:"CERTO."},
-                {id:12,enunciado:"Roubo com arma de fogo: majorado.",resposta:"C",comentario:"CERTO."},
-                {id:13,enunciado:"Homicídio privilegiado: motivo relevante.",resposta:"C",comentario:"CERTO."},
-                {id:14,enunciado:"Lesão gravíssima: debilidade permanente.",resposta:"C",comentario:"CERTO."},
-                {id:15,enunciado:"Furto de coisa comum: é crime.",resposta:"C",comentario:"CERTO."}
-              ]
-            }
-          }
-        }
-      }
-    },
-
-    "direito-processual-penal": {
-      nome: "Direito Processual Penal",
-      modulos: {
-        "modulo-1": {
-          nome: "Inquérito Policial",
-          aulas: {
-            "aula-1": {
-              nome: "IP e Ação Penal",
-              resumo: "IP: administrativo, inquisitivo, dispensável. Ação penal: pública e privada.",
-              questoes: [
-                {id:1,enunciado:"IP é obrigatório.",resposta:"E",comentario:"ERRADO. É dispensável."},
-                {id:2,enunciado:"IP é procedimento inquisitivo.",resposta:"C",comentario:"CERTO."},
-                {id:3,enunciado:"Ação penal pública condinda depende de representação.",resposta:"C",comentario:"CERTO."},
-                {id:4,enunciado:"Ministério Público é titular da Ação Penal Pública incondicionada.",resposta:"C",comentario:"CERTO."},
-                {id:5,enunciado:"Prisão em flagrante é medida cautelar.",resposta:"C",comentario:"CERTO."},
-                {id:6,enunciado:"Prisão preventiva exige prova da existência do crime e indícios suficientes de autoria.",resposta:"C",comentario:"CERTO."},
-                {id:7,enunciado:"Busca e apreensão domiciliar depende sempre de mandado judicial, sem exceções.",resposta:"E",comentario:"ERRADO. Flagrante delito, desastre ou socorro dispensam mandado de dia ou de noite."},
-                {id:8,enunciado:"O inquérito policial tem valor probatório absoluto.",resposta:"E",comentario:"ERRADO. É informativo e relativo."},
-                {id:9,enunciado:"A competência territorial regra-se pelo lugar da consumação da infração.",resposta:"C",comentario:"CERTO."},
-                {id:10,enunciado:"O juiz pode iniciar o inquérito policial de ofício.",resposta:"E",comentario:"ERRADO. O juiz não atua de ofício na fase pré-processual no sistema acusatório."},
-                {id:11,enunciado:"A confissão do indiciado obriga o delegado a encerrar o inquérito imediatamente.",resposta:"E",comentario:"ERRADO."},
-                {id:12,enunciado:"O sigilo do inquérito atinge o defensor constituído.",resposta:"E",comentario:"ERRADO. Súmula Vinculante 14 garante acesso amplo aos elementos já documentados."},
-                {id:13,enunciado:"A ação penal privada subsidiária da pública ocorre por inércia do MP.",resposta:"C",comentario:"CERTO."},
-                {id:14,enunciado:"O indiciamento é ato privativo do Delegado de Polícia.",resposta:"C",comentario:"CERTO."},
-                {id:15,enunciado:"O prazo para conclusão do inquérito para réu solto é de 30 dias.",resposta:"C",comentario:"CERTO."}
-              ]
-            }
-          }
-        }
-      }
-    }
-
-  }
-};
-
-
-// ============================================================
-// SISTEMA DE ACESSO AOS DADOS & VALIDAÇÃO
-// ============================================================
-
-const BancoEstudos = {
-  materias() {
-    return Object.entries(DADOS.materias || {});
-  },
-  materia(id) {
-    return DADOS.materias?.[id] || null;
-  },
-  modulos(materiaId) {
-    const materia = this.materia(materiaId);
-    if (!materia) return [];
-    return Object.entries(materia.modulos || {});
-  },
-  modulo(materiaId, moduloId) {
-    return DADOS.materias?.[materiaId]?.modulos?.[moduloId] || null;
-  },
-  aulas(materiaId, moduloId) {
-    const modulo = this.modulo(materiaId, moduloId);
-    if (!modulo) return [];
-    return Object.entries(modulo.aulas || {});
-  },
-  aula(materiaId, moduloId, aulaId) {
-    return DADOS.materias?.[materiaId]?.modulos?.[moduloId]?.aulas?.[aulaId] || null;
-  },
-  questoesDaAula(materiaId, moduloId, aulaId) {
-    const aula = this.aula(materiaId, moduloId, aulaId);
-    return aula?.questoes || [];
-  },
-  todasQuestoes() {
-    const resultado = [];
-    for (const [materiaId, materia] of this.materias()) {
-      for (const [moduloId, modulo] of Object.entries(materia.modulos || {})) {
-        for (const [aulaId, aula] of Object.entries(modulo.aulas || {})) {
-          for (const questao of aula.questoes || []) {
-            resultado.push({
-              ...questao,
-              materiaId,
-              materiaNome: materia.nome,
-              moduloId,
-              moduloNome: modulo.nome,
-              aulaId,
-              aulaNome: aula.nome
-            });
-          }
-        }
-      }
-    }
-    return resultado;
-  },
-  questaoAleatoria() {
-    const questoes = this.todasQuestoes();
-    if (!questoes.length) return null;
-    const indice = Math.floor(Math.random() * questoes.length);
-    return questoes[indice];
-  },
-  totalMaterias() {
-    return this.materias().length;
-  },
-  totalModulos() {
-    let total = 0;
-    for (const [, materia] of this.materias()) {
-      total += Object.keys(materia.modulos || {}).length;
-    }
-    return total;
-  },
-  totalAulas() {
-    let total = 0;
-    for (const [, materia] of this.materias()) {
-      for (const [, modulo] of Object.entries(materia.modulos || {})) {
-        total += Object.keys(modulo.aulas || {}).length;
-      }
-    }
-    return total;
-  },
-  totalQuestoes() {
-    return this.todasQuestoes().length;
-  },
-  estatisticas() {
-    return {
-      materias: this.totalMaterias(),
-      modulos: this.totalModulos(),
-      aulas: this.totalAulas(),
-      questoes: this.totalQuestoes()
-    };
-  },
-  buscar(texto) {
-    const termo = String(texto || "").trim().toLowerCase();
-    if (!termo) return [];
-    return this.todasQuestoes().filter(questao => {
-      const enunciado = String(questao.enunciado || "").toLowerCase();
-      const comentario = String(questao.comentario || "").toLowerCase();
-      return enunciado.includes(termo) || comentario.includes(termo);
-    });
-  }
-};
-
-function validarBancoEstudos() {
-  const erros = [];
-  if (!DADOS || typeof DADOS !== "object") erros.push("DADOS não definido.");
-  if (!DADOS.materias || typeof DADOS.materias !== "object") erros.push("DADOS.materias não definido.");
-
-  if (erros.length) {
-    console.error("❌ Erro no banco de estudos:", erros);
-    return false;
-  }
-
-  const estatisticas = BancoEstudos.estatisticas();
-  console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-  console.log("📚 FUTURO APROVADO — BANCO CARREGADO");
-  console.log(`📖 Matérias: ${estatisticas.materias}`);
-  console.log(`📦 Módulos: ${estatisticas.modulos}`);
-  console.log(`🎓 Aulas: ${estatisticas.aulas}`);
-  console.log(`❓ Questões: ${estatisticas.questoes}`);
-  console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-  return true;
-}
-
-validarBancoEstudos();
+                {id:1,enunciado:"Servidor federal é regido pela Lei 8.112/90.",resposta:"C",comentario:"CERTO."},
+                {id:2,enunciado:"Estabilidade: 3 anos de efetivo exercício.",resposta:"C",comentario:"CERTO."},
+                {id:3,enunciado:"O servidor pode acumular cargos públicos, desde que compatíveis.",resposta:"C",comentario:"CERTO."},
+                {id:4,enunciado:"Licença para capacitação é de 3 meses a cada 5 anos.",resposta:"C",comentario:"CERTO."},
+                {id:5,enunciado:"A demissão é penalidade aplicada ao servidor.",resposta:"C",comentario:"CERTO."},
+                {id:6,enunciado:"O servidor tem direito a férias de 30 dias.",resposta:"C",comentario:"CERTO."},
+                {id:7,enunciado:"Aposentadoria voluntária: 35 anos de contribuição (homem).",resposta:"C",comentario:"CERTO."},
+                {id:8,enunciado:"Aposentadoria compulsória: 70 anos.",resposta:"C",comentario:"CERTO."},
+                {id:9,enunciado:"O servidor pode ser afastado para exercer mandato eletivo.",resposta:"C",comentario:"CERTO."},
+                {id:10,enunciado:"A lei 8.112 aplica-se aos servidores estaduais.",resposta:"E",comentario:"ERRADO. Aplica-se aos federais."},
+                {id:11,enunciado:"O servidor tem direito à licença gestante de 120 dias.",resp
