@@ -51,7 +51,7 @@
             <option value="lodf">LODF</option>
             <option value="ride">RIDE</option>
             <option value="lc-840">LC 840/2011</option>
-            <option value="eca">ECA</option>
+<option value="eca">ECA</option>
         </select>
         <select id="filtroModulo">
             <option value="modulo-1">Módulo 1</option>
@@ -115,7 +115,7 @@ const DADOS = {
                             {id:5,enunciado:"Schmitt: CF é decisão política fundamental.",resposta:"C",comentario:"CERTO."},
                             {id:6,enunciado:"CF/88 é analítica.",resposta:"C",comentario:"CERTO."},
                             {id:7,enunciado:"CF/88 é dogmática.",resposta:"C",comentario:"CERTO."},
-                            {id:8,enunciado:"CF/88 é escrita.",resposta:"C",comentario:"CERTO."},
+{id:8,enunciado:"CF/88 é escrita.",resposta:"C",comentario:"CERTO."},
                             {id:9,enunciado:"CF/88 é formal e material.",resposta:"C",comentario:"CERTO."},
                             {id:10,enunciado:"Sentido sociológico: fatores reais de poder.",resposta:"C",comentario:"CERTO."},
                             {id:11,enunciado:"Sentido político: decisão política.",resposta:"C",comentario:"CERTO."},
@@ -159,21 +159,36 @@ const DADOS = {
                 aulas: {
                     "aula-1": {
                         questoes: [
-                            {id:1,enunciado:"Legalidade: só o que a lei autoriza.",resposta:"C",comentario:"CERTO."},
-                            {id:2,enunciado:"Eficiência inserida pela EC 19/98.",resposta:"C",comentario:"CERTO."},
-                            {id:3,enunciado:"Publicidade é absoluta.",resposta:"E",comentario:"ERRADO."},
-                            {id:4,enunciado:"Impessoalidade proíbe nepotismo.",resposta:"C",comentario:"CERTO."},
-                            {id:5,enunciado:"Moralidade é desvinculada da ética.",resposta:"E",comentario:"ERRADO."},
-                            {id:6,enunciado:"Atos têm presunção de legitimidade.",resposta:"C",comentario:"CERTO."},
-                            {id:7,enunciado:"Imperatividade impõe obrigações.",resposta:"C",comentario:"CERTO."},
-                            {id:8,enunciado:"Autoexecutoriedade: execução pela admin.",resposta:"C",comentario:"CERTO."},
-                            {id:9,enunciado:"Requisitos: competência, forma, finalidade, motivo, objeto.",resposta:"C",comentario:"CERTO."},
-                            {id:10,enunciado:"Forma do ato é sempre livre.",resposta:"E",comentario:"ERRADO."},
-                            {id:11,enunciado:"Motivo é situação de fato.",resposta:"C",comentario:"CERTO."},
-                            {id:12,enunciado:"Finalidade: interesse público.",resposta:"C",comentario:"CERTO."},
-                            {id:13,enunciado:"Objeto é conteúdo do ato.",resposta:"C",comentario:"CERTO."},
-                            {id:14,enunciado:"Competência é delegável.",resposta:"C",comentario:"CERTO."},
-                            {id:15,enunciado:"Discricionariedade é absoluta.",resposta:"E",comentario:"ERRADO."}
+                            {id:1,enunciado:"O princípio da legalidade, aplicado à Administração Pública, significa que o administrador pode fazer tudo o que a lei não proíbe, assim como no direito privado.",resposta:"E",comentario:"ERRADO. No direito administrativo, a legalidade é restritiva: só pode fazer o que a lei autoriza."},
+                            {id:2,enunciado:"O princípio da eficiência foi inserido na Constituição Federal pela EC 19/98.",resposta:"C",comentario:"CERTO. A EC 19/98 acrescentou a eficiência ao caput do art. 37."},
+                            {id:3,enunciado:"A publicidade dos atos administrativos é absoluta e não admite qualquer exceção.",resposta:"E",comentario:"ERRADO. Há exceções de sigilo previstas em lei (segurança nacional, investigações, dados pessoais)."},
+{id:4,enunciado:"O princípio da impessoalidade veda o nepotismo e exige que os atos sejam imputados ao órgão público, não ao agente.",resposta:"C",comentario:"CERTO. Impessoalidade exige objetividade e proíbe favorecimento pessoal."},
+                            {id:5,enunciado:"A moralidade administrativa está desvinculada da ética, podendo o agente público agir contra a boa-fé se a lei permitir.",resposta:"E",comentario:"ERRADO. A moralidade exige padrão ético elevado, mesmo que a lei seja omissa."},
+                            {id:6,enunciado:"A eficiência exige que a administração atue com economicidade, reduzindo custos e otimizando resultados.",resposta:"C",comentario:"CERTO. Eficiência é também economicidade e qualidade."},
+                            {id:7,enunciado:"O princípio da legalidade, no direito administrativo, é mais amplo do que no direito privado, pois permite ao administrador atuar mesmo sem lei.",resposta:"E",comentario:"ERRADO. É mais restritivo: só pode fazer o que a lei autoriza."},
+                            {id:8,enunciado:"A publicidade é requisito de validade de todos os atos administrativos, sem exceção.",resposta:"E",comentario:"ERRADO. Em regra é requisito de eficácia, não de validade."},
+                            {id:9,enunciado:"A impessoalidade é também conhecida como princípio da finalidade, pois exige que o ato administrativo vise o interesse público.",resposta:"C",comentario:"CERTO. Impessoalidade se conecta à finalidade pública."},
+                            {id:10,enunciado:"A moralidade administrativa é um princípio implícito na CF/88, pois não está expressamente previsto.",resposta:"E",comentario:"ERRADO. Está expresso no art. 37, caput, da CF/88."},
+                            {id:11,enunciado:"A administração pública indireta não está sujeita ao princípio da legalidade, pois é regida pelo direito privado.",resposta:"E",comentario:"ERRADO. A legalidade se aplica a toda administração, direta e indireta."},
+                            {id:12,enunciado:"O princípio da eficiência exige apenas celeridade, não se preocupando com a qualidade do serviço prestado.",resposta:"E",comentario:"ERRADO. Exige economicidade, qualidade e resultados."},
+                            {id:13,enunciado:"A publicidade pode ser excepcionada em casos de sigilo previsto em lei, como segurança nacional ou investigações.",resposta:"C",comentario:"CERTO. A CF admite sigilo quando a segurança nacional ou interesse público exigirem."},
+                            {id:14,enunciado:"O princípio da impessoalidade impede que o agente público pratique atos para beneficiar parentes, mas permite beneficiar amigos.",resposta:"E",comentario:"ERRADO. Impede qualquer favorecimento pessoal, seja parente, amigo ou desafeto."},
+                            {id:15,enunciado:"O princípio da moralidade pode ser invocado para invalidar um ato administrativo, mesmo que ele seja legal.",resposta:"C",comentario:"CERTO. Um ato pode ser legal, mas imoral, sendo anulável."},
+                            {id:16,enunciado:"A legalidade, na Administração Pública, significa que o administrador só pode fazer o que a lei autoriza.",resposta:"C",comentario:"CERTO. É a definição clássica do princípio da legalidade administrativa."},
+                            {id:17,enunciado:"A eficiência é um princípio que estava presente na CF/88 desde sua promulgação original.",resposta:"E",comentario:"ERRADO. Foi inserida pela EC 19/98."},
+                            {id:18,enunciado:"A impessoalidade e a moralidade são princípios idênticos, pois ambos exigem honestidade e objetividade.",resposta:"E",comentario:"ERRADO. São distintos: impessoalidade é objetividade; moralidade é probidade."},
+                            {id:19,enunciado:"A publicidade é requisito de eficácia dos atos administrativos, mas em regra não é requisito de validade.",resposta:"C",comentario:"CERTO. Publicidade dá eficácia ao ato, não o invalida se ausente (salvo lei expressa)."},
+{id:20,enunciado:"O princípio da moralidade administrativa exige um padrão ético elevado, ainda que a lei seja omissa.",resposta:"C",comentario:"CERTO. Moralidade exige boa-fé e probidade, mesmo sem lei específica."},
+                            {id:21,enunciado:"A administração pública direta está sujeita ao princípio da legalidade, mas a indireta não, pois atua em regime de direito privado.",resposta:"E",comentario:"ERRADO. Ambas estão sujeitas à legalidade."},
+                            {id:22,enunciado:"A eficiência é um princípio que exige economicidade, mas não se aplica à prestação de serviços públicos essenciais.",resposta:"E",comentario:"ERRADO. Aplica-se a todos os serviços públicos."},
+                            {id:23,enunciado:"A publicidade é um princípio que garante a transparência, mas pode ser restringida em casos de sigilo bancário.",resposta:"C",comentario:"CERTO. Sigilo bancário é uma das exceções à publicidade."},
+                            {id:24,enunciado:"O nepotismo é uma violação direta ao princípio da impessoalidade.",resposta:"C",comentario:"CERTO. Nepotismo é favorecimento pessoal, violando a impessoalidade."},
+                            {id:25,enunciado:"A moralidade administrativa é um princípio que exige do agente público conduta proba e honesta, aplicando-se apenas aos servidores efetivos.",resposta:"E",comentario:"ERRADO. Aplica-se a todos os agentes públicos, não apenas efetivos."},
+                            {id:26,enunciado:"O princípio da legalidade é mais restritivo no direito administrativo do que no direito privado.",resposta:"C",comentario:"CERTO. No público, só o que a lei autoriza; no privado, tudo o que a lei não proíbe."},
+                            {id:27,enunciado:"A publicidade dos atos administrativos é sempre requisito de validade, pois a CF/88 exige a transparência absoluta.",resposta:"E",comentario:"ERRADO. Em regra é requisito de eficácia, não de validade."},
+                            {id:28,enunciado:"A eficiência foi inserida no caput do art. 37 pela EC 19/98, juntamente com os demais princípios da administração.",resposta:"E",comentario:"ERRADO. A EC 19/98 inseriu APENAS a eficiência. Os demais já existiam."},
+                            {id:29,enunciado:"A impessoalidade exige que o ato administrativo seja praticado com objetividade, sem favorecimento pessoal.",resposta:"C",comentario:"CERTO. É a essência do princípio da impessoalidade."},
+                            {id:30,enunciado:"A moralidade administrativa é um princípio que pode ser utilizado para anular atos administrativos, mesmo que não haja previsão legal expressa.",resposta:"C",comentario:"CERTO. Moralidade pode invalidar ato legal, mas imoral."}
                         ]
                     }
                 }
@@ -194,91 +209,7 @@ const DADOS = {
                             {id:5,enunciado:"Crime é típico, ilícito e culpável.",resposta:"C",comentario:"CERTO."},
                             {id:6,enunciado:"Erro de tipo essencial exclui dolo.",resposta:"C",comentario:"CERTO."},
                             {id:7,enunciado:"Erro de proibição exclui culpabilidade.",resposta:"C",comentario:"CERTO."},
-                            {id:8,enunciado:"Tentativa em todos os crimes.",resposta:"E",comentario:"ERRADO."},
+{id:8,enunciado:"Tentativa em todos os crimes.",resposta:"E",comentario:"ERRADO."},
                             {id:9,enunciado:"Penas restritivas substituem prisão.",resposta:"C",comentario:"CERTO."},
                             {id:10,enunciado:"Multa é pecuniária.",resposta:"C",comentario:"CERTO."},
-                            {id:11,enunciado:"Regime fechado: segurança máxima.",resposta:"C",comentario:"CERTO."},
-                            {id:12,enunciado:"Semiaberto: trabalho externo.",resposta:"C",comentario:"CERTO."},
-                            {id:13,enunciado:"Aberto: prisão domiciliar.",resposta:"E",comentario:"ERRADO."},
-                            {id:14,enunciado:"Dolo exige vontade.",resposta:"C",comentario:"CERTO."},
-                            {id:15,enunciado:"Culposo: sem vontade.",resposta:"C",comentario:"CERTO."}
-                        ]
-                    }
-                }
-            }
-        }
-    },
-    "direito-processual-penal": {
-        nome: "Direito Processual Penal",
-        modulos: {
-            "modulo-1": {
-                aulas: {
-                    "aula-1": {
-                        questoes: [
-                            {id:1,enunciado:"IP é obrigatório.",resposta:"E",comentario:"ERRADO."},
-                            {id:2,enunciado:"Delegado pode arquivar IP.",resposta:"E",comentario:"ERRADO."},
-                            {id:3,enunciado:"IP é inquisitivo.",resposta:"C",comentario:"CERTO."},
-                            {id:4,enunciado:"Advogado não tem acesso ao IP sigiloso.",resposta:"E",comentario:"ERRADO."},
-                            {id:5,enunciado:"Prazo para preso: 30 dias.",resposta:"C",comentario:"CERTO."},
-                            {id:6,enunciado:"Ação penal pública: MP.",resposta:"C",comentario:"CERTO."},
-                            {id:7,enunciado:"Ação penal privada: ofendido.",resposta:"C",comentario:"CERTO."},
-                            {id:8,enunciado:"Pública condicionada: representação.",resposta:"C",comentario:"CERTO."},
-                            {id:9,enunciado:"Prisão preventiva: art. 312.",resposta:"C",comentario:"CERTO."},
-                            {id:10,enunciado:"Prisão temporária: 5 dias.",resposta:"C",comentario:"CERTO."},
-                            {id:11,enunciado:"Fiança pode ser arbitrada pelo Delegado.",resposta:"C",comentario:"CERTO."},
-                            {id:12,enunciado:"Medidas cautelares diversas: monitoramento.",resposta:"C",comentario:"CERTO."},
-                            {id:13,enunciado:"Ação privada subsidiária: quando MP não atua.",resposta:"C",comentario:"CERTO."},
-                            {id:14,enunciado:"IP é sigiloso em regra.",resposta:"C",comentario:"CERTO."},
-                            {id:15,enunciado:"Delegado pode requisitar exames.",resposta:"C",comentario:"CERTO."}
-                        ]
-                    }
-                }
-            }
-        }
-    },
-    "legislacao-penal-especial": {
-        nome: "Legislação Penal Especial",
-        modulos: {
-            "modulo-1": {
-                aulas: {
-                    "aula-1": {
-                        questoes: [
-                            {id:1,enunciado:"Art. 28 é crime com prisão.",resposta:"E",comentario:"ERRADO."},
-                            {id:2,enunciado:"Tráfico é hediondo.",resposta:"C",comentario:"CERTO."},
-                            {id:3,enunciado:"Lei estabelece quantidade mínima.",resposta:"E",comentario:"ERRADO."},
-                            {id:4,enunciado:"Oferecer droga gratuitamente é tráfico.",resposta:"C",comentario:"CERTO."},
-                            {id:5,enunciado:"Art. 28 admite liberdade provisória.",resposta:"E",comentario:"ERRADO."},
-                            {id:6,enunciado:"Estatuto do Desarmamento: Lei 10.826/03.",resposta:"C",comentario:"CERTO."},
-                            {id:7,enunciado:"Posse de arma: art. 12.",resposta:"C",comentario:"CERTO."},
-                            {id:8,enunciado:"Porte de arma: art. 14.",resposta:"C",comentario:"CERTO."},
-                            {id:9,enunciado:"Comércio ilegal: art. 17.",resposta:"C",comentario:"CERTO."},
-                            {id:10,enunciado:"Pena do porte: 2 a 4 anos.",resposta:"C",comentario:"CERTO."},
-                            {id:11,enunciado:"Pena da posse: 1 a 3 anos.",resposta:"C",comentario:"CERTO."},
-                            {id:12,enunciado:"Tráfico internacional: pena maior.",resposta:"C",comentario:"CERTO."},
-                            {id:13,enunciado:"Associação: art. 35.",resposta:"C",comentario:"CERTO."},
-                            {id:14,enunciado:"Pena do art. 35: 3 a 10 anos.",resposta:"C",comentario:"CERTO."},
-                            {id:15,enunciado:"Porte de drogas: não gera antecedentes.",resposta:"E",comentario:"ERRADO."}
-                        ]
-                    }
-                }
-            }
-        }
-    },
-    "direitos-humanos": {
-        nome: "Direitos Humanos",
-        modulos: {
-            "modulo-1": {
-                aulas: {
-                    "aula-1": {
-                        questoes: [
-                            {id:1,enunciado:"Tratado com quórum de emenda é EC.",resposta:"C",comentario:"CERTO."},
-                            {id:2,enunciado:"Tratado sem quórum é infraconstitucional.",resposta:"E",comentario:"ERRADO."},
-                            {id:3,enunciado:"Pacto de San José é supralegal.",resposta:"C",comentario:"CERTO."},
-                            {id:4,enunciado:"DH são cláusulas pétreas implícitas.",resposta:"C",comentario:"CERTO."},
-                            {id:5,enunciado:"Denúncia depende do Congresso.",resposta:"C",comentario:"CERTO."},
-                            {id:6,enunciado:"ONU: 1948.",resposta:"C",comentario:"CERTO."},
-                            {id:7,enunciado:"OEA: 1969.",resposta:"C",comentario:"CERTO."},
-                            {id:8,enunciado:"CIDH: Corte Interamericana.",resposta:"C",comentario:"CERTO."},
-                            {id:9,enunciado:"Brasil ratificou o Pacto.",resposta:"C",comentario:"CERTO."},
-                            {id:10,enunciado:"Incorporação via decreto legislativo.",resposta:"C",comentario:"CERTO."},
-                            {id:11,en
+                            {id:11,enunciado:"Regime fechado: segurança máxima.",resposta:"C",comentario:"CERTO."}
