@@ -51,12 +51,10 @@
             <option value="lodf">LODF</option>
             <option value="ride">RIDE</option>
             <option value="lc-840">LC 840/2011</option>
-<option value="eca">ECA</option>
+            <option value="eca">ECA</option>
         </select>
         <select id="filtroModulo">
             <option value="modulo-1">Módulo 1</option>
-            <option value="modulo-2">Módulo 2</option>
-            <option value="modulo-3">Módulo 3</option>
         </select>
         <select id="filtroAula">
             <option value="aula-1">Aula 1</option>
@@ -115,7 +113,7 @@ const DADOS = {
                             {id:5,enunciado:"Schmitt: CF é decisão política fundamental.",resposta:"C",comentario:"CERTO."},
                             {id:6,enunciado:"CF/88 é analítica.",resposta:"C",comentario:"CERTO."},
                             {id:7,enunciado:"CF/88 é dogmática.",resposta:"C",comentario:"CERTO."},
-{id:8,enunciado:"CF/88 é escrita.",resposta:"C",comentario:"CERTO."},
+                            {id:8,enunciado:"CF/88 é escrita.",resposta:"C",comentario:"CERTO."},
                             {id:9,enunciado:"CF/88 é formal e material.",resposta:"C",comentario:"CERTO."},
                             {id:10,enunciado:"Sentido sociológico: fatores reais de poder.",resposta:"C",comentario:"CERTO."},
                             {id:11,enunciado:"Sentido político: decisão política.",resposta:"C",comentario:"CERTO."},
@@ -162,7 +160,7 @@ const DADOS = {
                             {id:1,enunciado:"O princípio da legalidade, aplicado à Administração Pública, significa que o administrador pode fazer tudo o que a lei não proíbe, assim como no direito privado.",resposta:"E",comentario:"ERRADO. No direito administrativo, a legalidade é restritiva: só pode fazer o que a lei autoriza."},
                             {id:2,enunciado:"O princípio da eficiência foi inserido na Constituição Federal pela EC 19/98.",resposta:"C",comentario:"CERTO. A EC 19/98 acrescentou a eficiência ao caput do art. 37."},
                             {id:3,enunciado:"A publicidade dos atos administrativos é absoluta e não admite qualquer exceção.",resposta:"E",comentario:"ERRADO. Há exceções de sigilo previstas em lei (segurança nacional, investigações, dados pessoais)."},
-{id:4,enunciado:"O princípio da impessoalidade veda o nepotismo e exige que os atos sejam imputados ao órgão público, não ao agente.",resposta:"C",comentario:"CERTO. Impessoalidade exige objetividade e proíbe favorecimento pessoal."},
+                            {id:4,enunciado:"O princípio da impessoalidade veda o nepotismo e exige que os atos sejam imputados ao órgão público, não ao agente.",resposta:"C",comentario:"CERTO. Impessoalidade exige objetividade e proíbe favorecimento pessoal."},
                             {id:5,enunciado:"A moralidade administrativa está desvinculada da ética, podendo o agente público agir contra a boa-fé se a lei permitir.",resposta:"E",comentario:"ERRADO. A moralidade exige padrão ético elevado, mesmo que a lei seja omissa."},
                             {id:6,enunciado:"A eficiência exige que a administração atue com economicidade, reduzindo custos e otimizando resultados.",resposta:"C",comentario:"CERTO. Eficiência é também economicidade e qualidade."},
                             {id:7,enunciado:"O princípio da legalidade, no direito administrativo, é mais amplo do que no direito privado, pois permite ao administrador atuar mesmo sem lei.",resposta:"E",comentario:"ERRADO. É mais restritivo: só pode fazer o que a lei autoriza."},
@@ -178,7 +176,7 @@ const DADOS = {
                             {id:17,enunciado:"A eficiência é um princípio que estava presente na CF/88 desde sua promulgação original.",resposta:"E",comentario:"ERRADO. Foi inserida pela EC 19/98."},
                             {id:18,enunciado:"A impessoalidade e a moralidade são princípios idênticos, pois ambos exigem honestidade e objetividade.",resposta:"E",comentario:"ERRADO. São distintos: impessoalidade é objetividade; moralidade é probidade."},
                             {id:19,enunciado:"A publicidade é requisito de eficácia dos atos administrativos, mas em regra não é requisito de validade.",resposta:"C",comentario:"CERTO. Publicidade dá eficácia ao ato, não o invalida se ausente (salvo lei expressa)."},
-{id:20,enunciado:"O princípio da moralidade administrativa exige um padrão ético elevado, ainda que a lei seja omissa.",resposta:"C",comentario:"CERTO. Moralidade exige boa-fé e probidade, mesmo sem lei específica."},
+                            {id:20,enunciado:"O princípio da moralidade administrativa exige um padrão ético elevado, ainda que a lei seja omissa.",resposta:"C",comentario:"CERTO. Moralidade exige boa-fé e probidade, mesmo sem lei específica."},
                             {id:21,enunciado:"A administração pública direta está sujeita ao princípio da legalidade, mas a indireta não, pois atua em regime de direito privado.",resposta:"E",comentario:"ERRADO. Ambas estão sujeitas à legalidade."},
                             {id:22,enunciado:"A eficiência é um princípio que exige economicidade, mas não se aplica à prestação de serviços públicos essenciais.",resposta:"E",comentario:"ERRADO. Aplica-se a todos os serviços públicos."},
                             {id:23,enunciado:"A publicidade é um princípio que garante a transparência, mas pode ser restringida em casos de sigilo bancário.",resposta:"C",comentario:"CERTO. Sigilo bancário é uma das exceções à publicidade."},
@@ -209,7 +207,8 @@ const DADOS = {
                             {id:5,enunciado:"Crime é típico, ilícito e culpável.",resposta:"C",comentario:"CERTO."},
                             {id:6,enunciado:"Erro de tipo essencial exclui dolo.",resposta:"C",comentario:"CERTO."},
                             {id:7,enunciado:"Erro de proibição exclui culpabilidade.",resposta:"C",comentario:"CERTO."},
-{id:8,enunciado:"Tentativa em todos os crimes.",resposta:"E",comentario:"ERRADO."},
+                            {id:8,enunciado:"Tentativa em todos os crimes.",resposta:"E",comentario:"ERRADO."},
                             {id:9,enunciado:"Penas restritivas substituem prisão.",resposta:"C",comentario:"CERTO."},
                             {id:10,enunciado:"Multa é pecuniária.",resposta:"C",comentario:"CERTO."},
-                            {id:11,enunciado:"Regime fechado: segurança máxima.",resposta:"C",comentario:"CERTO."}
+                            {id:11,enunciado:"Regime fechado: segurança máxima.",resposta:"C",comentario:"CERTO."},
+                            {id:12,enunciado:"Semiaberto: trabalho externo.",resposta:"C",comentario:"CERTO.
