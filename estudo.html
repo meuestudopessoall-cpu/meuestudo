@@ -59,13 +59,6 @@
             background: #fbc02d;
             transform: scale(1.02);
         }
-        .menu-navegacao .btn-voltar.secundario {
-            background: #e8f0fe;
-            color: #1a73e8;
-        }
-        .menu-navegacao .btn-voltar.secundario:hover {
-            background: #d2e3fc;
-        }
 
         .filtro { display: flex; flex-wrap: wrap; gap: 10px; margin: 20px 0; }
         .filtro select, .filtro button { padding: 10px 16px; border-radius: 8px; border: 1px solid #ccc; font-size: 14px; background: #fff; outline: none; }
@@ -134,13 +127,7 @@
 </div>
 
 <script>
-// ============================================================
-// BASE DE DADOS COMPLETA — 13 MATÉRIAS COM CONTEÚDO
-// ============================================================
 const AULAS = {
-    // ============================================================
-    // 1. LÍNGUA PORTUGUESA
-    // ============================================================
     "lingua-portuguesa": {
         "modulo-1": {
             "aula-1": {
@@ -158,9 +145,6 @@ const AULAS = {
             }
         }
     },
-    // ============================================================
-    // 2. DIREITO CONSTITUCIONAL
-    // ============================================================
     "direito-constitucional": {
         "modulo-1": {
             "aula-1": {
@@ -180,9 +164,6 @@ const AULAS = {
             }
         }
     },
-    // ============================================================
-    // 3. DIREITO ADMINISTRATIVO
-    // ============================================================
     "direito-administrativo": {
         "modulo-1": {
             "aula-1": {
@@ -204,9 +185,6 @@ const AULAS = {
             }
         }
     },
-    // ============================================================
-    // 4. DIREITO PENAL
-    // ============================================================
     "direito-penal": {
         "modulo-1": {
             "aula-1": {
@@ -226,9 +204,6 @@ const AULAS = {
             }
         }
     },
-    // ============================================================
-    // 5. DIREITO PROCESSUAL PENAL
-    // ============================================================
     "direito-processual-penal": {
         "modulo-1": {
             "aula-1": {
@@ -244,9 +219,6 @@ const AULAS = {
             }
         }
     },
-    // ============================================================
-    // 6. LEGISLAÇÃO PENAL ESPECIAL
-    // ============================================================
     "legislacao-penal-especial": {
         "modulo-1": {
             "aula-1": {
@@ -263,9 +235,6 @@ const AULAS = {
             }
         }
     },
-    // ============================================================
-    // 7. DIREITOS HUMANOS
-    // ============================================================
     "direitos-humanos": {
         "modulo-1": {
             "aula-1": {
@@ -282,9 +251,6 @@ const AULAS = {
             }
         }
     },
-    // ============================================================
-    // 8. RACIOCÍNIO LÓGICO
-    // ============================================================
     "raciocinio-logico": {
         "modulo-1": {
             "aula-1": {
@@ -304,9 +270,6 @@ const AULAS = {
             }
         }
     },
-    // ============================================================
-    // 9. INFORMÁTICA
-    // ============================================================
     "informatica": {
         "modulo-1": {
             "aula-1": {
@@ -325,9 +288,6 @@ const AULAS = {
             }
         }
     },
-    // ============================================================
-    // 10. LODF
-    // ============================================================
     "lodf": {
         "modulo-1": {
             "aula-1": {
@@ -345,9 +305,6 @@ const AULAS = {
             }
         }
     },
-    // ============================================================
-    // 11. RIDE
-    // ============================================================
     "ride": {
         "modulo-1": {
             "aula-1": {
@@ -365,9 +322,6 @@ const AULAS = {
             }
         }
     },
-    // ============================================================
-    // 12. LC 840/2011
-    // ============================================================
     "lc-840": {
         "modulo-1": {
             "aula-1": {
@@ -385,5 +339,55 @@ const AULAS = {
             }
         }
     },
-    // ============================================================
-    // 13. E
+    "eca": {
+        "modulo-1": {
+            "aula-1": {
+                titulo: "Atos Infracionais e Medidas Socioeducativas",
+                conteudo: `
+                    <h2>📌 Conceito</h2>
+                    <p><strong>Ato infracional:</strong> conduta descrita como crime (menores de 18 anos).</p>
+                    <p><strong>Medidas:</strong> advertência, reparação, prestação de serviços, liberdade assistida, internação (até 3 anos, excepcional).</p>
+                    <div class="secao pegadinha"><strong>⚠️ Pegadinha:</strong> Internação NÃO é a regra.</div>
+                    <a href="questoes.html?materia=eca&modulo=modulo-1&aula=aula-1" target="_blank" class="btn-praticar">📝 Praticar questões</a>
+                `
+            }
+        }
+    }
+};
+
+function atualizarModulos() {
+    const materia = document.getElementById('filtroMateriaEstudo').value;
+    const moduloSelect = document.getElementById('filtroModuloEstudo');
+    moduloSelect.innerHTML = '';
+    if (AULAS[materia]) {
+        for (const modulo in AULAS[materia]) {
+            const opt = document.createElement('option');
+            opt.value = modulo;
+            opt.textContent = modulo.replace('-', ' ').toUpperCase();
+            moduloSelect.appendChild(opt);
+        }
+    }
+    atualizarAulas();
+}
+function atualizarAulas() {
+    const materia = document.getElementById('filtroMateriaEstudo').value;
+    const modulo = document.getElementById('filtroModuloEstudo').value;
+    const aulaSelect = document.getElementById('filtroAulaEstudo');
+    aulaSelect.innerHTML = '';
+    if (AULAS[materia] && AULAS[materia][modulo]) {
+        for (const aula in AULAS[materia][modulo]) {
+            const opt = document.createElement('option');
+            opt.value = aula;
+            opt.textContent = aula.replace('-', ' ').toUpperCase();
+            aulaSelect.appendChild(opt);
+        }
+    }
+}
+function carregarAula() {
+    const materia = document.getElementById('filtroMateriaEstudo').value;
+    const modulo = document.getElementById('filtroModuloEstudo').value;
+    const aula = document.getElementById('filtroAulaEstudo').value;
+    const painel = document.getElementById('painelAula');
+    if (AULAS[materia] && AULAS[materia][modulo] && AULAS[materia][modulo][aula]) {
+        const dados = AULAS[materia][modulo][aula];
+        painel.innerHTML = `<div class="aula-card"><h2>${dados.titulo}</h2>${dados.conteudo}</div>`;
