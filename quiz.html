@@ -6,40 +6,113 @@
     <title>Quiz — Trilha Policial 2026</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: #f4f7fc; padding: 20px; }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: #f4f7fc; padding: 20px; margin: 0; }
         .container { max-width: 1100px; margin: 0 auto; background: #fff; border-radius: 16px; padding: 30px; box-shadow: 0 8px 20px rgba(0,0,0,0.05); }
-        h1 { color: #0b2b4a; border-bottom: 4px solid #1a73e8; padding-bottom: 12px; }
-        .voltar { display: inline-block; margin: 20px 0; background: #e8f0fe; color: #1a73e8; padding: 10px 20px; border-radius: 30px; text-decoration: none; font-weight: 600; }
-        .voltar:hover { background: #d2e3fc; }
+        h1 { color: #0b2b4a; border-bottom: 4px solid #1a73e8; padding-bottom: 12px; margin-top: 0; }
+
+        .menu-navegacao {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin: 20px 0 10px 0;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .menu-navegacao a {
+            background: #1a73e8;
+            color: #fff;
+            padding: 8px 18px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            transition: 0.2s;
+            display: inline-block;
+        }
+        .menu-navegacao a:hover {
+            background: #0d47a1;
+            transform: scale(1.02);
+        }
+        .menu-navegacao a.secundario {
+            background: #e8f0fe;
+            color: #1a73e8;
+        }
+        .menu-navegacao a.secundario:hover {
+            background: #d2e3fc;
+        }
+        .menu-navegacao .btn-voltar {
+            background: #f9a825;
+            color: #0b2b4a;
+            border: none;
+            cursor: pointer;
+            font-weight: 700;
+            padding: 8px 18px;
+            border-radius: 30px;
+            font-size: 14px;
+            transition: 0.2s;
+            display: inline-block;
+            text-decoration: none;
+        }
+        .menu-navegacao .btn-voltar:hover {
+            background: #fbc02d;
+            transform: scale(1.02);
+        }
+
         .filtro { display: flex; flex-wrap: wrap; gap: 10px; margin: 20px 0; }
         .filtro select, .filtro button { padding: 8px 16px; border-radius: 8px; border: 1px solid #ccc; font-size: 14px; background: #fff; }
         .filtro button { background: #1a73e8; color: #fff; border: none; cursor: pointer; font-weight: 600; transition: 0.2s; }
         .filtro button:hover { background: #0d47a1; }
-        .quiz-pergunta { background: #f8faff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; margin: 20px 0; }
+
+        .quiz-container { margin: 20px 0; }
+        .quiz-pergunta { background: #f8faff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 24px; margin: 20px 0; }
         .quiz-pergunta p { font-weight: 600; font-size: 18px; }
-        .quiz-opcoes { display: flex; flex-direction: column; gap: 8px; margin: 12px 0; }
-        .quiz-opcoes button { background: #e8f0fe; border: 2px solid transparent; padding: 10px 18px; border-radius: 30px; text-align: left; cursor: pointer; font-size: 15px; transition: 0.2s; }
+        .quiz-opcoes { display: flex; flex-direction: column; gap: 10px; margin: 16px 0; }
+        .quiz-opcoes button {
+            background: #e8f0fe;
+            border: 2px solid transparent;
+            padding: 12px 20px;
+            border-radius: 30px;
+            text-align: left;
+            cursor: pointer;
+            font-size: 16px;
+            transition: 0.2s;
+            font-weight: 500;
+        }
         .quiz-opcoes button:hover { background: #d2e3fc; }
+        .quiz-opcoes button.selecionado { border-color: #1a73e8; background: #d2e3fc; }
         .quiz-opcoes button.correto { border-color: #2e7d32; background: #e6f7e6; }
         .quiz-opcoes button.errado { border-color: #c62828; background: #fde8e8; }
-        .quiz-feedback { margin-top: 12px; padding: 12px; border-radius: 8px; display: none; }
+        .quiz-feedback { margin-top: 14px; padding: 14px 18px; border-radius: 8px; display: none; }
         .quiz-feedback.correto { display: block; background: #e6f7e6; border-left: 6px solid #2e7d32; }
         .quiz-feedback.errado { display: block; background: #fde8e8; border-left: 6px solid #c62828; }
         .quiz-feedback .explicacao { margin-top: 6px; }
-        .botao-proximo { background: #1a73e8; color: #fff; border: none; padding: 10px 24px; border-radius: 30px; font-weight: 700; cursor: pointer; margin: 10px 0; }
-        .botao-proximo:hover { background: #0d47a1; }
+        .btn-proximo { background: #1a73e8; color: #fff; border: none; padding: 12px 28px; border-radius: 30px; font-weight: 700; cursor: pointer; margin: 16px 0; transition: 0.2s; }
+        .btn-proximo:hover { background: #0d47a1; transform: scale(1.02); }
+        .btn-proximo:disabled { background: #ccc; cursor: not-allowed; transform: none; }
+        .quiz-pontuacao { background: #e8f0fe; padding: 12px 20px; border-radius: 8px; margin: 20px 0; display: flex; gap: 30px; flex-wrap: wrap; font-weight: 500; }
+        .quiz-pontuacao span { font-weight: 700; }
+        .resultado-final { text-align: center; padding: 30px; background: #f8faff; border-radius: 12px; border: 1px solid #e2e8f0; }
+        .resultado-final h2 { color: #0b2b4a; }
+        .aviso-vazio { text-align: center; color: #666; padding: 20px; font-size: 16px; background: #fafafa; border-radius: 8px; border: 1px dashed #ccc; }
         .footer { margin-top: 30px; text-align: center; color: #7a8a9e; border-top: 1px solid #e2e8f0; padding-top: 20px; }
-        .pontuacao { background: #e8f0fe; padding: 12px 20px; border-radius: 8px; margin: 20px 0; display: flex; gap: 30px; flex-wrap: wrap; }
-        .pontuacao span { font-weight: 700; }
     </style>
 </head>
 <body>
 <div class="container">
     <h1>🧠 Quiz — Perguntas e Respostas</h1>
-    <a href="index.html" class="voltar">← Voltar ao início</a>
+
+    <!-- ===== MENU DE NAVEGAÇÃO ===== -->
+    <div class="menu-navegacao">
+        <a href="index.html" class="btn-voltar">🏠 Início</a>
+        <button onclick="history.back()" class="btn-voltar" style="background:#f9a825; color:#0b2b4a; border:none; cursor:pointer; font-weight:700; padding:8px 18px; border-radius:30px; font-size:14px;">⬅ Voltar</button>
+        <a href="estudo.html" class="secundario">📖 Estudar</a>
+        <a href="resumos.html" class="secundario">📚 Resumos</a>
+        <a href="questoes.html" class="secundario">📝 Questões</a>
+    </div>
 
     <div class="filtro">
-        <select id="filtroMateriaQuiz">
+        <select id="filtroMateriaQuiz" onchange="atualizarModulosQuiz()">
             <option value="lingua-portuguesa">Língua Portuguesa</option>
             <option value="direito-constitucional">Direito Constitucional</option>
             <option value="direito-administrativo">Direito Administrativo</option>
@@ -54,339 +127,30 @@
             <option value="lc-840">LC 840/2011</option>
             <option value="eca">ECA</option>
         </select>
-        <select id="filtroModuloQuiz">
-            <option value="modulo-1">Módulo 1</option>
-            <option value="modulo-2">Módulo 2</option>
-            <option value="modulo-3">Módulo 3</option>
+        <select id="filtroModuloQuiz" onchange="atualizarAulasQuiz()">
+            <!-- Preenchido dinamicamente -->
         </select>
         <select id="filtroAulaQuiz">
-            <option value="aula-1">Aula 1</option>
+            <!-- Preenchido dinamicamente -->
         </select>
         <button onclick="iniciarQuiz()">▶ Iniciar Quiz</button>
     </div>
 
-    <div id="painelQuiz"></div>
+    <div id="painelQuiz">
+        <div class="aviso-vazio">Selecione uma matéria, módulo, aula e clique em "Iniciar Quiz".</div>
+    </div>
+
     <div class="footer">🎯 Preparação para PCDF · PMDF · PF · PRF · PCGO · PMGO</div>
 </div>
 
 <script>
 // ============================================================
-// DADOS EMBUTIDOS — TODAS AS 13 MATÉRIAS (quiz)
+// DADOS EMBUTIDOS — TODAS AS 13 MATÉRIAS (mesmo do questoes.html)
 // ============================================================
 const DADOS = {
-    "lingua-portuguesa": {
-        nome: "Língua Portuguesa",
-        modulos: {
-            "modulo-1": {
-                aulas: {
-                    "aula-1": {
-                        questoes: [
-                            {id:1,enunciado:"Compreensão limita-se ao explícito.",resposta:"C",comentario:"CERTO."},
-                            {id:2,enunciado:"Interpretação exige inferência.",resposta:"C",comentario:"CERTO."},
-                            {id:3,enunciado:"Dissertativo tem sequência cronológica.",resposta:"E",comentario:"ERRADO."},
-                            {id:4,enunciado:"'Portanto' indica conclusão.",resposta:"C",comentario:"CERTO."},
-                            {id:5,enunciado:"Inferir é deduzir implícitos.",resposta:"C",comentario:"CERTO."},
-                            {id:6,enunciado:"Injuntivo convence o leitor.",resposta:"E",comentario:"ERRADO."},
-                            {id:7,enunciado:"'Sugere' indica interpretação.",resposta:"C",comentario:"CERTO."},
-                            {id:8,enunciado:"Coesão é conexão textual.",resposta:"C",comentario:"CERTO."},
-                            {id:9,enunciado:"Coerência é sentido lógico.",resposta:"C",comentario:"CERTO."},
-                            {id:10,enunciado:"Pressuposto é necessário ao sentido.",resposta:"C",comentario:"CERTO."},
-                            {id:11,enunciado:"'Embora' indica conclusão.",resposta:"E",comentario:"ERRADO."},
-                            {id:12,enunciado:"Narração: apresentação, complicação, clímax, desfecho.",resposta:"C",comentario:"CERTO."},
-                            {id:13,enunciado:"Descrição objetiva expressa sentimentos.",resposta:"E",comentario:"ERRADO."},
-                            {id:14,enunciado:"Tese é opinião do autor.",resposta:"C",comentario:"CERTO."},
-                            {id:15,enunciado:"Leitura dinâmica é com pausas.",resposta:"E",comentario:"ERRADO."}
-                        ]
-                    }
-                }
-            }
-        }
-    },
-    "direito-constitucional": {
-        nome: "Direito Constitucional",
-        modulos: {
-            "modulo-1": {
-                aulas: {
-                    "aula-1": {
-                        questoes: [
-                            {id:1,enunciado:"Lassalle: CF sem correspondência real é 'folha de papel'.",resposta:"C",comentario:"CERTO."},
-                            {id:2,enunciado:"CF/88 é outorgada.",resposta:"E",comentario:"ERRADO."},
-                            {id:3,enunciado:"CF/88 é semi-rígida.",resposta:"E",comentario:"ERRADO."},
-                            {id:4,enunciado:"Kelsen: CF é fundamento de validade.",resposta:"C",comentario:"CERTO."},
-                            {id:5,enunciado:"Schmitt: CF é decisão política fundamental.",resposta:"C",comentario:"CERTO."}
-                        ]
-                    }
-                }
-            },
-            "modulo-2": {
-                aulas: {
-                    "aula-1": {
-                        questoes: [
-                            {id:1,enunciado:"PCO é incondicionado.",resposta:"C",comentario:"CERTO."},
-                            {id:2,enunciado:"Povo pode propor PEC.",resposta:"E",comentario:"ERRADO."},
-                            {id:3,enunciado:"Cláusulas pétreas são inabolíveis.",resposta:"C",comentario:"CERTO."},
-                            {id:4,enunciado:"DF exerce poder decorrente.",resposta:"E",comentario:"ERRADO."},
-                            {id:5,enunciado:"EC exige 3/5 em dois turnos.",resposta:"C",comentario:"CERTO."}
-                        ]
-                    }
-                }
-            }
-        }
-    },
-    "direito-administrativo": {
-        nome: "Direito Administrativo",
-        modulos: {
-            "modulo-1": {
-                aulas: {
-                    "aula-1": {
-                        questoes: [
-                            {id:1,enunciado:"Legalidade: só o que a lei autoriza.",resposta:"C",comentario:"CERTO."},
-                            {id:2,enunciado:"Eficiência inserida pela EC 19/98.",resposta:"C",comentario:"CERTO."},
-                            {id:3,enunciado:"Publicidade é absoluta.",resposta:"E",comentario:"ERRADO."},
-                            {id:4,enunciado:"Impessoalidade proíbe nepotismo.",resposta:"C",comentario:"CERTO."},
-                            {id:5,enunciado:"Moralidade é desvinculada da ética.",resposta:"E",comentario:"ERRADO."}
-                        ]
-                    }
-                }
-            }
-        }
-    },
-    "direito-penal": {
-        nome: "Direito Penal",
-        modulos: {
-            "modulo-1": {
-                aulas: {
-                    "aula-1": {
-                        questoes: [
-                            {id:1,enunciado:"Toda conduta típica é ilícita.",resposta:"E",comentario:"ERRADO."},
-                            {id:2,enunciado:"Legítima defesa exclui a ilicitude.",resposta:"C",comentario:"CERTO."},
-                            {id:3,enunciado:"Culpabilidade exige imputabilidade.",resposta:"C",comentario:"CERTO."},
-                            {id:4,enunciado:"Estado de necessidade exclui tipicidade.",resposta:"E",comentario:"ERRADO."},
-                            {id:5,enunciado:"Crime é típico, ilícito e culpável.",resposta:"C",comentario:"CERTO."}
-                        ]
-                    }
-                }
-            }
-        }
-    },
-    "direito-processual-penal": {
-        nome: "Direito Processual Penal",
-        modulos: {
-            "modulo-1": {
-                aulas: {
-                    "aula-1": {
-                        questoes: [
-                            {id:1,enunciado:"IP é obrigatório.",resposta:"E",comentario:"ERRADO."},
-                            {id:2,enunciado:"Delegado pode arquivar IP.",resposta:"E",comentario:"ERRADO."},
-                            {id:3,enunciado:"IP é inquisitivo.",resposta:"C",comentario:"CERTO."},
-                            {id:4,enunciado:"Advogado não tem acesso ao IP sigiloso.",resposta:"E",comentario:"ERRADO."},
-                            {id:5,enunciado:"Prazo para preso: 30 dias.",resposta:"C",comentario:"CERTO."}
-                        ]
-                    }
-                }
-            }
-        }
-    },
-    "legislacao-penal-especial": {
-        nome: "Legislação Penal Especial",
-        modulos: {
-            "modulo-1": {
-                aulas: {
-                    "aula-1": {
-                        questoes: [
-                            {id:1,enunciado:"Art. 28 é crime com prisão.",resposta:"E",comentario:"ERRADO."},
-                            {id:2,enunciado:"Tráfico é hediondo.",resposta:"C",comentario:"CERTO."},
-                            {id:3,enunciado:"Lei estabelece quantidade mínima.",resposta:"E",comentario:"ERRADO."},
-                            {id:4,enunciado:"Oferecer droga gratuitamente é tráfico.",resposta:"C",comentario:"CERTO."},
-                            {id:5,enunciado:"Art. 28 admite liberdade provisória.",resposta:"E",comentario:"ERRADO."}
-                        ]
-                    }
-                }
-            }
-        }
-    },
-    "direitos-humanos": {
-        nome: "Direitos Humanos",
-        modulos: {
-            "modulo-1": {
-                aulas: {
-                    "aula-1": {
-                        questoes: [
-                            {id:1,enunciado:"Tratado com quórum de emenda é EC.",resposta:"C",comentario:"CERTO."},
-                            {id:2,enunciado:"Tratado sem quórum é infraconstitucional.",resposta:"E",comentario:"ERRADO."},
-                            {id:3,enunciado:"Pacto de San José é supralegal.",resposta:"C",comentario:"CERTO."},
-                            {id:4,enunciado:"DH são cláusulas pétreas implícitas.",resposta:"C",comentario:"CERTO."},
-                            {id:5,enunciado:"Denúncia depende do Congresso.",resposta:"C",comentario:"CERTO."}
-                        ]
-                    }
-                }
-            }
-        }
-    },
-    "raciocinio-logico": {
-        nome: "Raciocínio Lógico",
-        modulos: {
-            "modulo-1": {
-                aulas: {
-                    "aula-1": {
-                        questoes: [
-                            {id:1,enunciado:"Conjunção: V apenas ambas V.",resposta:"C",comentario:"CERTO."},
-                            {id:2,enunciado:"Condicional falsa apenas V→F.",resposta:"C",comentario:"CERTO."},
-                            {id:3,enunciado:"Disjunção falsa quando ambas F.",resposta:"C",comentario:"CERTO."},
-                            {id:4,enunciado:"Bicondicional V quando diferentes.",resposta:"E",comentario:"ERRADO."},
-                            {id:5,enunciado:"Negação de 'p e q' = 'não p ou não q'.",resposta:"C",comentario:"CERTO."}
-                        ]
-                    }
-                }
-            }
-        }
-    },
-    "informatica": {
-        nome: "Informática",
-        modulos: {
-            "modulo-1": {
-                aulas: {
-                    "aula-1": {
-                        questoes: [
-                            {id:1,enunciado:"Linux é open-source.",resposta:"C",comentario:"CERTO."},
-                            {id:2,enunciado:"Ctrl+Z refaz.",resposta:"E",comentario:"ERRADO."},
-                            {id:3,enunciado:"PROCV procura verticalmente.",resposta:"C",comentario:"CERTO."},
-                            {id:4,enunciado:"Word é editor de planilhas.",resposta:"E",comentario:"ERRADO."},
-                            {id:5,enunciado:"Ubuntu é distribuição Linux.",resposta:"C",comentario:"CERTO."}
-                        ]
-                    }
-                }
-            }
-        }
-    },
-    "lodf": {
-        nome: "Lei Orgânica do DF",
-        modulos: {
-            "modulo-1": {
-                aulas: {
-                    "aula-1": {
-                        questoes: [
-                            {id:1,enunciado:"DF é ente sui generis.",resposta:"C",comentario:"CERTO."},
-                            {id:2,enunciado:"LODF é a Constituição do DF.",resposta:"C",comentario:"CERTO."},
-                            {id:3,enunciado:"DF tem TCDF próprio.",resposta:"C",comentario:"CERTO."},
-                            {id:4,enunciado:"DF pode legislar sobre todos os assuntos.",resposta:"E",comentario:"ERRADO."},
-                            {id:5,enunciado:"LODF promulgada pela Câmara Legislativa.",resposta:"C",comentario:"CERTO."}
-                        ]
-                    }
-                }
-            }
-        }
-    },
-    "ride": {
-        nome: "RIDE",
-        modulos: {
-            "modulo-1": {
-                aulas: {
-                    "aula-1": {
-                        questoes: [
-                            {id:1,enunciado:"RIDE criada por lei complementar federal.",resposta:"C",comentario:"CERTO."},
-                            {id:2,enunciado:"RIDE abrange apenas o DF.",resposta:"E",comentario:"ERRADO."},
-                            {id:3,enunciado:"Objetivo: planejamento integrado.",resposta:"C",comentario:"CERTO."},
-                            {id:4,enunciado:"Gestão: Conselho Administrativo.",resposta:"C",comentario:"CERTO."},
-                            {id:5,enunciado:"RIDE é exclusivamente econômica.",resposta:"E",comentario:"ERRADO."}
-                        ]
-                    }
-                }
-            }
-        }
-    },
-    "lc-840": {
-        nome: "LC 840/2011",
-        modulos: {
-            "modulo-1": {
-                aulas: {
-                    "aula-1": {
-                        questoes: [
-                            {id:1,enunciado:"Servidor do DF é regido pela CLT.",resposta:"E",comentario:"ERRADO."},
-                            {id:2,enunciado:"Estabilidade: 3 anos.",resposta:"C",comentario:"CERTO."},
-                            {id:3,enunciado:"Tem direito a licença capacitação.",resposta:"C",comentario:"CERTO."},
-                            {id:4,enunciado:"Demissão por inassiduidade.",resposta:"C",comentario:"CERTO."},
-                            {id:5,enunciado:"Acumulação exige compatibilidade.",resposta:"C",comentario:"CERTO."}
-                        ]
-                    }
-                }
-            }
-        }
-    },
-    "eca": {
-        nome: "ECA",
-        modulos: {
-            "modulo-1": {
-                aulas: {
-                    "aula-1": {
-                        questoes: [
-                            {id:1,enunciado:"Ato infracional é crime para menor.",resposta:"C",comentario:"CERTO."},
-                            {id:2,enunciado:"Medidas são penas privativas.",resposta:"E",comentario:"ERRADO."},
-                            {id:3,enunciado:"Internação: até 3 anos.",resposta:"C",comentario:"CERTO."},
-                            {id:4,enunciado:"Internação provisória: 45 dias.",resposta:"C",comentario:"CERTO."},
-                            {id:5,enunciado:"Advertência é medida socioeducativa.",resposta:"C",comentario:"CERTO."}
-                        ]
-                    }
-                }
-            }
-        }
-    }
-};
-
-// ============================================================
-// FUNÇÕES DO QUIZ
-// ============================================================
-let perguntasQuiz = [];
-let perguntaAtual = 0;
-let pontuacao = 0;
-let quizRespondido = false;
-
-function iniciarQuiz() {
-    const materia = document.getElementById('filtroMateriaQuiz').value;
-    const modulo = document.getElementById('filtroModuloQuiz').value;
-    const aula = document.getElementById('filtroAulaQuiz').value;
-
-    const dadosMateria = DADOS[materia];
-    if (!dadosMateria) { alert('Matéria não encontrada.'); return; }
-    const dadosModulo = dadosMateria.modulos[modulo];
-    if (!dadosModulo) { alert('Módulo não encontrado.'); return; }
-    const dadosAula = dadosModulo.aulas[aula];
-    if (!dadosAula) { alert('Aula não encontrada.'); return; }
-
-    const questoes = dadosAula.questoes || [];
-    if (questoes.length === 0) {
-        document.getElementById('painelQuiz').innerHTML = '<p>Nenhuma questão disponível para esta aula.</p>';
-        return;
-    }
-
-    perguntasQuiz = questoes.map(q => {
-        const correta = q.resposta === 'C' ? 'CERTO' : 'ERRADO';
-        return {
-            pergunta: q.enunciado,
-            opcoes: ['CERTO', 'ERRADO'],
-            correta: correta,
-            comentario: q.comentario || ''
-        };
-    });
-
-    perguntaAtual = 0;
-    pontuacao = 0;
-    quizRespondido = false;
-    renderizarPergunta();
-}
-
-function renderizarPergunta() {
-    const container = document.getElementById('painelQuiz');
-    if (perguntaAtual >= perguntasQuiz.length) {
-        container.innerHTML = `
-            <div style="background:#e8f0fe; padding:20px; border-radius:12px; text-align:center;">
-                <h2>🏁 Quiz finalizado!</h2>
-                <p style="font-size:24px; font-weight:700;">Você acertou ${pontuacao} de ${perguntasQuiz.length}</p>
-                <p style="font-size:18px;">Aproveitamento: ${Math.round((pontuacao/perguntasQuiz.length)*100)}%</p>
-                <button onclick="iniciarQuiz()" style="margin-top:12px; background:#1a73e8; color:white; border:none; padding:10px 24px; border-radius:30px; font-weight:700; cursor:pointer;">🔁 Tentar novamente</button>
-            </div>
-        `;
-        return;
-    }
-
-    const p = perguntasQuiz[pergunta
+    "lingua-portuguesa": { nome: "Língua Portuguesa", modulos: { "modulo-1": { aulas: { "aula-1": { questoes: [ {id:1,enunciado:"Compreensão limita-se ao explícito.",resposta:"C",comentario:"CERTO."}, {id:2,enunciado:"Interpretação exige inferência.",resposta:"C",comentario:"CERTO."}, {id:3,enunciado:"Dissertativo tem sequência cronológica.",resposta:"E",comentario:"ERRADO."}, {id:4,enunciado:"'Portanto' indica conclusão.",resposta:"C",comentario:"CERTO."}, {id:5,enunciado:"Inferir é deduzir implícitos.",resposta:"C",comentario:"CERTO."}, {id:6,enunciado:"Injuntivo convence o leitor.",resposta:"E",comentario:"ERRADO."}, {id:7,enunciado:"'Sugere' indica interpretação.",resposta:"C",comentario:"CERTO."}, {id:8,enunciado:"Coesão é conexão textual.",resposta:"C",comentario:"CERTO."}, {id:9,enunciado:"Coerência é sentido lógico.",resposta:"C",comentario:"CERTO."}, {id:10,enunciado:"Pressuposto é necessário ao sentido.",resposta:"C",comentario:"CERTO."}, {id:11,enunciado:"'Embora' indica conclusão.",resposta:"E",comentario:"ERRADO."}, {id:12,enunciado:"Narração: apresentação, complicação, clímax, desfecho.",resposta:"C",comentario:"CERTO."}, {id:13,enunciado:"Descrição objetiva expressa sentimentos.",resposta:"E",comentario:"ERRADO."}, {id:14,enunciado:"Tese é opinião do autor.",resposta:"C",comentario:"CERTO."}, {id:15,enunciado:"Leitura dinâmica é com pausas.",resposta:"E",comentario:"ERRADO."} ] } } } } },
+    "direito-constitucional": { nome: "Direito Constitucional", modulos: { "modulo-1": { aulas: { "aula-1": { questoes: [ {id:1,enunciado:"Lassalle: CF sem correspondência real é 'folha de papel'.",resposta:"C",comentario:"CERTO."}, {id:2,enunciado:"CF/88 é outorgada.",resposta:"E",comentario:"ERRADO."}, {id:3,enunciado:"CF/88 é semi-rígida.",resposta:"E",comentario:"ERRADO."}, {id:4,enunciado:"Kelsen: CF é fundamento de validade.",resposta:"C",comentario:"CERTO."}, {id:5,enunciado:"Schmitt: CF é decisão política fundamental.",resposta:"C",comentario:"CERTO."}, {id:6,enunciado:"CF/88 é analítica.",resposta:"C",comentario:"CERTO."}, {id:7,enunciado:"CF/88 é dogmática.",resposta:"C",comentario:"CERTO."}, {id:8,enunciado:"CF/88 é escrita.",resposta:"C",comentario:"CERTO."}, {id:9,enunciado:"CF/88 é formal e material.",resposta:"C",comentario:"CERTO."}, {id:10,enunciado:"Sentido sociológico: fatores reais de poder.",resposta:"C",comentario:"CERTO."}, {id:11,enunciado:"Sentido político: decisão política.",resposta:"C",comentario:"CERTO."}, {id:12,enunciado:"Sentido jurídico: norma pura.",resposta:"C",comentario:"CERTO."}, {id:13,enunciado:"CF/88 é flexível.",resposta:"E",comentario:"ERRADO."}, {id:14,enunciado:"CF/88 foi outorgada por D. Pedro I.",resposta:"E",comentario:"ERRADO."}, {id:15,enunciado:"CF/88 é a primeira promulgada do Brasil.",resposta:"E",comentario:"ERRADO."} ] } } }, "modulo-2": { aulas: { "aula-1": { questoes: [ {id:1,enunciado:"PCO é incondicionado.",resposta:"C",comentario:"CERTO."}, {id:2,enunciado:"Povo pode propor PEC.",resposta:"E",comentario:"ERRADO."}, {id:3,enunciado:"Cláusulas pétreas são inabolíveis.",resposta:"C",comentario:"CERTO."}, {id:4,enunciado:"DF exerce poder decorrente.",resposta:"E",comentario:"ERRADO."}, {id:5,enunciado:"EC exige 3/5 em dois turnos.",resposta:"C",comentario:"CERTO."}, {id:6,enunciado:"Poder reformador é derivado.",resposta:"C",comentario:"CERTO."}, {id:7,enunciado:"Poder decorrente é dos Estados.",resposta:"C",comentario:"CERTO."}, {id:8,enunciado:"Poder difuso é dos municípios.",resposta:"C",comentario:"CERTO."}, {id:9,enunciado:"Poder revisor já foi exercido.",resposta:"C",comentario:"CERTO."}, {id:10,enunciado:"Limites circunstanciais: intervenção, estado de defesa, sítio.",resposta:"C",comentario:"CERTO."}, {id:11,enunciado:"Limites formais: procedimento do art. 60.",resposta:"C",comentario:"CERTO."}, {id:12,enunciado:"Cláusulas pétreas: forma federativa, voto, separação, direitos individuais.",resposta:"C",comentario:"CERTO."}, {id:13,enunciado:"Voto secreto é cláusula pétrea.",resposta:"C",comentario:"CERTO."}, {id:14,enunciado:"Direitos sociais são cláusulas pétreas expressas.",resposta:"E",comentario:"ERRADO."}, {id:15,enunciado:"Presidente pode propor PEC.",resposta:"C",comentario:"CERTO."} ] } } } } },
+    "direito-administrativo": { nome: "Direito Administrativo", modulos: { "modulo-1": { aulas: { "aula-1": { questoes: [ {id:1,enunciado:"O princípio da legalidade, aplicado à Administração Pública, significa que o administrador pode fazer tudo o que a lei não proíbe, assim como no direito privado.",resposta:"E",comentario:"ERRADO. No direito administrativo, a legalidade é restritiva: só pode fazer o que a lei autoriza."}, {id:2,enunciado:"O princípio da eficiência foi inserido na Constituição Federal pela EC 19/98.",resposta:"C",comentario:"CERTO. A EC 19/98 acrescentou a eficiência ao caput do art. 37."}, {id:3,enunciado:"A publicidade dos atos administrativos é absoluta e não admite qualquer exceção.",resposta:"E",comentario:"ERRADO. Há exceções de sigilo previstas em lei."}, {id:4,enunciado:"O princípio da impessoalidade veda o nepotismo e exige que os atos sejam imputados ao órgão público, não ao agente.",resposta:"C",comentario:"CERTO."}, {id:5,enunciado:"A moralidade administrativa está desvinculada da ética.",resposta:"E",comentario:"ERRADO. A moralidade exige padrão ético elevado."}, {id:6,enunciado:"A eficiência exige que a administração atue com economicidade, reduzindo custos e otimizando resultados.",resposta:"C",comentario:"CERTO."}, {id:7,enunciado:"O princípio da legalidade, no direito administrativo, é mais amplo do que no direito privado.",resposta:"E",comentario:"ERRADO. É mais restritivo."}, {id:8,enunciado:"A publicidade é requisito de validade de todos os atos administrativos.",resposta:"E",comentario:"ERRADO. Em regra é requisito de eficácia, não de validade."}, {id:9,enunciado:"A impessoalidade é também conhecida como princípio da finalidade.",resposta:"C",comentario:"CERTO."}, {id:10,enunciado:"A moralidade administrativa é um princípio implícito na CF/88.",resposta:"E",comentario:"ERRADO. Está expresso no art. 37."}, {id:11,enunciado:"A administração pública indireta não está sujeita ao princípio da legalidade.",resposta:"E",comentario:"ERRADO. A legalidade se aplica a toda administração."}, {id:12,enunciado:"O princípio da eficiência exige apenas celeridade.",resposta:"E",comentario:"ERRADO. Exige economicidade, qualidade e resultados."}, {id:13,enunciado:"A publicidade pode ser excepcionada em casos de sigilo previsto em lei.",resposta:"C",comentario:"CERTO."}, {id:14,enunciado:"A impessoalidade permite beneficiar amigos, desde que não sejam parentes.",resposta:"E",comentario:"ERRADO. Impede qualquer favorecimento pessoal."}, {id:15,enunciado:"O princípio da moralidade pode invalidar um ato administrativo legal, mas imoral.",resposta:"C",comentario:"CERTO."}, {id:16,enunciado:"A legalidade, na Administração Pública, significa que o administrador só pode fazer o que a lei autoriza.",resposta:"C",comentario:"CERTO."}, {id:17,enunciado:"A eficiência estava presente na CF/88 desde sua promulgação original.",resposta:"E",comentario:"ERRADO. Foi inserida pela EC 19/98."}, {id:18,enunciado:"Impessoalidade e moralidade são princípios idênticos.",resposta:"E",comentario:"ERRADO. São distintos."}, {id:19,enunciado:"A publicidade é requisito de eficácia dos atos administrativos, mas em regra não é requisito de validade.",resposta:"C",comentario:"CERTO."}, {id:20,enunciado:"A moralidade administrativa exige padrão ético elevado, ainda que a lei seja omissa.",resposta:"C",comentario:"CERTO."}, {id:21,enunciado:"A administração indireta atua em regime de direito privado, por isso não está sujeita à legalidade.",resposta:"E",comentario:"ERRADO. Ambas estão sujeitas."}, {id:22,enunciado:"A eficiência não se aplica à prestação de serviços públicos essenciais.",resposta:"E",comentario:"ERRADO. Aplica-se a todos."}, {id:23,enunciado:"A publicidade pode ser restringida em casos de sigilo bancário.",resposta:"C",comentario:"CERTO."}, {id:24,enunciado:"O nepotismo é uma violação direta ao princípio da impessoalidade.",resposta:"C",comentario:"CERTO."}, {id:25,enunciado:"A moralidade administrativa aplica-se apenas aos servidores efetivos.",resposta:"E",comentario:"ERRADO. Aplica-se a todos."}, {id:26,enunciado:"O princípio da legalidade é mais restritivo no direito administrativo do que no direito privado.",resposta:"C",comentario:"CERTO."}, {id:27,enunciado:"A publicidade dos atos administrativos é sempre requisito de validade.",resposta:"E",comentario:"ERRADO. Em regra é requisito de eficácia."}, {id:28,enunciado:"A EC 19/98 inseriu a eficiência juntamente com os demais princípios.",resposta:"E",comentario:"ERRADO. Inseriu APENAS a eficiência."}, {id:29,enunciado:"A impessoalidade exige objetividade, sem favorecimento pessoal.",resposta:"C",comentario:"CERTO."}, {id:30,enunciado:"A moralidade pode anular ato administrativo mesmo sem previsão legal expressa.",resposta:"C",comentario:"CERTO."} ] } } } } },
+    "direito-penal": { nome: "Direito Penal", modulos: { "modulo-1": { aulas: { "aula-1": { questoes: [ {id:1,enunciado:"Toda conduta típica é ilícita.",resposta:"E",comentario:"ERRADO."}, {id:2,enunciado:"Legítima defesa exclui a ilicitude.",resposta:"C",comentario:"CERTO."}, {id:3,enunciado:"Culpabilidade exige imputabilidade.",resposta:"C",comentario:"CERTO."}, {id:4,enunciado:"Estado de necessidade exclui tipicidade.",resposta:"E",comentario:"ERRADO."}, {id:5,enunciado:"Crime é típico, ilícito e culpável.",resposta:"C",comentario:"CERTO."}, {id:6,enunciado:"Erro de tipo essencial exclui dolo.",resposta:"C",comentario:"CERTO."}, {id:7,enunciado:"Erro de proibição exclui culpabilidade.",resposta:"C",comentario:"CERTO."}, {id:8,enunciado:"Tentativa em todos os crimes.",resposta:"E",comentario:"ERRADO."}, {id:9,enunciado:"Penas restritivas substituem prisão.",resposta:"C",comentario:"CERTO."}, {id:10,enunciado:"Multa é pecuniária.",resposta:"C",comentario:"CERTO."}, {id:11,enunciado:"Regime fechado: segurança máxima.",resposta:"C",comentario:"CERTO."}, {id:12,enunciado:"Semiaberto: trabalho externo.",resposta:"C",comentario:"CERTO."}, {id:13,enunciado:"Aberto: prisão domiciliar.",resposta:"E",comentario:"ERRADO."}, {id:14,enunciado:"Dolo exige vontade.",resposta:"C",comentario:"CERTO."}, {id:15,enunciado:"Culposo: sem vontade.",resposta:"C",comentario:"CERTO."} ] } } } } },
+    "direito-processual-penal": { nome: "Direito Processual Penal", modulos: { "modulo-1": { aulas: { "aula-1": { questoes: [ {id:1,enunciado:"IP é obrigatório.",resposta:"E",comentario:"ERRADO."}, {id:2,enunciado:"Delegado pode arquivar IP.",resposta:"E",comentario:"ERRADO."}, {id:3,enunciado:"IP é inquisitivo.",resposta:"C",comentario:"CERTO."}, {id:4,enunciado:"Advogado não tem acesso ao IP sigiloso.",resposta:"E",comentario:"ERRADO."}, {id:5,enunciado:"Prazo para preso: 30 dias.",resposta:"C",comentario:"CERTO."}, {id:6,enunciado:"Ação penal pública: MP.",resposta:"C",comentario:"CERTO."}, {id:7,enunciado:"Ação penal privada: ofendido.",resposta:"C",comentario:"CERTO."}, {id:8,enunciado:"Pública condicionada: representação.",resposta:"C",comentario:"CERTO."}, {id:9,enunciado:"Prisão preventiva: art. 312.",resposta:"C",comentario:"CERTO."}, {id:10,enunciado:"Prisão temporária: 5 dias.",resposta:"C",comentario:"CERTO."}, {id:11,enunciado:"Fiança pode ser arbitrada pelo Delegado.",resposta:"C",comentario:"CERTO."}, {id:12,enunciado:"Medidas cautelares diversas: monitoramento.",resposta:"C",comentario:"CERTO."}, {id:13,enunciado:"Ação privada subsidiária: quando MP não atua.",resposta:"C",comentario:"CERTO."}, {id:14,enunciado:"IP é sigiloso em regra.",resposta:"C",comentario:"CERTO."}, {id:15,enunciado:"Delegado pode requisitar exames.",resposta:"C",comentario:"CERTO."} ] } } } } },
+    "legislacao-penal-especial": { nome: "Legislação Penal Especial", modulos: { "modulo-1": { aulas: { "aula-1": { questoes: [ {id:1,enunciado:"Art. 28 é crime com prisão.",resposta:"E",comentario:"ERRADO."}, {id:2,enunciado:"Tráfico é hediondo.",resposta:"C",comentario:"CERTO."}, {id:3,enunciado:"Lei estabelece quantidade mínima.",resposta:"E",comentario:"ERRADO."}, {id:4,enunciado:"Oferecer droga gratuitamente é tráfico.",resposta:"C",comentario:"CERTO."}, {id:5,enunciado:"Art. 28 admite liberdade provisória.",resposta:"E",comentario:"ERRADO."}, {id:6,enunciado:"Estatuto do Desarmamento: Lei 10.826/03.",resposta:"C",comentario:"CERTO."}, {id:7,enunciado:"Posse de arma: art. 12.",resposta:"C",comentario:"CERTO."}, {id:8,enunciado:"Porte de arma: art. 14.",resposta:"C",comentario:"CERTO."}, {id:9,enunciado:"Comércio ilegal: art. 17.",resposta:"C",comentario:"CERTO."}, {id:10,enunciado:"Pena do porte: 2 a 4 anos.",resposta:"C",comen
