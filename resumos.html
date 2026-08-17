@@ -6,425 +6,423 @@
     <title>Resumos — Trilha Policial 2026</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: #f4f7fc; padding: 20px; }
-        .container { max-width: 1000px; margin: 0 auto; background: #fff; border-radius: 16px; padding: 30px; box-shadow: 0 8px 20px rgba(0,0,0,0.05); }
-        h1 { color: #0b2b4a; border-bottom: 4px solid #1a73e8; padding-bottom: 12px; }
-        .materia-titulo { background: #1a73e8; color: #fff; padding: 10px 18px; border-radius: 8px; margin: 30px 0 10px; }
-        .modulo-titulo { background: #e8f0fe; color: #0b2b4a; padding: 8px 16px; border-radius: 6px; margin: 20px 0 10px; border-left: 4px solid #1a73e8; }
-        .aula-titulo { font-weight: 700; color: #1a73e8; margin: 16px 0 6px; font-size: 18px; }
-        .resumo-box { background: #f8faff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; margin: 10px 0 20px; white-space: pre-wrap; }
-        .voltar { display: inline-block; margin: 20px 0; background: #e8f0fe; color: #1a73e8; padding: 10px 20px; border-radius: 30px; text-decoration: none; font-weight: 600; }
-        .voltar:hover { background: #d2e3fc; }
-        .sem-conteudo { background: #fff3cd; border-left: 6px solid #ffc107; padding: 16px; border-radius: 8px; margin: 20px 0; }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: #f4f7fc; padding: 20px; margin: 0; }
+        .container { max-width: 1100px; margin: 0 auto; background: #fff; border-radius: 16px; padding: 30px; box-shadow: 0 8px 20px rgba(0,0,0,0.05); }
+        h1 { color: #0b2b4a; border-bottom: 4px solid #1a73e8; padding-bottom: 12px; margin-top: 0; }
+
+        .menu-navegacao {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin: 20px 0 10px 0;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .menu-navegacao a {
+            background: #1a73e8;
+            color: #fff;
+            padding: 8px 18px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            transition: 0.2s;
+            display: inline-block;
+        }
+        .menu-navegacao a:hover {
+            background: #0d47a1;
+            transform: scale(1.02);
+        }
+        .menu-navegacao a.secundario {
+            background: #e8f0fe;
+            color: #1a73e8;
+        }
+        .menu-navegacao a.secundario:hover {
+            background: #d2e3fc;
+        }
+        .menu-navegacao .btn-voltar {
+            background: #f9a825;
+            color: #0b2b4a;
+            border: none;
+            cursor: pointer;
+            font-weight: 700;
+            padding: 8px 18px;
+            border-radius: 30px;
+            font-size: 14px;
+            transition: 0.2s;
+            display: inline-block;
+            text-decoration: none;
+        }
+        .menu-navegacao .btn-voltar:hover {
+            background: #fbc02d;
+            transform: scale(1.02);
+        }
+
+        .filtro { display: flex; flex-wrap: wrap; gap: 10px; margin: 20px 0; }
+        .filtro select, .filtro button { padding: 10px 16px; border-radius: 8px; border: 1px solid #ccc; font-size: 14px; background: #fff; outline: none; }
+        .filtro select { flex: 1; min-width: 180px; }
+        .filtro button { background: #1a73e8; color: #fff; border: none; cursor: pointer; font-weight: 600; transition: 0.2s; }
+        .filtro button:hover { background: #0d47a1; transform: scale(1.02); }
+
+        .resumo-card { background: #f8faff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; margin: 20px 0; }
+        .resumo-card h2 { color: #0b2b4a; border-left: 6px solid #1a73e8; padding-left: 12px; margin-top: 0; }
+        .resumo-card .modulo-titulo { font-weight: 700; color: #1a73e8; margin: 16px 0 6px; font-size: 16px; }
+        .resumo-card .aula-titulo { font-weight: 600; color: #0b2b4a; margin: 12px 0 4px; font-size: 15px; }
+        .resumo-card .resumo-texto { background: #fff; padding: 12px 16px; border-radius: 8px; margin: 6px 0 14px; border-left: 3px solid #1a73e8; white-space: pre-wrap; }
+        .resumo-card .secao { background: #fff; padding: 8px 14px; border-radius: 6px; margin: 6px 0; border-left: 3px solid #f9a825; }
+        .resumo-card .secao.pegadinha { border-left-color: #e53935; background: #fde8e8; }
+        .resumo-card .secao.macete { border-left-color: #f9a825; background: #fff8e1; }
+        .aviso-vazio { text-align: center; color: #666; padding: 40px; font-size: 16px; background: #fafafa; border-radius: 8px; border: 1px dashed #ccc; }
         .footer { margin-top: 30px; text-align: center; color: #7a8a9e; border-top: 1px solid #e2e8f0; padding-top: 20px; }
     </style>
 </head>
 <body>
 <div class="container">
-    <h1>📚 Resumos por Matéria</h1>
-    <a href="index.html" class="voltar">← Voltar ao início</a>
-    <div id="filtroInfo" style="margin:10px 0;"></div>
-    <div id="conteudoResumos"></div>
+    <h1>📚 Resumos — Compactos e Diretos</h1>
+
+    <!-- ===== MENU DE NAVEGAÇÃO ===== -->
+    <div class="menu-navegacao">
+        <a href="index.html" class="btn-voltar">🏠 Início</a>
+        <button onclick="history.back()" class="btn-voltar" style="background:#f9a825; color:#0b2b4a; border:none; cursor:pointer; font-weight:700; padding:8px 18px; border-radius:30px; font-size:14px;">⬅ Voltar</button>
+        <a href="estudo.html" class="secundario">📖 Estudar</a>
+        <a href="questoes.html" class="secundario">📝 Questões</a>
+        <a href="quiz.html" class="secundario">🧠 Quiz</a>
+    </div>
+
+    <div class="filtro">
+        <select id="filtroMateriaResumo" onchange="carregarResumo()">
+            <option value="lingua-portuguesa">Língua Portuguesa</option>
+            <option value="direito-constitucional">Direito Constitucional</option>
+            <option value="direito-administrativo">Direito Administrativo</option>
+            <option value="direito-penal">Direito Penal</option>
+            <option value="direito-processual-penal">Direito Processual Penal</option>
+            <option value="legislacao-penal-especial">Legislação Penal Especial</option>
+            <option value="direitos-humanos">Direitos Humanos</option>
+            <option value="raciocinio-logico">Raciocínio Lógico</option>
+            <option value="informatica">Informática</option>
+            <option value="lodf">LODF</option>
+            <option value="ride">RIDE</option>
+            <option value="lc-840">LC 840/2011</option>
+            <option value="eca">ECA</option>
+        </select>
+        <button onclick="carregarResumo()">📖 Carregar Resumos</button>
+    </div>
+
+    <div id="painelResumo">
+        <div class="aviso-vazio">Selecione uma matéria e clique em "Carregar Resumos".</div>
+    </div>
+
     <div class="footer">🎯 Preparação para PCDF · PMDF · PF · PRF · PCGO · PMGO</div>
 </div>
 
 <script>
 // ============================================================
-// DADOS EMBUTIDOS — TODAS AS 13 MATÉRIAS (resumos e estrutura)
+// DADOS DOS RESUMOS — EXTRAÍDOS DAS AULAS
 // ============================================================
-const DADOS = {
-  materias: {
+const RESUMOS = {
     "lingua-portuguesa": {
-      nome: "Língua Portuguesa",
-      modulos: {
-        "modulo-1": {
-          nome: "Interpretação de Textos",
-          aulas: {
-            "aula-1": {
-              nome: "Compreensão e Interpretação",
-              resumo: "Compreensão: explícito. Interpretação: inferência. Tipos: narrativo, descritivo, dissertativo, injuntivo. Coesão e coerência.",
-              questoes: []
+        nome: "Língua Portuguesa",
+        modulos: {
+            "modulo-1": {
+                nome: "Interpretação de Textos",
+                aulas: {
+                    "aula-1": {
+                        nome: "Compreensão e Interpretação",
+                        resumo: `
+📌 Compreensão = extrair informações explícitas (o que está escrito).
+📌 Interpretação = captar ideias implícitas (inferências, pressupostos).
+📌 Tipos textuais: narrativo (fatos), descritivo (características), dissertativo (argumentos), injuntivo (instruções).
+📌 Marcadores: "portanto" (conclusão), "contudo" (oposição).
+🧠 Macete: Compreensão = explícito; Interpretação = implícito.
+⚠️ Pegadinha: A Cebraspe mistura compreensão com interpretação.
+`
+                    }
+                }
             }
-          }
-        },
-        "modulo-2": {
-          nome: "Redação Oficial",
-          aulas: {
-            "aula-1": {
-              nome: "Características",
-              resumo: "Impessoal, clara, objetiva, concisa, formal, uniforme.",
-              questoes: []
-            }
-          }
-        },
-        "modulo-3": {
-          nome: "Fonologia e Ortografia",
-          aulas: {
-            "aula-1": {
-              nome: "Acentuação Gráfica",
-              resumo: "Regras de acentuação: oxítonas, paroxítonas, proparoxítonas. Novo Acordo Ortográfico.",
-              questoes: []
-            }
-          }
         }
-      }
     },
     "direito-constitucional": {
-      nome: "Direito Constitucional",
-      modulos: {
-        "modulo-1": {
-          nome: "Teoria da Constituição",
-          aulas: {
-            "aula-1": {
-              nome: "Conceito, Sentidos e Classificações",
-              resumo: "Sentidos: Lassalle, Schmitt, Kelsen. CF/88: promulgada, rígida, escrita, dogmática, analítica.",
-              questoes: []
+        nome: "Direito Constitucional",
+        modulos: {
+            "modulo-1": {
+                nome: "Teoria da Constituição",
+                aulas: {
+                    "aula-1": {
+                        nome: "Conceito, Sentidos e Classificações",
+                        resumo: `
+📌 Constituição: lei fundamental e suprema.
+📌 Sentidos: Lassalle (fatores reais de poder), Schmitt (decisão política), Kelsen (norma pura).
+📌 Classificações da CF/88: promulgada, rígida, escrita, dogmática, analítica.
+🧠 Macete: "PEDRO É FERA" (Promulgada, Escrita, Dogmática, Rígida, Analítica, Formal).
+⚠️ Pegadinha: CF/88 NÃO é semi-rígida.
+`
+                    }
+                }
             }
-          }
-        },
-        "modulo-2": {
-          nome: "Poder Constituinte",
-          aulas: {
-            "aula-1": {
-              nome: "Originário e Derivado",
-              resumo: "Originário: INILA. Derivado: reformador, decorrente, difuso. Cláusulas pétreas.",
-              questoes: []
-            }
-          }
-        },
-        "modulo-3": {
-          nome: "Princípios Fundamentais",
-          aulas: {
-            "aula-1": {
-              nome: "Arts. 1º a 4º",
-              resumo: "Fundamentos, Objetivos e Relações Internacionais.",
-              questoes: []
-            }
-          }
-        },
-        "modulo-4": {
-          nome: "Direitos Fundamentais (Art. 5º)",
-          aulas: {
-            "aula-1": {
-              nome: "Direitos Individuais e Coletivos",
-              resumo: "Vida, igualdade, liberdade, propriedade. Garantias: habeas corpus, mandado de segurança.",
-              questoes: []
-            }
-          }
-        },
-        "modulo-5": {
-          nome: "Organização do Estado",
-          aulas: {
-            "aula-1": {
-              nome: "Arts. 18 a 36 — Federação",
-              resumo: "Forma federativa, cláusula pétrea. União, Estados, DF, Municípios. Competências e intervenção federal.",
-              questoes: []
-            }
-          }
         }
-      }
     },
     "direito-administrativo": {
-      nome: "Direito Administrativo",
-      modulos: {
-        "modulo-1": {
-          nome: "Princípios e Atos",
-          aulas: {
-            "aula-1": {
-              nome: "LIMPE e Requisitos",
-              resumo: "Legalidade, Impessoalidade, Moralidade, Publicidade, Eficiência. Atributos: presunção, imperatividade, autoexecutoriedade.",
-              questoes: []
+        nome: "Direito Administrativo",
+        modulos: {
+            "modulo-1": {
+                nome: "Princípios da Administração",
+                aulas: {
+                    "aula-1": {
+                        nome: "LIMPE",
+                        resumo: `
+📌 Princípios (art. 37, caput, CF/88):
+- Legalidade: só o que a lei autoriza.
+- Impessoalidade: veda nepotismo.
+- Moralidade: probidade, boa-fé.
+- Publicidade: divulgação, com exceções.
+- Eficiência: EC 19/98.
+🧠 Macete: "LIMPE".
+⚠️ Pegadinha: Publicidade NÃO é absoluta.
+`
+                    }
+                }
             }
-          }
-        },
-        "modulo-2": {
-          nome: "Licitações (Lei 14.133/2021)",
-          aulas: {
-            "aula-1": {
-              nome: "Modalidades e Fases",
-              resumo: "Modalidades: pregão, concorrência, leilão, diálogo. Fases: preparatória, habilitação, julgamento, adjudicação.",
-              questoes: []
-            }
-          }
-        },
-        "modulo-3": {
-          nome: "Servidores Públicos",
-          aulas: {
-            "aula-1": {
-              nome: "Regime Jurídico (Lei 8.112/90)",
-              resumo: "Cargo público, provimento, vacância. Estabilidade (3 anos). Remuneração, subsídio, vantagens. Licenças.",
-              questoes: []
-            }
-          }
         }
-      }
     },
     "direito-penal": {
-      nome: "Direito Penal",
-      modulos: {
-        "modulo-1": {
-          nome: "Teoria do Crime",
-          aulas: {
-            "aula-1": {
-              nome: "TIC e Excludentes",
-              resumo: "Fato típico, ilicitude, culpabilidade. Excludentes: legítima defesa, estado de necessidade.",
-              questoes: []
+        nome: "Direito Penal",
+        modulos: {
+            "modulo-1": {
+                nome: "Teoria do Crime",
+                aulas: {
+                    "aula-1": {
+                        nome: "TIC",
+                        resumo: `
+📌 Crime = fato típico, ilícito, culpável.
+- Fato típico: conduta, nexo, resultado, tipicidade.
+- Ilicitude: excludentes (legítima defesa, estado de necessidade).
+- Culpabilidade: imputabilidade, consciência, exigibilidade.
+🧠 Macete: "TIC" (Típica, Ilícita, Culpável).
+⚠️ Pegadinha: Toda conduta típica NÃO é ilícita (há excludentes).
+`
+                    }
+                }
             }
-          }
-        },
-        "modulo-2": {
-          nome: "Crimes contra a pessoa e patrimônio",
-          aulas: {
-            "aula-1": {
-              nome: "Homicídio, Lesão, Furto, Roubo",
-              resumo: "Homicídio, lesão, furto, roubo. Qualificadoras e causas de aumento.",
-              questoes: []
-            }
-          }
-        },
-        "modulo-3": {
-          nome: "Crimes contra a Administração Pública",
-          aulas: {
-            "aula-1": {
-              nome: "Peculato, Corrupção, Prevaricação",
-              resumo: "Peculato (art. 312), corrupção passiva (art. 317), corrupção ativa (art. 333), prevaricação (art. 319).",
-              questoes: []
-            }
-          }
         }
-      }
     },
     "direito-processual-penal": {
-      nome: "Direito Processual Penal",
-      modulos: {
-        "modulo-1": {
-          nome: "Inquérito Policial",
-          aulas: {
-            "aula-1": {
-              nome: "IP e Ação Penal",
-              resumo: "IP: administrativo, inquisitivo, dispensável. Ação penal: pública e privada.",
-              questoes: []
+        nome: "Direito Processual Penal",
+        modulos: {
+            "modulo-1": {
+                nome: "Inquérito Policial",
+                aulas: {
+                    "aula-1": {
+                        nome: "IP (Arts. 4º a 23 do CPP)",
+                        resumo: `
+📌 Inquérito Policial: administrativo, inquisitivo, escrito, dispensável, sigiloso.
+📌 Prazos: preso 30 dias, solto 10 dias.
+📌 Arquivamento: só o juiz (art. 28 CPP).
+🧠 Macete: "OIEDSS" (Oficial, Inquisitivo, Escrito, Dispensável, Sigiloso, Sumário).
+⚠️ Pegadinha: IP NÃO é obrigatório.
+`
+                    }
+                }
             }
-          }
-        },
-        "modulo-2": {
-          nome: "Recursos e Execução",
-          aulas: {
-            "aula-1": {
-              nome: "Recursos e Execução Penal",
-              resumo: "Apelação, RESE, habeas corpus. Progressão, livramento, indulto.",
-              questoes: []
-            }
-          }
-        },
-        "modulo-3": {
-          nome: "Nulidades e Provas",
-          aulas: {
-            "aula-1": {
-              nome: "Teoria das Nulidades e Provas Ilícitas",
-              resumo: "Nulidades absolutas e relativas. Provas ilícitas: inadmissíveis (art. 5º, LVI, CF).",
-              questoes: []
-            }
-          }
         }
-      }
     },
     "legislacao-penal-especial": {
-      nome: "Legislação Penal Especial",
-      modulos: {
-        "modulo-1": {
-          nome: "Lei de Drogas e Armas",
-          aulas: {
-            "aula-1": {
-              nome: "Lei 11.343/06 e Lei 10.826/03",
-              resumo: "Drogas: art. 28 (porte), art. 33 (tráfico). Armas: posse, porte, comércio.",
-              questoes: []
+        nome: "Legislação Penal Especial",
+        modulos: {
+            "modulo-1": {
+                nome: "Lei de Drogas",
+                aulas: {
+                    "aula-1": {
+                        nome: "Arts. 28 e 33",
+                        resumo: `
+📌 Art. 28 (porte): penas alternativas (sem prisão). É crime, mas sem prisão.
+📌 Art. 33 (tráfico): 5 a 15 anos, hediondo.
+📌 Diferença: juiz analisa natureza, quantidade, local e conduta social.
+🧠 Macete: "28 não prende, 33 prende muito."
+⚠️ Pegadinha: Art. 28 é crime, mas sem prisão.
+`
+                    }
+                }
             }
-          }
         }
-      }
     },
     "direitos-humanos": {
-      nome: "Direitos Humanos",
-      modulos: {
-        "modulo-1": {
-          nome: "Tratados Internacionais",
-          aulas: {
-            "aula-1": {
-              nome: "Hierarquia e Incorporação",
-              resumo: "Tratados com quórum de EC = EC. Demais = supralegal.",
-              questoes: []
+        nome: "Direitos Humanos",
+        modulos: {
+            "modulo-1": {
+                nome: "Tratados Internacionais",
+                aulas: {
+                    "aula-1": {
+                        nome: "Hierarquia",
+                        resumo: `
+📌 Tratados com quórum de emenda (3/5) = EC (art. 5º, §3º).
+📌 Tratados sem quórum = supralegal (Pacto de San José).
+📌 Denúncia: depende do Congresso.
+⚠️ Pegadinha: Nem todo tratado de DH é EC.
+`
+                    }
+                }
             }
-          }
         }
-      }
     },
     "raciocinio-logico": {
-      nome: "Raciocínio Lógico",
-      modulos: {
-        "modulo-1": {
-          nome: "Lógica Proposicional",
-          aulas: {
-            "aula-1": {
-              nome: "Conectivos e Tabela",
-              resumo: "Conectivos, tabela-verdade, negação (De Morgan), argumentos.",
-              questoes: []
+        nome: "Raciocínio Lógico",
+        modulos: {
+            "modulo-1": {
+                nome: "Lógica Proposicional",
+                aulas: {
+                    "aula-1": {
+                        nome: "Conectivos",
+                        resumo: `
+📌 Conjunção (∧): V+V=V
+📌 Disjunção (∨): F+F=F
+📌 Condicional (→): V→F=F
+📌 Bicondicional (↔): iguais=V
+📌 Negação (¬): inverte.
+🧠 Macete (De Morgan): ¬(p∧q)=¬p∨¬q; ¬(p∨q)=¬p∧¬q.
+⚠️ Pegadinha: Bicondicional é V quando iguais.
+`
+                    }
+                }
             }
-          }
         }
-      }
     },
     "informatica": {
-      nome: "Informática",
-      modulos: {
-        "modulo-1": {
-          nome: "Sistemas, Office e Segurança",
-          aulas: {
-            "aula-1": {
-              nome: "Windows, Linux, Excel, Segurança",
-              resumo: "Linux open-source. Ctrl+Z desfaz. PROCV. Antivírus, firewall, phishing.",
-              questoes: []
+        nome: "Informática",
+        modulos: {
+            "modulo-1": {
+                nome: "Sistemas e Office",
+                aulas: {
+                    "aula-1": {
+                        nome: "Windows, Linux, Excel",
+                        resumo: `
+📌 Linux: open-source.
+📌 Ctrl+Z: desfaz; Ctrl+Y: refaz.
+📌 PROCV: procura vertical.
+📌 Phishing: tentativa de obter dados.
+📌 Ransomware: sequestro de dados.
+🧠 Macete: Ctrl+Z desfaz, Ctrl+Y refaz.
+⚠️ Pegadinha: Ctrl+Z NÃO refaz.
+`
+                    }
+                }
             }
-          }
         }
-      }
     },
     "lodf": {
-      nome: "Lei Orgânica do DF",
-      modulos: {
-        "modulo-1": {
-          nome: "Organização do DF",
-          aulas: {
-            "aula-1": {
-              nome: "Estrutura e Competências",
-              resumo: "DF: sui generis. Lei Orgânica. TCDF. Competências residuais.",
-              questoes: []
+        nome: "Lei Orgânica do DF",
+        modulos: {
+            "modulo-1": {
+                nome: "Organização do DF",
+                aulas: {
+                    "aula-1": {
+                        nome: "Estrutura",
+                        resumo: `
+📌 DF: ente sui generis (não é estado, não é município).
+📌 Lei Orgânica: funciona como Constituição local.
+📌 TCDF: Tribunal de Contas próprio.
+📌 Competências: residuais (art. 8º, §3º CF).
+⚠️ Pegadinha: DF NÃO é estado-membro.
+`
+                    }
+                }
             }
-          }
         }
-      }
     },
     "ride": {
-      nome: "RIDE",
-      modulos: {
-        "modulo-1": {
-          nome: "Conceito",
-          aulas: {
-            "aula-1": {
-              nome: "Características da RIDE",
-              resumo: "LC 94/98. DF + GO + MG. Planejamento integrado.",
-              questoes: []
+        nome: "RIDE",
+        modulos: {
+            "modulo-1": {
+                nome: "Conceito",
+                aulas: {
+                    "aula-1": {
+                        nome: "Características",
+                        resumo: `
+📌 RIDE: criada pela LC 94/98.
+📌 Abrangência: DF + GO + MG.
+📌 Objetivo: planejamento integrado de serviços.
+📌 Gestão: Conselho Administrativo (presidido pelo Governador do DF).
+⚠️ Pegadinha: RIDE NÃO abrange só o DF.
+`
+                    }
+                }
             }
-          }
         }
-      }
     },
     "lc-840": {
-      nome: "LC 840/2011",
-      modulos: {
-        "modulo-1": {
-          nome: "Regime Jurídico",
-          aulas: {
-            "aula-1": {
-              nome: "Direitos, Deveres e Penalidades",
-              resumo: "Estatutário. Estabilidade 3 anos. Licenças: gestante, paternidade, capacitação.",
-              questoes: []
+        nome: "LC 840/2011",
+        modulos: {
+            "modulo-1": {
+                nome: "Regime Jurídico",
+                aulas: {
+                    "aula-1": {
+                        nome: "Servidores do DF",
+                        resumo: `
+📌 Regime: estatutário (não CLT).
+📌 Estabilidade: 3 anos.
+📌 Licenças: gestante 120d, paternidade 5d, capacitação.
+📌 Penalidades: advertência, suspensão (até 90d), demissão.
+⚠️ Pegadinha: Servidor do DF NÃO é CLT.
+`
+                    }
+                }
             }
-          }
         }
-      }
     },
     "eca": {
-      nome: "ECA — Estatuto da Criança e do Adolescente",
-      modulos: {
-        "modulo-1": {
-          nome: "Atos Infracionais",
-          aulas: {
-            "aula-1": {
-              nome: "Medidas Socioeducativas",
-              resumo: "Ato infracional: conduta descrita como crime. Medidas: advertência, reparação, prestação de serviços, liberdade assistida, internação (até 3 anos).",
-              questoes: []
+        nome: "ECA",
+        modulos: {
+            "modulo-1": {
+                nome: "Atos Infracionais",
+                aulas: {
+                    "aula-1": {
+                        nome: "Medidas Socioeducativas",
+                        resumo: `
+📌 Ato infracional: conduta descrita como crime (menores de 18 anos).
+📌 Medidas: advertência, reparação, prestação de serviços, liberdade assistida, internação (até 3 anos, excepcional).
+⚠️ Pegadinha: Internação NÃO é a regra.
+📌 Atenção: ECA NÃO prevê pena de prisão.
+`
+                    }
+                }
             }
-          }
         }
-      }
     }
-  }
 };
-</script>
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const container = document.getElementById('conteudoResumos');
-    const filtroInfo = document.getElementById('filtroInfo');
+// ============================================================
+// FUNÇÃO PARA CARREGAR RESUMO
+// ============================================================
+function carregarResumo() {
+    const materia = document.getElementById('filtroMateriaResumo').value;
+    const painel = document.getElementById('painelResumo');
 
-    if (typeof DADOS === 'undefined') {
-        container.innerHTML = '<p style="color:red;">Erro: dados não carregados.</p>';
+    const dadosMateria = RESUMOS[materia];
+    if (!dadosMateria) {
+        painel.innerHTML = `<div class="aviso-vazio">Matéria não encontrada.</div>`;
         return;
     }
 
-    const urlParams = new URLSearchParams(window.location.search);
-    const materiaSigla = urlParams.get('materia');
+    let html = `<div class="resumo-card"><h2>📘 ${dadosMateria.nome}</h2>`;
 
-    const nomesMaterias = {
-        'lingua-portuguesa': 'Língua Portuguesa',
-        'direito-constitucional': 'Direito Constitucional',
-        'direito-administrativo': 'Direito Administrativo',
-        'direito-penal': 'Direito Penal',
-        'direito-processual-penal': 'Direito Processual Penal',
-        'legislacao-penal-especial': 'Legislação Penal Especial',
-        'direitos-humanos': 'Direitos Humanos',
-        'raciocinio-logico': 'Raciocínio Lógico-Matemático',
-        'informatica': 'Informática',
-        'lodf': 'Lei Orgânica do DF (LODF)',
-        'ride': 'RIDE',
-        'lc-840': 'LC 840/2011',
-        'eca': 'ECA — Estatuto da Criança e do Adolescente'
-    };
-
-    let html = '';
-    let materiaEncontrada = false;
-
-    const materiasParaExibir = materiaSigla ? { [materiaSigla]: DADOS.materias[materiaSigla] } : DADOS.materias;
-
-    for (const [sigla, materia] of Object.entries(materiasParaExibir)) {
-        if (!materia) continue;
-        materiaEncontrada = true;
-        const nome = nomesMaterias[sigla] || materia.nome || sigla;
-        html += `<h2 class="materia-titulo">📘 ${nome}</h2>`;
-
-        let temConteudo = false;
-        for (const modulo of Object.values(materia.modulos || {})) {
-            for (const aula of Object.values(modulo.aulas || {})) {
-                if (aula.resumo && aula.resumo.length > 10) temConteudo = true;
-            }
-        }
-
-        if (!temConteudo) {
-            html += `<div class="sem-conteudo">📌 Conteúdo desta matéria será adicionado em breve.</div>`;
-        }
-
-        for (const [moduloId, modulo] of Object.entries(materia.modulos || {})) {
-            html += `<h3 class="modulo-titulo">📌 ${modulo.nome}</h3>`;
-            for (const [aulaId, aula] of Object.entries(modulo.aulas || {})) {
-                html += `<div class="aula-titulo">▶ ${aula.nome}</div>`;
-                const resumo = aula.resumo || 'Conteúdo em breve...';
-                html += `<div class="resumo-box">${resumo}</div>`;
-            }
+    for (const moduloId in dadosMateria.modulos) {
+        const modulo = dadosMateria.modulos[moduloId];
+        html += `<div class="modulo-titulo">📌 ${modulo.nome}</div>`;
+        for (const aulaId in modulo.aulas) {
+            const aula = modulo.aulas[aulaId];
+            html += `<div class="aula-titulo">▶ ${aula.nome}</div>`;
+            html += `<div class="resumo-texto">${aula.resumo}</div>`;
         }
     }
 
-    if (!materiaEncontrada) {
-        container.innerHTML = '<p>Nenhuma matéria encontrada.</p>';
-    } else {
-        container.innerHTML = html;
-    }
+    html += `</div>`;
+    painel.innerHTML = html;
+}
 
-    if (materiaSigla) {
-        const nome = nomesMaterias[materiaSigla] || 'Matéria';
-        filtroInfo.innerHTML = `<span style="background:#e8f0fe;padding:4px 16px;border-radius:20px;">🔍 Exibindo apenas: <strong>${nome}</strong></span>`;
-    }
-});
+// Carregar automaticamente ao abrir a página
+window.onload = function() {
+    carregarResumo();
+};
 </script>
 </body>
 </html>
