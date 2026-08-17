@@ -1,280 +1,166 @@
-// ============================================================
-// dados/resumos.js — Todos os resumos das 13 matérias
-// ============================================================
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Questões — Trilha Policial 2026</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: #f4f7fc; padding: 20px; margin: 0; }
+        .container { max-width: 1100px; margin: 0 auto; background: #fff; border-radius: 16px; padding: 30px; box-shadow: 0 8px 20px rgba(0,0,0,0.05); }
+        h1 { color: #0b2b4a; border-bottom: 4px solid #1a73e8; padding-bottom: 12px; margin-top: 0; }
+        .menu-navegacao { display: flex; flex-wrap: wrap; gap: 12px; margin: 20px 0 10px 0; align-items: center; padding: 10px 0; border-bottom: 1px solid #e2e8f0; }
+        .menu-navegacao a { background: #1a73e8; color: #fff; padding: 8px 18px; border-radius: 30px; text-decoration: none; font-weight: 600; font-size: 14px; transition: 0.2s; display: inline-block; }
+        .menu-navegacao a:hover { background: #0d47a1; transform: scale(1.02); }
+        .menu-navegacao a.secundario { background: #e8f0fe; color: #1a73e8; }
+        .menu-navegacao a.secundario:hover { background: #d2e3fc; }
+        .menu-navegacao .btn-voltar { background: #f9a825; color: #0b2b4a; border: none; cursor: pointer; font-weight: 700; padding: 8px 18px; border-radius: 30px; font-size: 14px; transition: 0.2s; display: inline-block; text-decoration: none; }
+        .menu-navegacao .btn-voltar:hover { background: #fbc02d; transform: scale(1.02); }
+        .filtro { display: flex; flex-wrap: wrap; gap: 10px; margin: 20px 0; }
+        .filtro select, .filtro button { padding: 8px 16px; border-radius: 8px; border: 1px solid #ccc; font-size: 14px; background: #fff; }
+        .filtro button { background: #1a73e8; color: #fff; border: none; cursor: pointer; font-weight: 600; transition: 0.2s; }
+        .filtro button:hover { background: #0d47a1; }
+        .questao { background: #f8faff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 18px; margin: 16px 0; }
+        .opcoes { display: flex; gap: 16px; margin: 10px 0; }
+        .opcoes button { background: #e8f0fe; border: 2px solid transparent; padding: 8px 20px; border-radius: 30px; font-weight: 600; cursor: pointer; transition: 0.2s; }
+        .opcoes button:hover { background: #d2e3fc; }
+        .opcoes button.selecionado-c { border-color: #1a73e8; background: #1a73e8; color: #fff; }
+        .opcoes button.selecionado-e { border-color: #e53935; background: #e53935; color: #fff; }
+        .resultado { margin-top: 10px; padding: 12px; border-radius: 8px; display: none; }
+        .resultado.certo { display: block; background: #e6f7e6; border-left: 6px solid #2e7d32; }
+        .resultado.errado { display: block; background: #fde8e8; border-left: 6px solid #c62828; }
+        .resultado .comentario { margin-top: 6px; font-size: 14px; color: #1e2a3a; }
+        .botao-corrigir { background: #1a73e8; color: #fff; border: none; padding: 12px 30px; border-radius: 30px; font-weight: 700; cursor: pointer; margin: 20px 0; }
+        .botao-corrigir:hover { background: #0d47a1; }
+        .resumo-desempenho { background: #e8f0fe; padding: 12px 20px; border-radius: 8px; margin: 20px 0; display: flex; gap: 30px; flex-wrap: wrap; }
+        .footer { margin-top: 30px; text-align: center; color: #7a8a9e; border-top: 1px solid #e2e8f0; padding-top: 20px; }
+        .aviso-vazio { text-align: center; color: #666; padding: 20px; font-size: 16px; background: #fafafa; border-radius: 8px; border: 1px dashed #ccc; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>📝 Bateria de Questões</h1>
+    <div class="menu-navegacao">
+        <a href="index.html" class="btn-voltar">🏠 Início</a>
+        <button onclick="history.back()" class="btn-voltar" style="background:#f9a825; color:#0b2b4a; border:none; cursor:pointer; font-weight:700; padding:8px 18px; border-radius:30px; font-size:14px;">⬅ Voltar</button>
+        <a href="estudo.html" class="secundario">📖 Estudar</a>
+        <a href="resumos.html" class="secundario">📚 Resumos</a>
+        <a href="quiz.html" class="secundario">🧠 Quiz</a>
+    </div>
+    <div class="filtro">
+        <select id="filtroMateria" onchange="atualizarModulos()">
+            <option value="lingua-portuguesa">Língua Portuguesa</option>
+            <option value="direito-constitucional">Direito Constitucional</option>
+            <option value="direito-administrativo">Direito Administrativo</option>
+            <option value="direito-penal">Direito Penal</option>
+            <option value="direito-processual-penal">Direito Processual Penal</option>
+            <option value="legislacao-penal-especial">Legislação Penal Especial</option>
+            <option value="direitos-humanos">Direitos Humanos</option>
+            <option value="raciocinio-logico">Raciocínio Lógico</option>
+            <option value="informatica">Informática</option>
+            <option value="lodf">LODF</option>
+            <option value="ride">RIDE</option>
+            <option value="lc-840">LC 840/2011</option>
+            <option value="eca">ECA</option>
+        </select>
+        <select id="filtroModulo" onchange="atualizarAulas()"></select>
+        <select id="filtroAula"></select>
+        <button onclick="carregarQuestoes()">📖 Carregar questões</button>
+    </div>
+    <div id="painelQuestoes"><div class="aviso-vazio">Selecione uma matéria e clique em "Carregar questões".</div></div>
+    <div class="footer">🎯 Preparação para PCDF · PMDF · PF · PRF · PCGO · PMGO</div>
+</div>
 
-const DADOS_RESUMOS = {
-    "lingua-portuguesa": {
-        nome: "Língua Portuguesa",
-        modulos: {
-            "modulo-1": {
-                nome: "Interpretação de Textos",
-                aulas: {
-                    "aula-1": {
-                        nome: "Compreensão e Interpretação",
-                        resumo: `
-📌 Compreensão = extrair informações explícitas (o que está escrito).
-📌 Interpretação = captar ideias implícitas (inferências, pressupostos).
-📌 Tipos textuais: narrativo (fatos), descritivo (características), dissertativo (argumentos), injuntivo (instruções).
-📌 Marcadores: "portanto" (conclusão), "contudo" (oposição).
-🧠 Macete: Compreensão = explícito; Interpretação = implícito.
-⚠️ Pegadinha: A Cebraspe mistura compreensão com interpretação.
-`
-                    }
-                }
-            }
-        }
-    },
-    "direito-constitucional": {
-        nome: "Direito Constitucional",
-        modulos: {
-            "modulo-1": {
-                nome: "Teoria da Constituição",
-                aulas: {
-                    "aula-1": {
-                        nome: "Conceito, Sentidos e Classificações",
-                        resumo: `
-📌 Constituição: lei fundamental e suprema.
-📌 Sentidos: Lassalle (fatores reais de poder), Schmitt (decisão política), Kelsen (norma pura).
-📌 Classificações da CF/88: promulgada, rígida, escrita, dogmática, analítica.
-🧠 Macete: "PEDRO É FERA" (Promulgada, Escrita, Dogmática, Rígida, Analítica, Formal).
-⚠️ Pegadinha: CF/88 NÃO é semi-rígida.
-`
-                    }
-                }
-            }
-        }
-    },
-    "direito-administrativo": {
-        nome: "Direito Administrativo",
-        modulos: {
-            "modulo-1": {
-                nome: "Princípios da Administração",
-                aulas: {
-                    "aula-1": {
-                        nome: "LIMPE",
-                        resumo: `
-📌 Princípios (art. 37, caput, CF/88):
-- Legalidade: só o que a lei autoriza.
-- Impessoalidade: veda nepotismo.
-- Moralidade: probidade, boa-fé.
-- Publicidade: divulgação, com exceções.
-- Eficiência: EC 19/98.
-🧠 Macete: "LIMPE".
-⚠️ Pegadinha: Publicidade NÃO é absoluta.
-`
-                    }
-                }
-            }
-        }
-    },
-    "direito-penal": {
-        nome: "Direito Penal",
-        modulos: {
-            "modulo-1": {
-                nome: "Teoria do Crime",
-                aulas: {
-                    "aula-1": {
-                        nome: "TIC",
-                        resumo: `
-📌 Crime = fato típico, ilícito, culpável.
-- Fato típico: conduta, nexo, resultado, tipicidade.
-- Ilicitude: excludentes (legítima defesa, estado de necessidade).
-- Culpabilidade: imputabilidade, consciência, exigibilidade.
-🧠 Macete: "TIC" (Típica, Ilícita, Culpável).
-⚠️ Pegadinha: Toda conduta típica NÃO é ilícita (há excludentes).
-`
-                    }
-                }
-            }
-        }
-    },
-    "direito-processual-penal": {
-        nome: "Direito Processual Penal",
-        modulos: {
-            "modulo-1": {
-                nome: "Inquérito Policial",
-                aulas: {
-                    "aula-1": {
-                        nome: "IP (Arts. 4º a 23 do CPP)",
-                        resumo: `
-📌 Inquérito Policial: administrativo, inquisitivo, escrito, dispensável, sigiloso.
-📌 Prazos: preso 30 dias, solto 10 dias.
-📌 Arquivamento: só o juiz (art. 28 CPP).
-🧠 Macete: "OIEDSS" (Oficial, Inquisitivo, Escrito, Dispensável, Sigiloso, Sumário).
-⚠️ Pegadinha: IP NÃO é obrigatório.
-`
-                    }
-                }
-            }
-        }
-    },
-    "legislacao-penal-especial": {
-        nome: "Legislação Penal Especial",
-        modulos: {
-            "modulo-1": {
-                nome: "Lei de Drogas",
-                aulas: {
-                    "aula-1": {
-                        nome: "Arts. 28 e 33",
-                        resumo: `
-📌 Art. 28 (porte): penas alternativas (sem prisão). É crime, mas sem prisão.
-📌 Art. 33 (tráfico): 5 a 15 anos, hediondo.
-📌 Diferença: juiz analisa natureza, quantidade, local e conduta social.
-🧠 Macete: "28 não prende, 33 prende muito."
-⚠️ Pegadinha: Art. 28 é crime, mas sem prisão.
-`
-                    }
-                }
-            }
-        }
-    },
-    "direitos-humanos": {
-        nome: "Direitos Humanos",
-        modulos: {
-            "modulo-1": {
-                nome: "Tratados Internacionais",
-                aulas: {
-                    "aula-1": {
-                        nome: "Hierarquia",
-                        resumo: `
-📌 Tratados com quórum de emenda (3/5) = EC (art. 5º, §3º).
-📌 Tratados sem quórum = supralegal (Pacto de San José).
-📌 Denúncia: depende do Congresso.
-⚠️ Pegadinha: Nem todo tratado de DH é EC.
-`
-                    }
-                }
-            }
-        }
-    },
-    "raciocinio-logico": {
-        nome: "Raciocínio Lógico",
-        modulos: {
-            "modulo-1": {
-                nome: "Lógica Proposicional",
-                aulas: {
-                    "aula-1": {
-                        nome: "Conectivos",
-                        resumo: `
-📌 Conjunção (∧): V+V=V
-📌 Disjunção (∨): F+F=F
-📌 Condicional (→): V→F=F
-📌 Bicondicional (↔): iguais=V
-📌 Negação (¬): inverte.
-🧠 Macete (De Morgan): ¬(p∧q)=¬p∨¬q; ¬(p∨q)=¬p∧¬q.
-⚠️ Pegadinha: Bicondicional é V quando iguais.
-`
-                    }
-                }
-            }
-        }
-    },
-    "informatica": {
-        nome: "Informática",
-        modulos: {
-            "modulo-1": {
-                nome: "Sistemas e Office",
-                aulas: {
-                    "aula-1": {
-                        nome: "Windows, Linux, Excel",
-                        resumo: `
-📌 Linux: open-source.
-📌 Ctrl+Z: desfaz; Ctrl+Y: refaz.
-📌 PROCV: procura vertical.
-📌 Phishing: tentativa de obter dados.
-📌 Ransomware: sequestro de dados.
-🧠 Macete: Ctrl+Z desfaz, Ctrl+Y refaz.
-⚠️ Pegadinha: Ctrl+Z NÃO refaz.
-`
-                    }
-                }
-            }
-        }
-    },
-    "lodf": {
-        nome: "Lei Orgânica do DF",
-        modulos: {
-            "modulo-1": {
-                nome: "Organização do DF",
-                aulas: {
-                    "aula-1": {
-                        nome: "Estrutura",
-                        resumo: `
-📌 DF: ente sui generis (não é estado, não é município).
-📌 Lei Orgânica: funciona como Constituição local.
-📌 TCDF: Tribunal de Contas próprio.
-📌 Competências: residuais (art. 8º, §3º CF).
-⚠️ Pegadinha: DF NÃO é estado-membro.
-`
-                    }
-                }
-            }
-        }
-    },
-    "ride": {
-        nome: "RIDE",
-        modulos: {
-            "modulo-1": {
-                nome: "Conceito",
-                aulas: {
-                    "aula-1": {
-                        nome: "Características",
-                        resumo: `
-📌 RIDE: criada pela LC 94/98.
-📌 Abrangência: DF + GO + MG.
-📌 Objetivo: planejamento integrado de serviços.
-📌 Gestão: Conselho Administrativo (presidido pelo Governador do DF).
-⚠️ Pegadinha: RIDE NÃO abrange só o DF.
-`
-                    }
-                }
-            }
-        }
-    },
-    "lc-840": {
-        nome: "LC 840/2011",
-        modulos: {
-            "modulo-1": {
-                nome: "Regime Jurídico",
-                aulas: {
-                    "aula-1": {
-                        nome: "Servidores do DF",
-                        resumo: `
-📌 Regime: estatutário (não CLT).
-📌 Estabilidade: 3 anos.
-📌 Licenças: gestante 120d, paternidade 5d, capacitação.
-📌 Penalidades: advertência, suspensão (até 90d), demissão.
-⚠️ Pegadinha: Servidor do DF NÃO é CLT.
-`
-                    }
-                }
-            }
-        }
-    },
-    "eca": {
-        nome: "ECA",
-        modulos: {
-            "modulo-1": {
-                nome: "Atos Infracionais",
-                aulas: {
-                    "aula-1": {
-                        nome: "Medidas Socioeducativas",
-                        resumo: `
-📌 Ato infracional: conduta descrita como crime (menores de 18 anos).
-📌 Medidas: advertência, reparação, prestação de serviços, liberdade assistida, internação (até 3 anos, excepcional).
-⚠️ Pegadinha: Internação NÃO é a regra.
-📌 Atenção: ECA NÃO prevê pena de prisão.
-`
-                    }
-                }
-            }
+<script src="dados/questoes.js"></script>
+<script>
+let questoesAtuais = [], respostasUsuario = {}, materiaAtual = '', moduloAtual = '', aulaAtual = '';
+
+function atualizarModulos() {
+    const materia = document.getElementById('filtroMateria').value;
+    const moduloSelect = document.getElementById('filtroModulo');
+    moduloSelect.innerHTML = '';
+    if (DADOS_QUESTOES[materia] && DADOS_QUESTOES[materia].modulos) {
+        for (const modulo in DADOS_QUESTOES[materia].modulos) {
+            const opt = document.createElement('option');
+            opt.value = modulo;
+            opt.textContent = modulo.replace('-', ' ').toUpperCase();
+            moduloSelect.appendChild(opt);
         }
     }
-};
-
-// ============================================================
-// EXPORTA PARA USO GLOBAL
-// ============================================================
-if (typeof window !== 'undefined') {
-    window.DADOS_RESUMOS = DADOS_RESUMOS;
+    atualizarAulas();
 }
+function atualizarAulas() {
+    const materia = document.getElementById('filtroMateria').value;
+    const modulo = document.getElementById('filtroModulo').value;
+    const aulaSelect = document.getElementById('filtroAula');
+    aulaSelect.innerHTML = '';
+    if (DADOS_QUESTOES[materia] && DADOS_QUESTOES[materia].modulos && DADOS_QUESTOES[materia].modulos[modulo]) {
+        for (const aula in DADOS_QUESTOES[materia].modulos[modulo].aulas) {
+            const opt = document.createElement('option');
+            opt.value = aula;
+            opt.textContent = aula.replace('-', ' ').toUpperCase();
+            aulaSelect.appendChild(opt);
+        }
+    }
+}
+function carregarQuestoes() {
+    const materia = document.getElementById('filtroMateria').value;
+    const modulo = document.getElementById('filtroModulo').value;
+    const aula = document.getElementById('filtroAula').value;
+    materiaAtual = materia; moduloAtual = modulo; aulaAtual = aula;
+    const container = document.getElementById('painelQuestoes');
+    if (typeof DADOS_QUESTOES === 'undefined') { container.innerHTML = '<p style="color:red;">❌ Erro: Dados não carregados.</p>'; return; }
+    const dadosMateria = DADOS_QUESTOES[materia];
+    if (!dadosMateria) { container.innerHTML = `<p style="color:red;">❌ Matéria "${materia}" não encontrada.</p>`; return; }
+    const dadosModulo = dadosMateria.modulos[modulo];
+    if (!dadosModulo) { container.innerHTML = `<p style="color:red;">❌ Módulo "${modulo}" não encontrado.</p>`; return; }
+    const dadosAula = dadosModulo.aulas[aula];
+    if (!dadosAula) { container.innerHTML = `<p style="color:red;">❌ Aula "${aula}" não encontrada.</p>`; return; }
+    questoesAtuais = dadosAula.questoes || [];
+    respostasUsuario = {};
+    renderizarQuestoes();
+}
+function renderizarQuestoes() {
+    const container = document.getElementById('painelQuestoes');
+    if (questoesAtuais.length === 0) { container.innerHTML = '<p>Nenhuma questão encontrada.</p>'; return; }
+    let html = `<div class="resumo-desempenho"><div><span id="contadorRespondidas">0</span> / ${questoesAtuais.length} respondidas</div><div>✅ <span id="contadorAcertos">0</span> acertos</div><div>❌ <span id="contadorErros">0</span> erros</div></div>`;
+    questoesAtuais.forEach((q, index) => {
+        const num = index + 1;
+        html += `<div class="questao" id="questao-${index}"><p><strong>QUESTÃO ${num}</strong></p><p>${q.enunciado}</p><div class="opcoes"><button onclick="selecionarResposta(${index}, 'C')" id="btn-c-${index}">CERTO</button><button onclick="selecionarResposta(${index}, 'E')" id="btn-e-${index}">ERRADO</button></div><div class="resultado" id="resultado-${index}"></div></div>`;
+    });
+    html += `<button class="botao-corrigir" onclick="corrigirTodas()">✅ Corrigir todas</button>`;
+    container.innerHTML = html;
+    atualizarContadores();
+}
+function selecionarResposta(index, letra) {
+    document.getElementById(`btn-c-${index}`).className = '';
+    document.getElementById(`btn-e-${index}`).className = '';
+    if (letra === 'C') { document.getElementById(`btn-c-${index}`).classList.add('selecionado-c'); } else { document.getElementById(`btn-e-${index}`).classList.add('selecionado-e'); }
+    respostasUsuario[index] = letra;
+    document.getElementById(`resultado-${index}`).className = 'resultado';
+    document.getElementById(`resultado-${index}`).innerHTML = '';
+    atualizarContadores();
+}
+function corrigirTodas() {
+    let acertos = 0, erros = 0;
+    questoesAtuais.forEach((q, index) => {
+        const resposta = respostasUsuario[index];
+        const resultadoDiv = document.getElementById(`resultado-${index}`);
+        resultadoDiv.className = 'resultado';
+        if (!resposta) { resultadoDiv.classList.add('errado'); resultadoDiv.innerHTML = `<strong>⚠️ Não respondida.</strong>`; return; }
+        const correta = q.resposta === 'C' ? 'C' : 'E';
+        if (resposta === correta) { acertos++; resultadoDiv.classList.add('certo'); resultadoDiv.innerHTML = `<strong>✅ CORRETO!</strong><div class="comentario">${q.comentario || ''}</div>`; } else { erros++; resultadoDiv.classList.add('errado'); resultadoDiv.innerHTML = `<strong>❌ ERRADO. Resposta correta: ${correta}.</strong><div class="comentario">${q.comentario || ''}</div>`; }
+    });
+    document.getElementById('contadorAcertos').textContent = acertos;
+    document.getElementById('contadorErros').textContent = erros;
+    document.getElementById('contadorRespondidas').textContent = Object.keys(respostasUsuario).length;
+}
+function atualizarContadores() {
+    document.getElementById('contadorRespondidas').textContent = Object.keys(respostasUsuario).length;
+    document.getElementById('contadorAcertos').textContent = '?';
+    document.getElementById('contadorErros').textContent = '?';
+}
+window.onload = function() { atualizarModulos(); carregarQuestoes(); };
+</script>
+</body>
+</html>
