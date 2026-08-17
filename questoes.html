@@ -38,7 +38,7 @@
     <a href="index.html" class="voltar">← Voltar ao início</a>
 
     <div class="filtro">
-        <select id="filtroMateria">
+        <select id="filtroMateria" onchange="atualizarModulos()">
             <option value="lingua-portuguesa">Língua Portuguesa</option>
             <option value="direito-constitucional">Direito Constitucional</option>
             <option value="direito-administrativo">Direito Administrativo</option>
@@ -53,11 +53,11 @@
             <option value="lc-840">LC 840/2011</option>
             <option value="eca">ECA</option>
         </select>
-        <select id="filtroModulo">
-            <option value="modulo-1">Módulo 1</option>
+        <select id="filtroModulo" onchange="atualizarAulas()">
+            <!-- Preenchido dinamicamente -->
         </select>
         <select id="filtroAula">
-            <option value="aula-1">Aula 1</option>
+            <!-- Preenchido dinamicamente -->
         </select>
         <button onclick="carregarQuestoes()">Carregar questões</button>
     </div>
@@ -211,4 +211,4 @@ const DADOS = {
                             {id:9,enunciado:"Penas restritivas substituem prisão.",resposta:"C",comentario:"CERTO."},
                             {id:10,enunciado:"Multa é pecuniária.",resposta:"C",comentario:"CERTO."},
                             {id:11,enunciado:"Regime fechado: segurança máxima.",resposta:"C",comentario:"CERTO."},
-                            {id:12,enunciado:"Semiaberto: trabalho externo.",resposta:"C",comentario:"CERTO.
+                            {id:12,enunciado:"Semiaberto: trabal
