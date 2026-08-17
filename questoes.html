@@ -25,17 +25,20 @@
         .resultado.certo { display: block; background: #e6f7e6; border-left: 6px solid #2e7d32; }
         .resultado.errado { display: block; background: #fde8e8; border-left: 6px solid #c62828; }
         .resultado .comentario { margin-top: 6px; font-size: 14px; color: #1e2a3a; }
-        .resultado .pegadinha { margin-top: 4px; font-size: 13px; color: #c62828; font-weight: 600; }
         .botao-corrigir { background: #1a73e8; color: #fff; border: none; padding: 12px 30px; border-radius: 30px; font-weight: 700; cursor: pointer; margin: 20px 0; }
         .botao-corrigir:hover { background: #0d47a1; }
         .resumo-desempenho { background: #e8f0fe; padding: 12px 20px; border-radius: 8px; margin: 20px 0; display: flex; gap: 30px; flex-wrap: wrap; }
         .footer { margin-top: 30px; text-align: center; color: #7a8a9e; border-top: 1px solid #e2e8f0; padding-top: 20px; }
+        .aviso { background: #fff3cd; border-left: 6px solid #ffc107; padding: 12px 16px; border-radius: 8px; margin: 16px 0; }
     </style>
 </head>
 <body>
 <div class="container">
     <h1>📝 Bateria de Questões</h1>
     <a href="index.html" class="voltar">← Voltar ao início</a>
+
+    <!-- DIAGNÓSTICO: aviso se o DADOS não carregar -->
+    <div id="aviso" style="display:none;" class="aviso">⚠️ Aguardando carregamento dos dados...</div>
 
     <div class="filtro">
         <select id="filtroMateria" onchange="atualizarModulos()">
@@ -59,16 +62,20 @@
         <select id="filtroAula">
             <!-- Preenchido dinamicamente -->
         </select>
-        <button onclick="carregarQuestoes()">Carregar questões</button>
+        <button onclick="carregarQuestoes()">📖 Carregar questões</button>
     </div>
 
-    <div id="painelQuestoes"></div>
+    <div id="painelQuestoes">
+        <p style="text-align:center; color:#666; padding:20px;">Selecione uma matéria e clique em "Carregar questões".</p>
+    </div>
     <div class="footer">🎯 Preparação para PCDF · PMDF · PF · PRF · PCGO · PMGO</div>
 </div>
 
 <script>
+console.log('=== INICIANDO SCRIPT DAS QUESTÕES ===');
+
 // ============================================================
-// DADOS EMBUTIDOS — TODAS AS 13 MATÉRIAS (questões completas)
+// DADOS EMBUTIDOS — APENAS 2 MATÉRIAS PARA TESTE (simplificado)
 // ============================================================
 const DADOS = {
     "lingua-portuguesa": {
@@ -78,72 +85,9 @@ const DADOS = {
                 aulas: {
                     "aula-1": {
                         questoes: [
-                            {id:1,enunciado:"Compreensão limita-se ao explícito.",resposta:"C",comentario:"CERTO."},
-                            {id:2,enunciado:"Interpretação exige inferência.",resposta:"C",comentario:"CERTO."},
-                            {id:3,enunciado:"Dissertativo tem sequência cronológica.",resposta:"E",comentario:"ERRADO."},
-                            {id:4,enunciado:"'Portanto' indica conclusão.",resposta:"C",comentario:"CERTO."},
-                            {id:5,enunciado:"Inferir é deduzir implícitos.",resposta:"C",comentario:"CERTO."},
-                            {id:6,enunciado:"Injuntivo convence o leitor.",resposta:"E",comentario:"ERRADO."},
-                            {id:7,enunciado:"'Sugere' indica interpretação.",resposta:"C",comentario:"CERTO."},
-                            {id:8,enunciado:"Coesão é conexão textual.",resposta:"C",comentario:"CERTO."},
-                            {id:9,enunciado:"Coerência é sentido lógico.",resposta:"C",comentario:"CERTO."},
-                            {id:10,enunciado:"Pressuposto é necessário ao sentido.",resposta:"C",comentario:"CERTO."},
-                            {id:11,enunciado:"'Embora' indica conclusão.",resposta:"E",comentario:"ERRADO."},
-                            {id:12,enunciado:"Narração: apresentação, complicação, clímax, desfecho.",resposta:"C",comentario:"CERTO."},
-                            {id:13,enunciado:"Descrição objetiva expressa sentimentos.",resposta:"E",comentario:"ERRADO."},
-                            {id:14,enunciado:"Tese é opinião do autor.",resposta:"C",comentario:"CERTO."},
-                            {id:15,enunciado:"Leitura dinâmica é com pausas.",resposta:"E",comentario:"ERRADO."}
-                        ]
-                    }
-                }
-            }
-        }
-    },
-    "direito-constitucional": {
-        nome: "Direito Constitucional",
-        modulos: {
-            "modulo-1": {
-                aulas: {
-                    "aula-1": {
-                        questoes: [
-                            {id:1,enunciado:"Lassalle: CF sem correspondência real é 'folha de papel'.",resposta:"C",comentario:"CERTO."},
-                            {id:2,enunciado:"CF/88 é outorgada.",resposta:"E",comentario:"ERRADO."},
-                            {id:3,enunciado:"CF/88 é semi-rígida.",resposta:"E",comentario:"ERRADO."},
-                            {id:4,enunciado:"Kelsen: CF é fundamento de validade.",resposta:"C",comentario:"CERTO."},
-                            {id:5,enunciado:"Schmitt: CF é decisão política fundamental.",resposta:"C",comentario:"CERTO."},
-                            {id:6,enunciado:"CF/88 é analítica.",resposta:"C",comentario:"CERTO."},
-                            {id:7,enunciado:"CF/88 é dogmática.",resposta:"C",comentario:"CERTO."},
-                            {id:8,enunciado:"CF/88 é escrita.",resposta:"C",comentario:"CERTO."},
-                            {id:9,enunciado:"CF/88 é formal e material.",resposta:"C",comentario:"CERTO."},
-                            {id:10,enunciado:"Sentido sociológico: fatores reais de poder.",resposta:"C",comentario:"CERTO."},
-                            {id:11,enunciado:"Sentido político: decisão política.",resposta:"C",comentario:"CERTO."},
-                            {id:12,enunciado:"Sentido jurídico: norma pura.",resposta:"C",comentario:"CERTO."},
-                            {id:13,enunciado:"CF/88 é flexível.",resposta:"E",comentario:"ERRADO."},
-                            {id:14,enunciado:"CF/88 foi outorgada por D. Pedro I.",resposta:"E",comentario:"ERRADO."},
-                            {id:15,enunciado:"CF/88 é a primeira promulgada do Brasil.",resposta:"E",comentario:"ERRADO."}
-                        ]
-                    }
-                }
-            },
-            "modulo-2": {
-                aulas: {
-                    "aula-1": {
-                        questoes: [
-                            {id:1,enunciado:"PCO é incondicionado.",resposta:"C",comentario:"CERTO."},
-                            {id:2,enunciado:"Povo pode propor PEC.",resposta:"E",comentario:"ERRADO."},
-                            {id:3,enunciado:"Cláusulas pétreas são inabolíveis.",resposta:"C",comentario:"CERTO."},
-                            {id:4,enunciado:"DF exerce poder decorrente.",resposta:"E",comentario:"ERRADO."},
-                            {id:5,enunciado:"EC exige 3/5 em dois turnos.",resposta:"C",comentario:"CERTO."},
-                            {id:6,enunciado:"Poder reformador é derivado.",resposta:"C",comentario:"CERTO."},
-                            {id:7,enunciado:"Poder decorrente é dos Estados.",resposta:"C",comentario:"CERTO."},
-                            {id:8,enunciado:"Poder difuso é dos municípios.",resposta:"C",comentario:"CERTO."},
-                            {id:9,enunciado:"Poder revisor já foi exercido.",resposta:"C",comentario:"CERTO."},
-                            {id:10,enunciado:"Limites circunstanciais: intervenção, estado de defesa, sítio.",resposta:"C",comentario:"CERTO."},
-                            {id:11,enunciado:"Limites formais: procedimento do art. 60.",resposta:"C",comentario:"CERTO."},
-                            {id:12,enunciado:"Cláusulas pétreas: forma federativa, voto, separação, direitos individuais.",resposta:"C",comentario:"CERTO."},
-                            {id:13,enunciado:"Voto secreto é cláusula pétrea.",resposta:"C",comentario:"CERTO."},
-                            {id:14,enunciado:"Direitos sociais são cláusulas pétreas expressas.",resposta:"E",comentario:"ERRADO."},
-                            {id:15,enunciado:"Presidente pode propor PEC.",resposta:"C",comentario:"CERTO."}
+                            {id:1,enunciado:"Compreensão limita-se ao explícito. (TESTE)",resposta:"C",comentario:"CERTO."},
+                            {id:2,enunciado:"Interpretação exige inferência. (TESTE)",resposta:"C",comentario:"CERTO."},
+                            {id:3,enunciado:"Dissertativo tem sequência cronológica. (TESTE)",resposta:"E",comentario:"ERRADO."}
                         ]
                     }
                 }
@@ -157,58 +101,236 @@ const DADOS = {
                 aulas: {
                     "aula-1": {
                         questoes: [
-                            {id:1,enunciado:"O princípio da legalidade, aplicado à Administração Pública, significa que o administrador pode fazer tudo o que a lei não proíbe, assim como no direito privado.",resposta:"E",comentario:"ERRADO. No direito administrativo, a legalidade é restritiva: só pode fazer o que a lei autoriza."},
-                            {id:2,enunciado:"O princípio da eficiência foi inserido na Constituição Federal pela EC 19/98.",resposta:"C",comentario:"CERTO. A EC 19/98 acrescentou a eficiência ao caput do art. 37."},
-                            {id:3,enunciado:"A publicidade dos atos administrativos é absoluta e não admite qualquer exceção.",resposta:"E",comentario:"ERRADO. Há exceções de sigilo previstas em lei (segurança nacional, investigações, dados pessoais)."},
-                            {id:4,enunciado:"O princípio da impessoalidade veda o nepotismo e exige que os atos sejam imputados ao órgão público, não ao agente.",resposta:"C",comentario:"CERTO. Impessoalidade exige objetividade e proíbe favorecimento pessoal."},
-                            {id:5,enunciado:"A moralidade administrativa está desvinculada da ética, podendo o agente público agir contra a boa-fé se a lei permitir.",resposta:"E",comentario:"ERRADO. A moralidade exige padrão ético elevado, mesmo que a lei seja omissa."},
-                            {id:6,enunciado:"A eficiência exige que a administração atue com economicidade, reduzindo custos e otimizando resultados.",resposta:"C",comentario:"CERTO. Eficiência é também economicidade e qualidade."},
-                            {id:7,enunciado:"O princípio da legalidade, no direito administrativo, é mais amplo do que no direito privado, pois permite ao administrador atuar mesmo sem lei.",resposta:"E",comentario:"ERRADO. É mais restritivo: só pode fazer o que a lei autoriza."},
-                            {id:8,enunciado:"A publicidade é requisito de validade de todos os atos administrativos, sem exceção.",resposta:"E",comentario:"ERRADO. Em regra é requisito de eficácia, não de validade."},
-                            {id:9,enunciado:"A impessoalidade é também conhecida como princípio da finalidade, pois exige que o ato administrativo vise o interesse público.",resposta:"C",comentario:"CERTO. Impessoalidade se conecta à finalidade pública."},
-                            {id:10,enunciado:"A moralidade administrativa é um princípio implícito na CF/88, pois não está expressamente previsto.",resposta:"E",comentario:"ERRADO. Está expresso no art. 37, caput, da CF/88."},
-                            {id:11,enunciado:"A administração pública indireta não está sujeita ao princípio da legalidade, pois é regida pelo direito privado.",resposta:"E",comentario:"ERRADO. A legalidade se aplica a toda administração, direta e indireta."},
-                            {id:12,enunciado:"O princípio da eficiência exige apenas celeridade, não se preocupando com a qualidade do serviço prestado.",resposta:"E",comentario:"ERRADO. Exige economicidade, qualidade e resultados."},
-                            {id:13,enunciado:"A publicidade pode ser excepcionada em casos de sigilo previsto em lei, como segurança nacional ou investigações.",resposta:"C",comentario:"CERTO. A CF admite sigilo quando a segurança nacional ou interesse público exigirem."},
-                            {id:14,enunciado:"O princípio da impessoalidade impede que o agente público pratique atos para beneficiar parentes, mas permite beneficiar amigos.",resposta:"E",comentario:"ERRADO. Impede qualquer favorecimento pessoal, seja parente, amigo ou desafeto."},
-                            {id:15,enunciado:"O princípio da moralidade pode ser invocado para invalidar um ato administrativo, mesmo que ele seja legal.",resposta:"C",comentario:"CERTO. Um ato pode ser legal, mas imoral, sendo anulável."},
-                            {id:16,enunciado:"A legalidade, na Administração Pública, significa que o administrador só pode fazer o que a lei autoriza.",resposta:"C",comentario:"CERTO. É a definição clássica do princípio da legalidade administrativa."},
-                            {id:17,enunciado:"A eficiência é um princípio que estava presente na CF/88 desde sua promulgação original.",resposta:"E",comentario:"ERRADO. Foi inserida pela EC 19/98."},
-                            {id:18,enunciado:"A impessoalidade e a moralidade são princípios idênticos, pois ambos exigem honestidade e objetividade.",resposta:"E",comentario:"ERRADO. São distintos: impessoalidade é objetividade; moralidade é probidade."},
-                            {id:19,enunciado:"A publicidade é requisito de eficácia dos atos administrativos, mas em regra não é requisito de validade.",resposta:"C",comentario:"CERTO. Publicidade dá eficácia ao ato, não o invalida se ausente (salvo lei expressa)."},
-                            {id:20,enunciado:"O princípio da moralidade administrativa exige um padrão ético elevado, ainda que a lei seja omissa.",resposta:"C",comentario:"CERTO. Moralidade exige boa-fé e probidade, mesmo sem lei específica."},
-                            {id:21,enunciado:"A administração pública direta está sujeita ao princípio da legalidade, mas a indireta não, pois atua em regime de direito privado.",resposta:"E",comentario:"ERRADO. Ambas estão sujeitas à legalidade."},
-                            {id:22,enunciado:"A eficiência é um princípio que exige economicidade, mas não se aplica à prestação de serviços públicos essenciais.",resposta:"E",comentario:"ERRADO. Aplica-se a todos os serviços públicos."},
-                            {id:23,enunciado:"A publicidade é um princípio que garante a transparência, mas pode ser restringida em casos de sigilo bancário.",resposta:"C",comentario:"CERTO. Sigilo bancário é uma das exceções à publicidade."},
-                            {id:24,enunciado:"O nepotismo é uma violação direta ao princípio da impessoalidade.",resposta:"C",comentario:"CERTO. Nepotismo é favorecimento pessoal, violando a impessoalidade."},
-                            {id:25,enunciado:"A moralidade administrativa é um princípio que exige do agente público conduta proba e honesta, aplicando-se apenas aos servidores efetivos.",resposta:"E",comentario:"ERRADO. Aplica-se a todos os agentes públicos, não apenas efetivos."},
-                            {id:26,enunciado:"O princípio da legalidade é mais restritivo no direito administrativo do que no direito privado.",resposta:"C",comentario:"CERTO. No público, só o que a lei autoriza; no privado, tudo o que a lei não proíbe."},
-                            {id:27,enunciado:"A publicidade dos atos administrativos é sempre requisito de validade, pois a CF/88 exige a transparência absoluta.",resposta:"E",comentario:"ERRADO. Em regra é requisito de eficácia, não de validade."},
-                            {id:28,enunciado:"A eficiência foi inserida no caput do art. 37 pela EC 19/98, juntamente com os demais princípios da administração.",resposta:"E",comentario:"ERRADO. A EC 19/98 inseriu APENAS a eficiência. Os demais já existiam."},
-                            {id:29,enunciado:"A impessoalidade exige que o ato administrativo seja praticado com objetividade, sem favorecimento pessoal.",resposta:"C",comentario:"CERTO. É a essência do princípio da impessoalidade."},
-                            {id:30,enunciado:"A moralidade administrativa é um princípio que pode ser utilizado para anular atos administrativos, mesmo que não haja previsão legal expressa.",resposta:"C",comentario:"CERTO. Moralidade pode invalidar ato legal, mas imoral."}
+                            {id:1,enunciado:"Legalidade: só o que a lei autoriza. (TESTE)",resposta:"C",comentario:"CERTO."},
+                            {id:2,enunciado:"Publicidade é absoluta. (TESTE)",resposta:"E",comentario:"ERRADO."},
+                            {id:3,enunciado:"Eficiência foi inserida pela EC 19/98. (TESTE)",resposta:"C",comentario:"CERTO."}
                         ]
                     }
                 }
             }
         }
-    },
-    "direito-penal": {
-        nome: "Direito Penal",
-        modulos: {
-            "modulo-1": {
-                aulas: {
-                    "aula-1": {
-                        questoes: [
-                            {id:1,enunciado:"Toda conduta típica é ilícita.",resposta:"E",comentario:"ERRADO."},
-                            {id:2,enunciado:"Legítima defesa exclui a ilicitude.",resposta:"C",comentario:"CERTO."},
-                            {id:3,enunciado:"Culpabilidade exige imputabilidade.",resposta:"C",comentario:"CERTO."},
-                            {id:4,enunciado:"Estado de necessidade exclui tipicidade.",resposta:"E",comentario:"ERRADO."},
-                            {id:5,enunciado:"Crime é típico, ilícito e culpável.",resposta:"C",comentario:"CERTO."},
-                            {id:6,enunciado:"Erro de tipo essencial exclui dolo.",resposta:"C",comentario:"CERTO."},
-                            {id:7,enunciado:"Erro de proibição exclui culpabilidade.",resposta:"C",comentario:"CERTO."},
-                            {id:8,enunciado:"Tentativa em todos os crimes.",resposta:"E",comentario:"ERRADO."},
-                            {id:9,enunciado:"Penas restritivas substituem prisão.",resposta:"C",comentario:"CERTO."},
-                            {id:10,enunciado:"Multa é pecuniária.",resposta:"C",comentario:"CERTO."},
-                            {id:11,enunciado:"Regime fechado: segurança máxima.",resposta:"C",comentario:"CERTO."},
-                            {id:12,enunciado:"Semiaberto: trabal
+    }
+};
+
+console.log('✅ DADOS carregado com sucesso!');
+console.log('Matérias disponíveis:', Object.keys(DADOS));
+
+// ============================================================
+// FUNÇÕES DE CONTROLE
+// ============================================================
+function atualizarModulos() {
+    const materia = document.getElementById('filtroMateria').value;
+    const moduloSelect = document.getElementById('filtroModulo');
+    moduloSelect.innerHTML = '';
+    
+    console.log('Atualizando módulos para:', materia);
+    
+    if (DADOS[materia] && DADOS[materia].modulos) {
+        for (const modulo in DADOS[materia].modulos) {
+            const opt = document.createElement('option');
+            opt.value = modulo;
+            opt.textContent = modulo.replace('-', ' ').toUpperCase();
+            moduloSelect.appendChild(opt);
+        }
+    } else {
+        const opt = document.createElement('option');
+        opt.value = 'modulo-1';
+        opt.textContent = 'Módulo 1';
+        moduloSelect.appendChild(opt);
+    }
+    atualizarAulas();
+}
+
+function atualizarAulas() {
+    const materia = document.getElementById('filtroMateria').value;
+    const modulo = document.getElementById('filtroModulo').value;
+    const aulaSelect = document.getElementById('filtroAula');
+    aulaSelect.innerHTML = '';
+    
+    console.log('Atualizando aulas para:', materia, '->', modulo);
+    
+    if (DADOS[materia] && DADOS[materia].modulos && DADOS[materia].modulos[modulo]) {
+        for (const aula in DADOS[materia].modulos[modulo].aulas) {
+            const opt = document.createElement('option');
+            opt.value = aula;
+            opt.textContent = aula.replace('-', ' ').toUpperCase();
+            aulaSelect.appendChild(opt);
+        }
+    } else {
+        const opt = document.createElement('option');
+        opt.value = 'aula-1';
+        opt.textContent = 'Aula 1';
+        aulaSelect.appendChild(opt);
+    }
+}
+
+// ============================================================
+// CARREGAR QUESTÕES — VERSÃO COM LOGS DETALHADOS
+// ============================================================
+let questoesAtuais = [];
+let respostasUsuario = {};
+let materiaAtual = '';
+let moduloAtual = '';
+let aulaAtual = '';
+
+function carregarQuestoes() {
+    console.log('🔵 carregarQuestoes() foi chamado!');
+    
+    const materia = document.getElementById('filtroMateria').value;
+    const modulo = document.getElementById('filtroModulo').value;
+    const aula = document.getElementById('filtroAula').value;
+
+    console.log('Valores selecionados:', { materia, modulo, aula });
+    console.log('DADOS disponível?', typeof DADOS !== 'undefined');
+    console.log('DADOS[materia]?', DADOS[materia]);
+
+    materiaAtual = materia;
+    moduloAtual = modulo;
+    aulaAtual = aula;
+
+    const container = document.getElementById('painelQuestoes');
+
+    // Verificação 1: DADOS existe?
+    if (typeof DADOS === 'undefined') {
+        container.innerHTML = '<p style="color:red;">❌ Erro: Dados não carregados. Recarregue a página.</p>';
+        return;
+    }
+
+    // Verificação 2: matéria existe?
+    const dadosMateria = DADOS[materia];
+    if (!dadosMateria) {
+        container.innerHTML = `<p style="color:red;">❌ Matéria "${materia}" não encontrada.</p>`;
+        return;
+    }
+
+    // Verificação 3: módulo existe?
+    const dadosModulo = dadosMateria.modulos[modulo];
+    if (!dadosModulo) {
+        container.innerHTML = `<p style="color:red;">❌ Módulo "${modulo}" não encontrado em "${materia}".</p>`;
+        console.log('Módulos disponíveis:', Object.keys(dadosMateria.modulos));
+        return;
+    }
+
+    // Verificação 4: aula existe?
+    const dadosAula = dadosModulo.aulas[aula];
+    if (!dadosAula) {
+        container.innerHTML = `<p style="color:red;">❌ Aula "${aula}" não encontrada em "${materia}/${modulo}".</p>`;
+        console.log('Aulas disponíveis:', Object.keys(dadosModulo.aulas));
+        return;
+    }
+
+    // Pegando as questões
+    questoesAtuais = dadosAula.questoes || [];
+    console.log('Questões encontradas:', questoesAtuais.length);
+
+    if (questoesAtuais.length === 0) {
+        container.innerHTML = '<p>Nenhuma questão encontrada para esta aula.</p>';
+        return;
+    }
+
+    respostasUsuario = {};
+    renderizarQuestoes();
+}
+
+function renderizarQuestoes() {
+    const container = document.getElementById('painelQuestoes');
+    
+    let html = `<div class="resumo-desempenho">
+        <div><span id="contadorRespondidas">0</span> / ${questoesAtuais.length} respondidas</div>
+        <div>✅ <span id="contadorAcertos">0</span> acertos</div>
+        <div>❌ <span id="contadorErros">0</span> erros</div>
+    </div>`;
+
+    questoesAtuais.forEach((q, index) => {
+        const num = index + 1;
+        html += `
+            <div class="questao" id="questao-${index}">
+                <p><strong>QUESTÃO ${num}</strong></p>
+                <p>${q.enunciado}</p>
+                <div class="opcoes">
+                    <button onclick="selecionarResposta(${index}, 'C')" id="btn-c-${index}">CERTO</button>
+                    <button onclick="selecionarResposta(${index}, 'E')" id="btn-e-${index}">ERRADO</button>
+                </div>
+                <div class="resultado" id="resultado-${index}"></div>
+            </div>
+        `;
+    });
+    html += `<button class="botao-corrigir" onclick="corrigirTodas()">✅ Corrigir todas</button>`;
+    container.innerHTML = html;
+    atualizarContadores();
+}
+
+function selecionarResposta(index, letra) {
+    document.getElementById(`btn-c-${index}`).className = '';
+    document.getElementById(`btn-e-${index}`).className = '';
+    if (letra === 'C') {
+        document.getElementById(`btn-c-${index}`).classList.add('selecionado-c');
+    } else {
+        document.getElementById(`btn-e-${index}`).classList.add('selecionado-e');
+    }
+    respostasUsuario[index] = letra;
+    document.getElementById(`resultado-${index}`).className = 'resultado';
+    document.getElementById(`resultado-${index}`).innerHTML = '';
+    atualizarContadores();
+}
+
+function corrigirTodas() {
+    let acertos = 0;
+    let erros = 0;
+
+    questoesAtuais.forEach((q, index) => {
+        const resposta = respostasUsuario[index];
+        const resultadoDiv = document.getElementById(`resultado-${index}`);
+        resultadoDiv.className = 'resultado';
+        if (!resposta) {
+            resultadoDiv.classList.add('errado');
+            resultadoDiv.innerHTML = `<strong>⚠️ Não respondida.</strong>`;
+            return;
+        }
+        const correta = q.resposta === 'C' ? 'C' : 'E';
+        if (resposta === correta) {
+            acertos++;
+            resultadoDiv.classList.add('certo');
+            resultadoDiv.innerHTML = `<strong>✅ CORRETO!</strong><div class="comentario">${q.comentario || ''}</div>`;
+        } else {
+            erros++;
+            resultadoDiv.classList.add('errado');
+            resultadoDiv.innerHTML = `<strong>❌ ERRADO. Resposta correta: ${correta}.</strong><div class="comentario">${q.comentario || ''}</div>`;
+        }
+    });
+
+    document.getElementById('contadorAcertos').textContent = acertos;
+    document.getElementById('contadorErros').textContent = erros;
+    const respondidas = Object.keys(respostasUsuario).length;
+    document.getElementById('contadorRespondidas').textContent = respondidas;
+}
+
+function atualizarContadores() {
+    const respondidas = Object.keys(respostasUsuario).length;
+    document.getElementById('contadorRespondidas').textContent = respondidas;
+    document.getElementById('contadorAcertos').textContent = '?';
+    document.getElementById('contadorErros').textContent = '?';
+}
+
+// ============================================================
+// INICIALIZAÇÃO — ao carregar a página
+// ============================================================
+window.onload = function() {
+    console.log('🟢 Página carregada! Inicializando...');
+    
+    // Verifica se DADOS existe
+    if (typeof DADOS === 'undefined') {
+        document.getElementById('aviso').style.display = 'block';
+        document.getElementById('aviso').textContent = '❌ ERRO: Dados não carregados!';
+        return;
+    }
+    
+    document.getElementById('aviso').style.display = 'block';
+    document.getElementById('aviso').textContent = '✅ Dados carregados com sucesso!';
+    
+    atualizarModulos();
+    carregarQuestoes();
+};
+</script>
+</body>
+</html>
