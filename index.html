@@ -72,7 +72,6 @@
             <p style="font-size:14px; color:#2c3e50;">📌 Acompanhe seu ciclo de estudos abaixo e marque cada matéria como concluída após estudar.</p>
         </div>
 
-        <!-- MENU COM LINK CORRIGIDO PARA ESTUDAR (RAIZ) -->
         <div class="menu">
             <a href="index.html" class="btn-futuro-aprovado">🏆 futuro aprovado</a>
             <a href="estudo.html" class="secundario">📖 Estudar</a>
@@ -81,7 +80,6 @@
             <a href="quiz.html" class="secundario">🧠 Quiz</a>
         </div>
 
-        <!-- PROGRESSO -->
         <div class="progresso-container">
             <div class="progresso-texto">
                 📊 Progresso: <span id="progressoPorcentagem">0%</span> 
@@ -92,7 +90,6 @@
             </div>
         </div>
 
-        <!-- CICLO -->
         <div class="ciclo-container">
             <h2>📚 Ciclo de Estudos — Ordem das Matérias</h2>
             <div class="ciclo-lista" id="cicloLista"></div>
@@ -106,7 +103,6 @@
             </p>
         </div>
 
-        <!-- DESEMPENHO -->
         <h2 style="font-size:20px; margin:30px 0 10px 0;">📊 Seu desempenho geral</h2>
         <div class="cards">
             <div class="card"><div class="numero" id="acertos">0</div><div class="rotulo">Questões acertadas</div></div>
@@ -132,7 +128,7 @@
 
     <script>
     // ============================================================
-    // CICLO DE ESTUDOS (13 MATÉRIAS, INCLUINDO ECA)
+    // CICLO DE ESTUDOS (13 MATÉRIAS)
     // ============================================================
     const CICLO_MATERIAS = [
         "Língua Portuguesa",
@@ -166,25 +162,13 @@
         "ECA": "eca"
     };
 
-    // ============================================================
-    // DADOS DO LOCALSTORAGE
-    // ============================================================
     let dados = JSON.parse(localStorage.getItem('trilhaPolicial')) || {
-        acertos: 0,
-        erros: 0,
-        materiasConcluidas: 0,
-        questoesRespondidas: []
+        acertos: 0, erros: 0, materiasConcluidas: 0, questoesRespondidas: []
     };
-
     let historico = JSON.parse(localStorage.getItem('trilhaHistorico')) || {
-        totalAcertos: 0,
-        totalErros: 0,
-        sessao: 0
+        totalAcertos: 0, totalErros: 0, sessao: 0
     };
 
-    // ============================================================
-    // FUNÇÕES
-    // ============================================================
     function salvarDados() {
         localStorage.setItem('trilhaPolicial', JSON.stringify(dados));
         localStorage.setItem('trilhaHistorico', JSON.stringify(historico));
@@ -309,9 +293,6 @@
         };
     };
 
-    // ============================================================
-    // INICIALIZAÇÃO
-    // ============================================================
     document.addEventListener('DOMContentLoaded', function() {
         atualizarDashboard();
         renderizarCiclo();
