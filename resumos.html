@@ -1,126 +1,8 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resumos — Trilha Policial 2026</title>
-    <link rel="stylesheet" href="style.css">
-    <style>
-        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: #f4f7fc; padding: 20px; margin: 0; }
-        .container { max-width: 1100px; margin: 0 auto; background: #fff; border-radius: 16px; padding: 30px; box-shadow: 0 8px 20px rgba(0,0,0,0.05); }
-        h1 { color: #0b2b4a; border-bottom: 4px solid #1a73e8; padding-bottom: 12px; margin-top: 0; }
-
-        .menu-navegacao {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            margin: 20px 0 10px 0;
-            align-items: center;
-            padding: 10px 0;
-            border-bottom: 1px solid #e2e8f0;
-        }
-        .menu-navegacao a {
-            background: #1a73e8;
-            color: #fff;
-            padding: 8px 18px;
-            border-radius: 30px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 14px;
-            transition: 0.2s;
-            display: inline-block;
-        }
-        .menu-navegacao a:hover {
-            background: #0d47a1;
-            transform: scale(1.02);
-        }
-        .menu-navegacao a.secundario {
-            background: #e8f0fe;
-            color: #1a73e8;
-        }
-        .menu-navegacao a.secundario:hover {
-            background: #d2e3fc;
-        }
-        .menu-navegacao .btn-voltar {
-            background: #f9a825;
-            color: #0b2b4a;
-            border: none;
-            cursor: pointer;
-            font-weight: 700;
-            padding: 8px 18px;
-            border-radius: 30px;
-            font-size: 14px;
-            transition: 0.2s;
-            display: inline-block;
-            text-decoration: none;
-        }
-        .menu-navegacao .btn-voltar:hover {
-            background: #fbc02d;
-            transform: scale(1.02);
-        }
-
-        .filtro { display: flex; flex-wrap: wrap; gap: 10px; margin: 20px 0; }
-        .filtro select, .filtro button { padding: 10px 16px; border-radius: 8px; border: 1px solid #ccc; font-size: 14px; background: #fff; outline: none; }
-        .filtro select { flex: 1; min-width: 180px; }
-        .filtro button { background: #1a73e8; color: #fff; border: none; cursor: pointer; font-weight: 600; transition: 0.2s; }
-        .filtro button:hover { background: #0d47a1; transform: scale(1.02); }
-
-        .resumo-card { background: #f8faff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; margin: 20px 0; }
-        .resumo-card h2 { color: #0b2b4a; border-left: 6px solid #1a73e8; padding-left: 12px; margin-top: 0; }
-        .resumo-card .modulo-titulo { font-weight: 700; color: #1a73e8; margin: 16px 0 6px; font-size: 16px; }
-        .resumo-card .aula-titulo { font-weight: 600; color: #0b2b4a; margin: 12px 0 4px; font-size: 15px; }
-        .resumo-card .resumo-texto { background: #fff; padding: 12px 16px; border-radius: 8px; margin: 6px 0 14px; border-left: 3px solid #1a73e8; white-space: pre-wrap; }
-        .resumo-card .secao { background: #fff; padding: 8px 14px; border-radius: 6px; margin: 6px 0; border-left: 3px solid #f9a825; }
-        .resumo-card .secao.pegadinha { border-left-color: #e53935; background: #fde8e8; }
-        .resumo-card .secao.macete { border-left-color: #f9a825; background: #fff8e1; }
-        .aviso-vazio { text-align: center; color: #666; padding: 40px; font-size: 16px; background: #fafafa; border-radius: 8px; border: 1px dashed #ccc; }
-        .footer { margin-top: 30px; text-align: center; color: #7a8a9e; border-top: 1px solid #e2e8f0; padding-top: 20px; }
-    </style>
-</head>
-<body>
-<div class="container">
-    <h1>📚 Resumos — Compactos e Diretos</h1>
-
-    <!-- ===== MENU DE NAVEGAÇÃO ===== -->
-    <div class="menu-navegacao">
-        <a href="index.html" class="btn-voltar">🏠 Início</a>
-        <button onclick="history.back()" class="btn-voltar" style="background:#f9a825; color:#0b2b4a; border:none; cursor:pointer; font-weight:700; padding:8px 18px; border-radius:30px; font-size:14px;">⬅ Voltar</button>
-        <a href="estudo.html" class="secundario">📖 Estudar</a>
-        <a href="questoes.html" class="secundario">📝 Questões</a>
-        <a href="quiz.html" class="secundario">🧠 Quiz</a>
-    </div>
-
-    <div class="filtro">
-        <select id="filtroMateriaResumo" onchange="carregarResumo()">
-            <option value="lingua-portuguesa">Língua Portuguesa</option>
-            <option value="direito-constitucional">Direito Constitucional</option>
-            <option value="direito-administrativo">Direito Administrativo</option>
-            <option value="direito-penal">Direito Penal</option>
-            <option value="direito-processual-penal">Direito Processual Penal</option>
-            <option value="legislacao-penal-especial">Legislação Penal Especial</option>
-            <option value="direitos-humanos">Direitos Humanos</option>
-            <option value="raciocinio-logico">Raciocínio Lógico</option>
-            <option value="informatica">Informática</option>
-            <option value="lodf">LODF</option>
-            <option value="ride">RIDE</option>
-            <option value="lc-840">LC 840/2011</option>
-            <option value="eca">ECA</option>
-        </select>
-        <button onclick="carregarResumo()">📖 Carregar Resumos</button>
-    </div>
-
-    <div id="painelResumo">
-        <div class="aviso-vazio">Selecione uma matéria e clique em "Carregar Resumos".</div>
-    </div>
-
-    <div class="footer">🎯 Preparação para PCDF · PMDF · PF · PRF · PCGO · PMGO</div>
-</div>
-
-<script>
 // ============================================================
-// DADOS DOS RESUMOS — EXTRAÍDOS DAS AULAS
+// dados/resumos.js — Todos os resumos das 13 matérias
 // ============================================================
-const RESUMOS = {
+
+const DADOS_RESUMOS = {
     "lingua-portuguesa": {
         nome: "Língua Portuguesa",
         modulos: {
@@ -391,38 +273,8 @@ const RESUMOS = {
 };
 
 // ============================================================
-// FUNÇÃO PARA CARREGAR RESUMO
+// EXPORTA PARA USO GLOBAL
 // ============================================================
-function carregarResumo() {
-    const materia = document.getElementById('filtroMateriaResumo').value;
-    const painel = document.getElementById('painelResumo');
-
-    const dadosMateria = RESUMOS[materia];
-    if (!dadosMateria) {
-        painel.innerHTML = `<div class="aviso-vazio">Matéria não encontrada.</div>`;
-        return;
-    }
-
-    let html = `<div class="resumo-card"><h2>📘 ${dadosMateria.nome}</h2>`;
-
-    for (const moduloId in dadosMateria.modulos) {
-        const modulo = dadosMateria.modulos[moduloId];
-        html += `<div class="modulo-titulo">📌 ${modulo.nome}</div>`;
-        for (const aulaId in modulo.aulas) {
-            const aula = modulo.aulas[aulaId];
-            html += `<div class="aula-titulo">▶ ${aula.nome}</div>`;
-            html += `<div class="resumo-texto">${aula.resumo}</div>`;
-        }
-    }
-
-    html += `</div>`;
-    painel.innerHTML = html;
+if (typeof window !== 'undefined') {
+    window.DADOS_RESUMOS = DADOS_RESUMOS;
 }
-
-// Carregar automaticamente ao abrir a página
-window.onload = function() {
-    carregarResumo();
-};
-</script>
-</body>
-</html>
